@@ -1,0 +1,55 @@
+﻿<Window x:Class="ProjectLauncher.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProjectLauncher"
+        mc:Ignorable="d"
+        Title="Project Launcher" Height="450" Width="800" Background="#544D48" ResizeMode="CanMinimize">
+    <Grid>
+        <TabControl>
+            <TabItem x:Name="PlayTab" Header="Play" Background="#776D67">
+                <Grid x:Name="PlayGrid" Background="#160E08">
+                    <Viewbox Height="NaN" Margin="10,226,10,106" Width="NaN">
+                        <TextBox x:Name="PathField" TextWrapping="Wrap" Text="E:\4.1.16" Width="380" Height="19" TextChanged="PathField_TextChanged" Background="#DDCCAD"/>
+                    </Viewbox>
+                    <Viewbox Height="NaN" Margin="0,322,0,21">
+                        <Button x:Name="PlayButton" Content="Play" Width="98" Click="PlayButton_Click" Background="#E0B564"/>
+                    </Viewbox>
+                    <Viewbox Height="NaN" Margin="10,196,0,167" HorizontalAlignment="Left" Width="134">
+                        <TextBlock x:Name="PathLabel" TextWrapping="Wrap" Text="App Path:" HorizontalAlignment="Center" Foreground="#E0B564"/>
+                    </Viewbox>
+                    <Viewbox Margin="10,29,10,325">
+                        <TextBlock TextWrapping="Wrap" Text="Welcome to the Project Arrhythmia Legacy Mod Launcher." Foreground="#E0B564"/>
+                    </Viewbox>
+                    <Viewbox Margin="10,91,10,256">
+                        <TextBlock TextWrapping="Wrap" Text="Here you can stay up to date with the latest mod versions." Foreground="#E0B564"/>
+                    </Viewbox>
+                    <Viewbox Margin="10,146,10,201">
+                        <TextBlock TextWrapping="Wrap" Text="It is recommended to make a backup copy of the game before using this launcher, in case anything goes wrong." Foreground="#E0B564" Width="301"/>
+                    </Viewbox>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Settings" Background="#776D67">
+                <Grid Background="#160E08">
+                    <ListBox x:Name="SettingsList" SelectionChanged="ListBox_SelectionChanged" Background="#160E08">
+                        <CheckBox x:Name="CheckedAll" Content="All" Width="452" Checked="CheckedAll_Checked" Unchecked="CheckedAll_Unchecked" Foreground="#E0B564"/>
+                        <CheckBox x:Name="RTFunctionsEnabled" Content="RTFunctions" Width="452" Checked="RTFunctionsEnabled_Checked" Unchecked="RTFunctionsEnabled_Unchecked" Foreground="#E0B564"/>
+                        <CheckBox x:Name="EditorManagementEnabled" Content="EditorManagement" Width="452" Checked="EditorManagementEnabled_Checked" Unchecked="EditorManagementEnabled_Unchecked" Foreground="#E0B564"/>
+                        <CheckBox x:Name="EventsCoreEnabled" Content="EventCore" Width="452" Checked="EventsCoreEnabled_Checked" Unchecked="EventsCoreEnabled_Unchecked" Foreground="#E0B564"/>
+                        <CheckBox x:Name="CreativePlayersEnabled" Content="CreativePlayers" Width="452" Checked="CreativePlayersEnabled_Checked" Unchecked="CreativePlayersEnabled_Unchecked" Foreground="#E0B564"/>
+                        <CheckBox x:Name="ObjectModifiersEnabled" Content="ObjectModifiers" Width="452" Checked="ObjectModifiersEnabled_Checked" Unchecked="ObjectModifiersEnabled_Unchecked" Foreground="#E0B564"/>
+                        <CheckBox x:Name="ArcadiaCustomsEnabled" Content="ArcadiaCustoms" Width="452" Checked="ArcadiaCustomsEnabled_Checked" Unchecked="ArcadiaCustomsEnabled_Unchecked" Foreground="#E0B564"/>
+                        <CheckBox x:Name="PageCreatorEnabled" Content="PageCreator" Width="452" Checked="PageCreatorEnabled_Checked" Unchecked="PageCreatorEnabled_Unchecked" Foreground="#E0B564"/>
+                        <CheckBox x:Name="CustomShapesEnabled" Content="CustomShapes" Width="452" Checked="CustomShapesEnabled_Checked" Unchecked="CustomShapesEnabled_Unchecked" Foreground="#E0B564"/>
+                        <CheckBox x:Name="ExampleCompanionEnabled" Content="ExampleCompanion" Width="452" Checked="ExampleCompanionEnabled_Checked" Unchecked="ExampleCompanionEnabled_Unchecked" Foreground="#E0B564"/>
+                        <CheckBox x:Name="ConfigurationManagerEnabled" Content="ConfigurationManager" Width="452" Checked="ConfigurationManagerEnabled_Checked" Unchecked="ConfigurationManagerEnabled_Unchecked" Foreground="#E0B564"/>
+                        <CheckBox x:Name="UnityExplorerEnabled" Content="UnityExplorer" Width="452" Checked="UnityExplorerEnabled_Checked" Unchecked="UnityExplorerEnabled_Unchecked" Foreground="#E0B564"/>
+                        <CheckBox x:Name="EditorOnStartupEnabled" Content="EditorOnStartup" Width="452" Checked="EditorOnStartupEnabled_Checked" Unchecked="EditorOnStartupEnabled_Unchecked" Foreground="#E0B564"/>
+                    </ListBox>
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+    </Grid>
+</Window>
