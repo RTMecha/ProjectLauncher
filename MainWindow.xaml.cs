@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.DirectoryServices.ActiveDirectory;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -95,12 +96,6 @@ namespace ProjectLauncher
                                         PageCreatorEnabled.IsChecked = value;
                                     break;
                                 }
-                            case "CustomShapes":
-                                {
-                                    if (list.Count > i + 1 && bool.TryParse(list[i + 1], out var value))
-                                        CustomShapesEnabled.IsChecked = value;
-                                    break;
-                                }
                             case "ExampleCompanion":
                                 {
                                     if (list.Count > i + 1 && bool.TryParse(list[i + 1], out var value))
@@ -138,6 +133,37 @@ namespace ProjectLauncher
 
             Title = $"Project Launcher {Version}";
 
+            using (var client = new WebClient())
+            {
+                var data = client.DownloadString("https://raw.githubusercontent.com/RTMecha/RTFunctions/master/updates.lss");
+
+                if (!string.IsNullOrEmpty(data))
+                {
+                    var list = data.Split(new string[] { "\n", "\r\n", "\r" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+
+                    for (int i = 0; i < list.Count; i++)
+                    {
+                        var textBlock = new TextBlock();
+                        textBlock.Text = list[i];
+                        RTFunctionsUpdates.Items.Add(textBlock);
+                    }
+                }
+
+                data = client.DownloadString("https://raw.githubusercontent.com/RTMecha/EditorManagement/master/updates.lss");
+
+                if (!string.IsNullOrEmpty(data))
+                {
+                    var list = data.Split(new string[] { "\n", "\r\n", "\r" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+
+                    for (int i = 0; i < list.Count; i++)
+                    {
+                        var textBlock = new TextBlock();
+                        textBlock.Text = list[i];
+                        EditorManagementUpdates.Items.Add(textBlock);
+                    }
+                }
+            }
+
             Closed += delegate
             {
 
@@ -159,7 +185,6 @@ namespace ProjectLauncher
             str += "ObjectModifiers" + Environment.NewLine + ObjectModifiersEnabled.IsChecked.ToString() + Environment.NewLine;
             str += "ArcadiaCustoms" + Environment.NewLine + ArcadiaCustomsEnabled.IsChecked.ToString() + Environment.NewLine;
             str += "PageCreator" + Environment.NewLine + PageCreatorEnabled.IsChecked.ToString() + Environment.NewLine;
-            str += "CustomShapes" + Environment.NewLine + CustomShapesEnabled.IsChecked.ToString() + Environment.NewLine;
             str += "ExampleCompanion" + Environment.NewLine + ExampleCompanionEnabled.IsChecked.ToString() + Environment.NewLine;
             str += "ConfigurationManager" + Environment.NewLine + ConfigurationManagerEnabled.IsChecked.ToString() + Environment.NewLine;
             str += "UnityExplorer" + Environment.NewLine + UnityExplorerEnabled.IsChecked.ToString() + Environment.NewLine;
@@ -222,7 +247,6 @@ namespace ProjectLauncher
             ObjectModifiersEnabled.IsChecked = true;
             ArcadiaCustomsEnabled.IsChecked = true;
             PageCreatorEnabled.IsChecked = true;
-            CustomShapesEnabled.IsChecked = true;
             ExampleCompanionEnabled.IsChecked = true;
             ConfigurationManagerEnabled.IsChecked = true;
             UnityExplorerEnabled.IsChecked = true;
@@ -243,7 +267,6 @@ namespace ProjectLauncher
                 ObjectModifiersEnabled.IsChecked = false;
                 ArcadiaCustomsEnabled.IsChecked = false;
                 PageCreatorEnabled.IsChecked = false;
-                CustomShapesEnabled.IsChecked = false;
                 ExampleCompanionEnabled.IsChecked = false;
                 ConfigurationManagerEnabled.IsChecked = false;
                 UnityExplorerEnabled.IsChecked = false;
@@ -272,7 +295,6 @@ namespace ProjectLauncher
             ObjectModifiersEnabled.IsChecked = false;
             ArcadiaCustomsEnabled.IsChecked = false;
             PageCreatorEnabled.IsChecked = false;
-            CustomShapesEnabled.IsChecked = false;
             ExampleCompanionEnabled.IsChecked = false;
             CheckedAll.IsChecked = false;
         }
@@ -397,26 +419,6 @@ namespace ProjectLauncher
             CheckedAll.IsChecked = false;
         }
 
-        void CustomShapesEnabled_Checked(object sender, RoutedEventArgs e)
-        {
-            if (CustomShapesEnabled.IsChecked == true && RTFunctionsEnabled.IsChecked != true)
-                RTFunctionsEnabled.IsChecked = true;
-
-            if (IsAllChecked())
-                CheckedAll.IsChecked = true;
-            else
-            {
-                isChanging = true;
-                CheckedAll.IsChecked = false;
-            }
-        }
-
-        void CustomShapesEnabled_Unchecked(object sender, RoutedEventArgs e)
-        {
-            isChanging = true;
-            CheckedAll.IsChecked = false;
-        }
-
         void ExampleCompanionEnabled_Checked(object sender, RoutedEventArgs e)
         {
             if (ExampleCompanionEnabled.IsChecked == true && RTFunctionsEnabled.IsChecked != true)
@@ -500,7 +502,6 @@ namespace ProjectLauncher
             CreativePlayersEnabled.IsChecked == true &&
             ObjectModifiersEnabled.IsChecked == true &&
             ArcadiaCustomsEnabled.IsChecked == true &&
-            CustomShapesEnabled.IsChecked == true &&
             ExampleCompanionEnabled.IsChecked == true &&
             ConfigurationManagerEnabled.IsChecked == true &&
             UnityExplorerEnabled.IsChecked == true &&

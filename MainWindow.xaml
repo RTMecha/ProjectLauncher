@@ -28,6 +28,9 @@
                     <Viewbox Margin="10,146,10,201">
                         <TextBlock TextWrapping="Wrap" Text="It is recommended to make a backup copy of the game before using this launcher, in case anything goes wrong." Foreground="#E0B564" Width="301"/>
                     </Viewbox>
+                    <Viewbox Margin="557,298,10,10">
+                        <TextBlock x:Name="DebugLogger" TextWrapping="Wrap" Text="TextBlock" Foreground="#E0B564"/>
+                    </Viewbox>
                 </Grid>
             </TabItem>
             <TabItem Header="Settings" Background="#776D67">
@@ -41,13 +44,28 @@
                         <CheckBox x:Name="ObjectModifiersEnabled" Content="ObjectModifiers" Width="452" Checked="ObjectModifiersEnabled_Checked" Unchecked="ObjectModifiersEnabled_Unchecked" Foreground="#E0B564"/>
                         <CheckBox x:Name="ArcadiaCustomsEnabled" Content="ArcadiaCustoms" Width="452" Checked="ArcadiaCustomsEnabled_Checked" Unchecked="ArcadiaCustomsEnabled_Unchecked" Foreground="#E0B564"/>
                         <CheckBox x:Name="PageCreatorEnabled" Content="PageCreator" Width="452" Checked="PageCreatorEnabled_Checked" Unchecked="PageCreatorEnabled_Unchecked" Foreground="#E0B564"/>
-                        <CheckBox x:Name="CustomShapesEnabled" Content="CustomShapes" Width="452" Checked="CustomShapesEnabled_Checked" Unchecked="CustomShapesEnabled_Unchecked" Foreground="#E0B564"/>
                         <CheckBox x:Name="ExampleCompanionEnabled" Content="ExampleCompanion" Width="452" Checked="ExampleCompanionEnabled_Checked" Unchecked="ExampleCompanionEnabled_Unchecked" Foreground="#E0B564"/>
                         <CheckBox x:Name="ConfigurationManagerEnabled" Content="ConfigurationManager" Width="452" Checked="ConfigurationManagerEnabled_Checked" Unchecked="ConfigurationManagerEnabled_Unchecked" Foreground="#E0B564"/>
                         <CheckBox x:Name="UnityExplorerEnabled" Content="UnityExplorer" Width="452" Checked="UnityExplorerEnabled_Checked" Unchecked="UnityExplorerEnabled_Unchecked" Foreground="#E0B564"/>
                         <CheckBox x:Name="EditorOnStartupEnabled" Content="EditorOnStartup" Width="452" Checked="EditorOnStartupEnabled_Checked" Unchecked="EditorOnStartupEnabled_Unchecked" Foreground="#E0B564"/>
                     </ListBox>
                 </Grid>
+            </TabItem>
+            <TabItem Header="Update Notes" Background="#776D67">
+                <ScrollViewer>
+                    <Grid Background="#160E08">
+                        <ListBox x:Name="ModUpdateList" Background="#160E08">
+                            <TextBlock Text="RTFunctions"  Foreground="#E0B564"/>
+                            <ListBox x:Name="RTFunctionsUpdates">
+                                
+                            </ListBox>
+                            <TextBlock Text="EditorManagement"  Foreground="#E0B564"/>
+                            <ListBox x:Name="EditorManagementUpdates">
+                                
+                            </ListBox>
+                        </ListBox>
+                    </Grid>
+                </ScrollViewer>
             </TabItem>
         </TabControl>
 

@@ -37,15 +37,11 @@ namespace ProjectLauncher.Functions
                         { "ObjectModifiers", "1.0.0" },
                         { "ArcadiaCustoms", "1.0.0" },
                         { "PageCreator", "1.0.0" },
-                        { "CustomShapes", "1.0.0" },
                         { "ExampleCompanion", "1.0.0" },
                     };
                 return onlineVersions;
             }
-            set
-            {
-                onlineVersions = value;
-            }
+            set => onlineVersions = value;
         }
 
         static Dictionary<string, string> localVersions;
@@ -63,7 +59,6 @@ namespace ProjectLauncher.Functions
                         { "ObjectModifiers", "1.0.0" },
                         { "ArcadiaCustoms", "1.0.0" },
                         { "PageCreator", "1.0.0" },
-                        { "CustomShapes", "1.0.0" },
                         { "ExampleCompanion", "1.0.0" },
                     };
                 return localVersions;
@@ -127,6 +122,7 @@ namespace ProjectLauncher.Functions
                             {
                                 if (OnlineVersions.ContainsKey(list[i]) && list.Count > i + 1)
                                 {
+                                    MainWindow.Instance.DebugLogger.Text = $"Updating {list[i + 1]}";
                                     OnlineVersions[list[i]] = list[i + 1];
                                 }
                             }
@@ -136,6 +132,8 @@ namespace ProjectLauncher.Functions
                     }
                 }
 
+                MainWindow.Instance.DebugLogger.Text = $"Checking dependants...";
+
                 // Verify (Makes sure RTFunctions is on if any dependant mod is)
                 {
                     if (MainWindow.Instance.EditorManagementEnabled.IsChecked == true ||
@@ -144,12 +142,13 @@ namespace ProjectLauncher.Functions
                         MainWindow.Instance.ObjectModifiersEnabled.IsChecked == true ||
                         MainWindow.Instance.ArcadiaCustomsEnabled.IsChecked == true ||
                         MainWindow.Instance.PageCreatorEnabled.IsChecked == true ||
-                        MainWindow.Instance.CustomShapesEnabled.IsChecked == true ||
                         MainWindow.Instance.ExampleCompanionEnabled.IsChecked == true)
                     {
                         MainWindow.Instance.RTFunctionsEnabled.IsChecked = true;
                     }
                 }
+
+                MainWindow.Instance.DebugLogger.Text = $"Verifying directory...";
 
                 var b = a + BepInExPlugins;
                 // In case the BepInEx/plugins folder doesn't exist
@@ -261,21 +260,6 @@ namespace ProjectLauncher.Functions
                     }
                 }
 
-                if (MainWindow.Instance.CustomShapesEnabled != null && MainWindow.Instance.CustomShapesEnabled.IsChecked == true
-                    && (!RTFile.FileExists(b + "/CustomShapes.dll") || OnlineVersions["CustomShapes"] != LocalVersions["CustomShapes"]))
-                    DownloadFile("https://github.com/RTMecha/CustomShapes/releases/download/Current/CustomShapes.zip", b, "CustomShapes.zip");
-                else if (RTFile.FileExists(b + "/CustomShapes.dll") && MainWindow.Instance.CustomShapesEnabled != null && MainWindow.Instance.CustomShapesEnabled.IsChecked == false)
-                {
-                    try
-                    {
-                        File.Delete(b + "/CustomShapes.dll");
-                    }
-                    catch
-                    {
-
-                    }
-                }
-
                 if (MainWindow.Instance.ExampleCompanionEnabled != null && MainWindow.Instance.ExampleCompanionEnabled.IsChecked == true
                     && (!RTFile.FileExists(b + "/ExampleCompanion.dll") || OnlineVersions["ExampleCompanion"] != LocalVersions["ExampleCompanion"]))
                     DownloadFile("https://github.com/RTMecha/ExampleCompanion/releases/download/Current/ExampleCompanion.zip", b, "ExampleCompanion.zip");
@@ -363,6 +347,9 @@ namespace ProjectLauncher.Functions
                     }
                 }
 
+                if (!RTFile.DirectoryExists(a + "beatmaps/prefabtypes") || !RTFile.DirectoryExists(a + "beatmaps/shapes"))
+                    DownloadFile("https://github.com/RTMecha/RTFunctions/releases/download/Current/Beatmaps.zip", a, "Beatmaps.zip");
+
                 // Save Versions (For later use when the game is relaunched)
                 {
                     var str = "";
@@ -387,6 +374,9 @@ namespace ProjectLauncher.Functions
 
         public static void DownloadFile(string url, string output, string file)
         {
+            if (MainWindow.Instance != null)
+                MainWindow.Instance.DebugLogger.Text = $"Downloading {file}...";
+
             var rt = output + "/" + file;
             using (var client = new WebClient())
             {
