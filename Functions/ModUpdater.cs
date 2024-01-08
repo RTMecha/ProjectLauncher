@@ -1429,7 +1429,7 @@ namespace ProjectLauncher.Functions
                 MainWindow.Instance.CurrentInstanceProgress.Text = $"Opening...";
 
                 ProcessStartInfo startInfo = new ProcessStartInfo();
-                startInfo.FileName = MainWindow.Instance.Path;
+                startInfo.FileName = projectArrhythmia.Path;
                 Process.Start(startInfo);
 
                 return true;
