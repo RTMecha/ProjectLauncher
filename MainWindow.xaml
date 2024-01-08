@@ -9,12 +9,15 @@
     <Grid>
         <TabControl>
             <TabItem x:Name="PlayTab" Header="Play" Background="#776D67">
-                <Grid x:Name="PlayGrid" Background="#160E08">
+                <Grid x:Name="PlayGrid" Background="#211F1D">
                     <Viewbox Height="NaN" Margin="10,226,10,106" Width="NaN">
                         <TextBox x:Name="PathField" TextWrapping="Wrap" Text="E:\4.1.16" Width="380" Height="19" TextChanged="PathField_TextChanged" Background="#DDCCAD"/>
                     </Viewbox>
-                    <Viewbox Height="NaN" Margin="0,322,0,21">
-                        <Button x:Name="PlayButton" Content="Play" Width="98" Click="PlayButton_Click" Background="#E0B564"/>
+                    <Viewbox Height="NaN" Margin="-520,322,0,15">
+                        <Button x:Name="PlayButton" Content="Launch" Width="98" Click="PlayButton_Click" Background="#E0B564"/>
+                    </Viewbox>
+                    <Viewbox Height="NaN" Margin="25,322,0,15">
+                        <Button x:Name="UpdateButton" Content="Update" Width="98" Click="UpdateButton_Click" Background="#E0B564"/>
                     </Viewbox>
                     <Viewbox Height="NaN" Margin="10,196,0,167" HorizontalAlignment="Left" Width="134">
                         <TextBlock x:Name="PathLabel" TextWrapping="Wrap" Text="App Path:" HorizontalAlignment="Center" Foreground="#E0B564"/>
@@ -29,13 +32,16 @@
                         <TextBlock TextWrapping="Wrap" Text="It is recommended to make a backup copy of the game before using this launcher, in case anything goes wrong." Foreground="#E0B564" Width="301"/>
                     </Viewbox>
                     <Viewbox Margin="557,298,10,10">
-                        <TextBlock x:Name="DebugLogger" TextWrapping="Wrap" Text="TextBlock" Foreground="#E0B564"/>
+                        <TextBlock x:Name="DebugLogger" TextWrapping="Wrap" Text="Download progress" Foreground="#E0B564"/>
                     </Viewbox>
                 </Grid>
             </TabItem>
             <TabItem Header="Settings" Background="#776D67">
-                <Grid Background="#160E08">
-                    <ListBox x:Name="SettingsList" SelectionChanged="ListBox_SelectionChanged" Background="#160E08">
+                <Grid Background="#211F1D">
+                    <ListBox x:Name="SettingsList" SelectionChanged="ListBox_SelectionChanged" Background="#211F1D">
+                        <Viewbox>
+                            <Button x:Name="ResetToLocal" Content="Reset to Local Settings File." Click="ResetToLocal_Click" Width="122" Background="#E0B564"/>
+                        </Viewbox>
                         <CheckBox x:Name="CheckedAll" Content="All" Width="452" Checked="CheckedAll_Checked" Unchecked="CheckedAll_Unchecked" Foreground="#E0B564"/>
                         <CheckBox x:Name="RTFunctionsEnabled" Content="RTFunctions" Width="452" Checked="RTFunctionsEnabled_Checked" Unchecked="RTFunctionsEnabled_Unchecked" Foreground="#E0B564"/>
                         <CheckBox x:Name="EditorManagementEnabled" Content="EditorManagement" Width="452" Checked="EditorManagementEnabled_Checked" Unchecked="EditorManagementEnabled_Unchecked" Foreground="#E0B564"/>
@@ -53,17 +59,65 @@
             </TabItem>
             <TabItem Header="Update Notes" Background="#776D67">
                 <ScrollViewer>
-                    <Grid Background="#160E08">
-                        <ListBox x:Name="ModUpdateList" Background="#160E08">
+                    <Grid Background="#211F1D">
+                        <ListBox x:Name="ModUpdateList" Background="#211F1D">
                             <TextBlock Text="RTFunctions"  Foreground="#E0B564"/>
-                            <ListBox x:Name="RTFunctionsUpdates">
-                                
+                            <ListBox x:Name="RTFunctionsUpdates"  Background="#E0B564">
+
                             </ListBox>
                             <TextBlock Text="EditorManagement"  Foreground="#E0B564"/>
-                            <ListBox x:Name="EditorManagementUpdates">
-                                
+                            <ListBox x:Name="EditorManagementUpdates"  Background="#E0B564">
+
+                            </ListBox>
+                            <TextBlock Text="EventsCore"  Foreground="#E0B564"/>
+                            <ListBox x:Name="EventsCoreUpdates"  Background="#E0B564">
+
+                            </ListBox>
+                            <TextBlock Text="CreativePlayers"  Foreground="#E0B564"/>
+                            <ListBox x:Name="CreativePlayersUpdates"  Background="#E0B564">
+
+                            </ListBox>
+                            <TextBlock Text="ObjectModifiers"  Foreground="#E0B564"/>
+                            <ListBox x:Name="ObjectModifiersUpdates"  Background="#E0B564">
+
+                            </ListBox>
+                            <TextBlock Text="ArcadiaCustoms"  Foreground="#E0B564"/>
+                            <ListBox x:Name="ArcadiaCustomsUpdates"  Background="#E0B564">
+
+                            </ListBox>
+                            <TextBlock Text="PageCreator"  Foreground="#E0B564"/>
+                            <ListBox x:Name="PageCreatorUpdates"  Background="#E0B564">
+
+                            </ListBox>
+                            <TextBlock Text="ExampleCompanion"  Foreground="#E0B564"/>
+                            <ListBox x:Name="ExampleCompanionUpdates"  Background="#E0B564">
+
                             </ListBox>
                         </ListBox>
+                    </Grid>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="Instances" Background="#776D67">
+                <ScrollViewer>
+                    <Grid Background="#211F1D" Height="406">
+                        <Viewbox Margin="60,309,400,39">
+                            <Button x:Name="LaunchInstance" Content="Launch" Click="LaunchInstance_Click" Width="122" Background="#E0B564"/>
+                        </Viewbox>
+                        <Viewbox Margin="400,306,60,36">
+                            <Button x:Name="UpdateInstance" Content="Update" Click="UpdateInstance_Click" Width="122" Background="#E0B564"/>
+                        </Viewbox>
+                        <Viewbox x:Name="NewNameViewbox" Height="NaN" Margin="10,0,0,376" HorizontalAlignment="Left" Width="753">
+                            <TextBlock x:Name="NewNameLabel" TextWrapping="Wrap" FontSize="14" Text="New Name:" HorizontalAlignment="Center" Foreground="#E0B564"/>
+                        </Viewbox>
+                        <Viewbox Height="NaN" Margin="10,34,10,334" Width="NaN">
+                            <TextBox x:Name="NewName" TextWrapping="Wrap" Text="PA Legacy" Width="380" Height="19" Background="#DDCCAD"/>
+                        </Viewbox>
+                        <ListBox x:Name="InstancesList" Background="#211F1D" SelectionChanged="InstancesList_SelectionChanged" Margin="10,77,10,143">
+
+                        </ListBox>
+                        <Viewbox Margin="0,271,0,99" HorizontalAlignment="Center" Width="755">
+                            <TextBlock x:Name="CurrentInstanceProgress" TextWrapping="NoWrap" FontSize="16" Text="Current Progress" HorizontalAlignment="Center" Foreground="#E0B564"/>
+                        </Viewbox>
                     </Grid>
                 </ScrollViewer>
             </TabItem>
