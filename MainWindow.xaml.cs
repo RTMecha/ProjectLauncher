@@ -33,7 +33,6 @@ namespace ProjectLauncher
         public static int MaxUpdateNotesLines => 134;
 
         public List<ProjectArrhythmia> Instances { get; set; } = new List<ProjectArrhythmia>();
-        public FileSystemWatcher InstanceWatcher { get; set; }
 
         public ProjectArrhythmia Current { get; set; } = null;
 
@@ -340,18 +339,6 @@ namespace ProjectLauncher
                 }
             }
 
-            if (RTFile.DirectoryExists(RTFile.ApplicationDirectory + "instances"))
-            {
-                InstanceWatcher = new FileSystemWatcher
-                {
-                    Path = RTFile.ApplicationDirectory + "instances",
-                };
-                InstanceWatcher.Created += OnInstancesFolderChanged;
-                InstanceWatcher.Changed += OnInstancesFolderChanged;
-                InstanceWatcher.Deleted += OnInstancesFolderChanged;
-                InstanceWatcher.Renamed += OnInstancesFolderChanged;
-            }
-
             LoadInstances();
 
             Closed += delegate
@@ -365,46 +352,36 @@ namespace ProjectLauncher
             LoadInstances();
         }
 
+        public bool creating = false;
+
         public void LoadInstances()
         {
-            if (RTFile.DirectoryExists(RTFile.ApplicationDirectory + "instances") && InstanceWatcher == null)
+            var doCreateNew = RTFile.DirectoryExists(RTFile.ApplicationDirectory + "PA Legacy - Pure");
+
+            if (NewNameLabel != null)
+                NewNameLabel.Text = doCreateNew ? "New Name:" :
+                    "New Name: (requires an unmodded copy of Project Arrhythmia in the ProjectLauncher app folder called \"PA Legacy - Pure\")";
+
+            InstancesList.Items.Clear();
+            if (doCreateNew)
             {
-                InstanceWatcher = new FileSystemWatcher
-                {
-                    Path = RTFile.ApplicationDirectory + "instances",
-                };
-                InstanceWatcher.Created += OnInstancesFolderChanged;
-                InstanceWatcher.Changed += OnInstancesFolderChanged;
-                InstanceWatcher.Deleted += OnInstancesFolderChanged;
-                InstanceWatcher.Renamed += OnInstancesFolderChanged;
+                var createNew = new Button();
+                createNew.Background = new SolidColorBrush(RTColor.FromHex("E0B564").FormsColor);
+                createNew.Content = "Create New Instance";
+                createNew.Name = "CreateNew";
+                createNew.Width = 727;
+                createNew.Click += CreateNew_Click;
+
+                InstancesList.Items.Add(createNew);
             }
 
+            Instances.Clear();
             if (RTFile.DirectoryExists(RTFile.ApplicationDirectory + "instances"))
             {
-                Instances.Clear();
-                InstancesList.Items.Clear();
-
-                var doCreateNew = RTFile.DirectoryExists(RTFile.ApplicationDirectory + "PA Legacy - Pure");
-                if (doCreateNew)
-                {
-                    var createNew = new Button();
-                    createNew.Background = new SolidColorBrush(RTColor.FromHex("E0B564").FormsColor);
-                    createNew.Content = "Create New Instance";
-                    createNew.Name = "CreateNew";
-                    createNew.Width = 729;
-                    createNew.Click += CreateNew_Click;
-
-                    InstancesList.Items.Add(createNew);
-                }
-
                 //if (NewNameViewbox != null)
                 //{
                 //    NewNameViewbox.Width = doCreateNew ? 134 : 745;
                 //}
-
-                if (NewNameLabel != null)
-                    NewNameLabel.Text = doCreateNew ? "New Name:" :
-                        "New Name: (requires an unmodded copy of Project Arrhythmia in the ProjectLauncher app folder called \"PA Legacy - Pure\")";
 
                 var folders = Directory.GetDirectories(RTFile.ApplicationDirectory + "instances");
                 foreach (var folder in folders)
@@ -419,7 +396,7 @@ namespace ProjectLauncher
                         checkBox.Foreground = new SolidColorBrush(RTColor.FromHex("FFCCA5").FormsColor);
                         checkBox.Content = System.IO.Path.GetFileName(folder);
                         checkBox.Click += Instance_Checked;
-                        checkBox.Width = 729;
+                        checkBox.Width = 727;
 
                         InstancesList.Items.Add(checkBox);
                     }
@@ -441,6 +418,8 @@ namespace ProjectLauncher
             Debug.WriteLine($"Create new clicked with New Name set as {NewName.Text}");
             if (RTFile.DirectoryExists(RTFile.ApplicationDirectory + "PA Legacy - Pure"))
             {
+                creating = true;
+
                 Debug.WriteLine($"Getting directories...");
                 var allDirectories = Directory.GetDirectories(RTFile.ApplicationDirectory + "PA Legacy - Pure", "*", SearchOption.AllDirectories);
 
@@ -482,9 +461,6 @@ namespace ProjectLauncher
                         File.Copy(newFile, newFile.Replace(RTFile.ApplicationDirectory + "PA Legacy - Pure", s));
                     }
                 }
-
-                Debug.WriteLine($"Reload instances...");
-                LoadInstances();
             }
         }
 
