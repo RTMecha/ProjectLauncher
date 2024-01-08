@@ -347,11 +347,6 @@ namespace ProjectLauncher
             };
         }
 
-        public void OnInstancesFolderChanged(object sender, FileSystemEventArgs e)
-        {
-            LoadInstances();
-        }
-
         public bool creating = false;
 
         public void LoadInstances()
@@ -461,6 +456,9 @@ namespace ProjectLauncher
                         File.Copy(newFile, newFile.Replace(RTFile.ApplicationDirectory + "PA Legacy - Pure", s));
                     }
                 }
+
+                creating = false;
+                LoadInstances();
             }
         }
 
