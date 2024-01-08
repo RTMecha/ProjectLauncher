@@ -418,7 +418,7 @@ namespace ProjectLauncher.Functions
                 }
 
                 if (!RTFile.DirectoryExists(a + "beatmaps/prefabtypes") || !RTFile.DirectoryExists(a + "beatmaps/shapes") || !RTFile.DirectoryExists(a + "beatmaps/menus"))
-                    DownloadFile("https://github.com/RTMecha/RTFunctions/releases/download/Current/Beatmaps.zip", a, "Beatmaps.zip");
+                    DownloadFile("https://github.com/RTMecha/RTFunctions/releases/latest/download/Beatmaps.zip", a, "Beatmaps.zip");
 
                 // Save Versions (For later use when the game is relaunched)
                 {
@@ -1109,7 +1109,7 @@ namespace ProjectLauncher.Functions
                 }
 
                 if (!RTFile.DirectoryExists(a + "beatmaps/prefabtypes") || !RTFile.DirectoryExists(a + "beatmaps/shapes") || !RTFile.DirectoryExists(a + "beatmaps/menus"))
-                    DownloadFile("https://github.com/RTMecha/RTFunctions/releases/download/Current/Beatmaps.zip", a, "Beatmaps.zip");
+                    DownloadFile("https://github.com/RTMecha/RTFunctions/releases/latest/download/Beatmaps.zip", a, "Beatmaps.zip");
 
                 // Save Versions (For later use when the game is relaunched)
                 {
