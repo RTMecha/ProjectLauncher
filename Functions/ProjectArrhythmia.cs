@@ -29,6 +29,8 @@ namespace ProjectLauncher.Functions
 
         public string FolderPath => Path.Replace("/Project Arrhythmia.exe", "/");
 
+        public string Name => System.IO.Path.GetFileName(Path.Replace("/Project Arrhythmia.exe", ""));
+
         public bool ApplicationExists => Path != null && Path.Contains("/Project Arrhythmia.exe") && RTFile.FileExists(Path);
 
         public List<string> Mods { get; set; } = new List<string>();
@@ -172,6 +174,14 @@ namespace ProjectLauncher.Functions
 
                     if (list.Count > 0 && onlineVersions.Count > 0)
                     {
+                        for (int i = 0; i < list.Count; i++)
+                        {
+                            if (ModUpdater.LocalVersions.ContainsKey(list[i]) && list.Count > i + 1)
+                            {
+                                ModUpdater.LocalVersions[list[i]] = list[i + 1];
+                            }
+                        }
+
                         MainWindow.Instance.RTFunctionsEnabled.Content = $"{list[0]} - Installed: {list[1]}" + (list[1] == onlineVersions[1] ? "" : $" | Update Available: {onlineVersions[1]}");
                         MainWindow.Instance.EditorManagementEnabled.Content = $"{list[2]} - Installed: {list[3]}" + (list[3] == onlineVersions[3] ? "" : $" | Update Available: {onlineVersions[3]}");
                         MainWindow.Instance.EventsCoreEnabled.Content = $"{list[4]} - Installed: {list[5]}" + (list[5] == onlineVersions[5] ? "" : $" | Update Available: {onlineVersions[5]}");
@@ -180,6 +190,34 @@ namespace ProjectLauncher.Functions
                         MainWindow.Instance.ArcadiaCustomsEnabled.Content = $"{list[10]} - Installed: {list[11]}" + (list[11] == onlineVersions[11] ? "" : $" | Update Available: {onlineVersions[11]}");
                         MainWindow.Instance.PageCreatorEnabled.Content = $"{list[12]} - Installed: {list[13]}" + (list[13] == onlineVersions[13] ? "" : $" | Update Available: {onlineVersions[13]}");
                         MainWindow.Instance.ExampleCompanionEnabled.Content = $"{list[14]} - Installed: {list[15]}" + (list[15] == onlineVersions[15] ? "" : $" | Update Available: {onlineVersions[15]}");
+                    }
+                }
+            }
+            else
+            {
+                List<string> onlineVersions = new List<string>();
+
+                using (var client = new WebClient())
+                {
+                    var data = client.DownloadString("https://raw.githubusercontent.com/RTMecha/RTFunctions/master/mod_info.lss");
+
+                    if (!string.IsNullOrEmpty(data))
+                    {
+                        onlineVersions = data.Split(new string[] { "\n", "\r\n", "\r" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                    }
+                }
+
+                for (int i = 0; i < ModUpdater.LocalVersions.Count; i++)
+                {
+                    var key = ModUpdater.LocalVersions.ElementAt(i).Key;
+                    if (RTFile.FileExists($"{FolderPath}{ModUpdater.BepInExPlugins}/{key}.dll"))
+                    {
+                        var version = GetModVersion($"{FolderPath}{ModUpdater.BepInExPlugins}/{key}.dll");
+
+                        int num = i * 2 + 3;
+                        MainWindow.Instance.GetModToggle(i).Content = $"{key} - Installed: {version}" + (onlineVersions.Count > num && version != onlineVersions[num] ? $" | Update Available: {onlineVersions[num]}" : "");
+
+                        ModUpdater.LocalVersions[key] = version;
                     }
                 }
             }
