@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using System.Reflection;
 
 namespace ProjectLauncher.Functions
 {
@@ -48,6 +49,62 @@ namespace ProjectLauncher.Functions
                 }
                 return ms.ToArray();
             }
+        }
+        public static List<string> WordWrap(string _input, int maxCharacters)
+        {
+            List<string> list = _input.Split(new string[] { "\n", "\r\n", "\r" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+            List<string> list2 = new List<string>();
+            foreach (string text in list)
+            {
+                if (!text.Contains(' '))
+                {
+                    for (int i = 0; i < text.Length; i += maxCharacters)
+                    {
+                        list2.Add(text.Substring(i, Math.Min(maxCharacters, text.Length - i)));
+                    }
+                }
+                else
+                {
+                    string[] array = text.Split(new char[] { ' ' });
+                    string text2 = "";
+                    foreach (string text3 in array)
+                    {
+                        if ((text2 + text3).Length > maxCharacters)
+                        {
+                            list2.Add(text2.Trim());
+                            text2 = "";
+                        }
+                        text2 += string.Format("{0} ", text3);
+                    }
+                    if (text2.Length > 0)
+                    {
+                        list2.Add(text2.Trim());
+                    }
+                }
+            }
+            return list2;
+        }
+
+        public static void MoveFile(string file, string destination)
+        {
+            var fi = new FileInfo(file);
+            if (fi.Exists)
+            {
+                fi.MoveTo(destination);
+            }
+        }
+
+        /// <summary>
+        /// Gets the version number of the specified assembly.
+        /// </summary>
+        /// <param name="path">Full path to the dll.</param>
+        /// <returns>Parsed version number directly from the dll.</returns>
+        public static string GetAssemblyVersion(string path)
+        {
+            var assembly = Assembly.LoadFrom(path);
+            var ver = assembly.GetName().Version?.ToString() ?? "";
+
+            return ver.Contains('.') ? ver.Substring(0, ver.LastIndexOf('.')) : ver;
         }
 
         public static class ZipUtil
