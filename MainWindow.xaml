@@ -112,12 +112,16 @@
                         <Viewbox Height="NaN" Margin="10,34,10,334" Width="NaN">
                             <TextBox x:Name="NewName" TextWrapping="Wrap" Text="PA Legacy" Width="380" Height="19" Background="#DDCCAD"/>
                         </Viewbox>
-                        <ListBox x:Name="InstancesList" Background="#211F1D" SelectionChanged="InstancesList_SelectionChanged" Margin="10,77,10,143">
+                        <ListBox x:Name="InstancesList" Background="#211F1D" SelectionChanged="InstancesList_SelectionChanged" Margin="10,114,10,143">
 
                         </ListBox>
                         <Viewbox Margin="0,271,0,99" HorizontalAlignment="Center" Width="755">
                             <TextBlock x:Name="CurrentInstanceProgress" TextWrapping="NoWrap" FontSize="16" Text="Current Progress" HorizontalAlignment="Center" Foreground="#E0B564"/>
                         </Viewbox>
+                        <Viewbox Height="NaN" Margin="10,76,10,292" Width="NaN">
+                            <TextBox x:Name="SearchField" TextWrapping="NoWrap" Width="380" Height="19" Background="#2D2A27" Foreground="#DDCCAD" TextChanged="SearchField_TextChanged" MouseLeave="SearchField_MouseLeave" MouseEnter="SearchField_MouseEnter"/>
+                        </Viewbox>
+                        <TextBlock x:Name="T" TextWrapping="Wrap" FontSize="18" Text="Search for instances..." Opacity="0.4" Foreground="#DDCCAD" Margin="0,84,0,0" Width="737" HorizontalAlignment="Center" VerticalAlignment="Top" FontStyle="Italic" MouseEnter="T_MouseEnter"/>
                     </Grid>
                 </ScrollViewer>
             </TabItem>
