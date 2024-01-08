@@ -349,7 +349,35 @@ namespace ProjectLauncher
 
         public bool creating = false;
 
+
+        void SearchField_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            LoadUI();
+            UpdatePlaceholderVisibility();
+        }
+
         public void LoadInstances()
+        {
+            Instances.Clear();
+            if (RTFile.DirectoryExists(RTFile.ApplicationDirectory + "instances"))
+            {
+                var folders = Directory.GetDirectories(RTFile.ApplicationDirectory + "instances");
+                if (folders.Length > 0)
+                {
+                    foreach (var folder in folders)
+                    {
+                        if (RTFile.FileExists(folder + "/Project Arrhythmia.exe"))
+                        {
+                            var instance = new ProjectArrhythmia(folder.Replace("\\", "/") + "/Project Arrhythmia.exe");
+                            Instances.Add(instance);
+                        }
+                    }
+                }
+            }
+            LoadUI();
+        }
+
+        public void LoadUI()
         {
             var doCreateNew = RTFile.DirectoryExists(RTFile.ApplicationDirectory + "PA Legacy - Pure");
 
@@ -358,6 +386,7 @@ namespace ProjectLauncher
                     "New Name: (requires an unmodded copy of Project Arrhythmia in the ProjectLauncher app folder called \"PA Legacy - Pure\")";
 
             InstancesList.Items.Clear();
+
             if (doCreateNew)
             {
                 var createNew = new Button();
@@ -370,38 +399,25 @@ namespace ProjectLauncher
                 InstancesList.Items.Add(createNew);
             }
 
-            Instances.Clear();
-            if (RTFile.DirectoryExists(RTFile.ApplicationDirectory + "instances"))
+            foreach (var instance in Instances)
             {
-                //if (NewNameViewbox != null)
-                //{
-                //    NewNameViewbox.Width = doCreateNew ? 134 : 745;
-                //}
-
-                var folders = Directory.GetDirectories(RTFile.ApplicationDirectory + "instances");
-                foreach (var folder in folders)
+                if (SearchField == null || string.IsNullOrEmpty(SearchField.Text) || instance.Name.ToLower().Contains(SearchField.Text.ToLower()))
                 {
-                    if (RTFile.FileExists(folder + "/Project Arrhythmia.exe"))
-                    {
-                        var instance = new ProjectArrhythmia(folder.Replace("\\", "/") + "/Project Arrhythmia.exe");
-                        Instances.Add(instance);
+                    var button = new Button();
+                    button.Background = new SolidColorBrush(RTColor.Transparent.FormsColor);
+                    button.Foreground = new SolidColorBrush(RTColor.FromHex("FFCCA5").FormsColor);
+                    button.Content = instance.Name;
+                    button.Click += Instance_Checked;
+                    button.Width = 727;
 
-                        var checkBox = new Button();
-                        checkBox.Background = new SolidColorBrush(RTColor.Transparent.FormsColor);
-                        checkBox.Foreground = new SolidColorBrush(RTColor.FromHex("FFCCA5").FormsColor);
-                        checkBox.Content = System.IO.Path.GetFileName(folder);
-                        checkBox.Click += Instance_Checked;
-                        checkBox.Width = 727;
-
-                        InstancesList.Items.Add(checkBox);
-                    }
+                    InstancesList.Items.Add(button);
                 }
+            }
 
-                if (InstancesList.Items.Count > 0)
-                {
-                    InstancesList.SelectedItem = InstancesList.Items[doCreateNew ? 1 : 0];
-                    SetSelected();
-                }
+            if (InstancesList.Items.Count > (doCreateNew ? 1 : 0))
+            {
+                InstancesList.SelectedItem = InstancesList.Items[doCreateNew ? 1 : 0];
+                SetSelected();
             }
         }
 
@@ -492,15 +508,26 @@ namespace ProjectLauncher
         void SetSelected()
         {
             int num = RTFile.DirectoryExists(RTFile.ApplicationDirectory + "PA Legacy - Pure") ? 1 : 0;
-            foreach (var instance in Instances)
+            //foreach (var instance in Instances)
+            //{
+            //    if (InstancesList.Items.Count > num && InstancesList.Items[num] == InstancesList.SelectedItem)
+            //    {
+            //        Current = instance;
+            //        instance.LoadSettings();
+            //    }
+
+            //    num++;
+            //}
+
+            foreach (var item in InstancesList.Items)
             {
-                if (InstancesList.Items.Count > num && InstancesList.Items[num] == InstancesList.SelectedItem)
+                var button = item as Button;
+
+                if (Instances.TryFind(x => x.Name == (string)button.Content, out ProjectArrhythmia instance) && item == InstancesList.SelectedItem)
                 {
                     Current = instance;
                     instance.LoadSettings();
                 }
-
-                num++;
             }
         }
 
@@ -956,6 +983,48 @@ namespace ProjectLauncher
         void InstancesList_Selected(object sender, RoutedEventArgs e)
         {
             SetSelected();
+        }
+
+        void T_MouseEnter(object sender, MouseEventArgs e)
+        {
+            searchFieldHovered = false;
+            UpdatePlaceholderVisibility();
+        }
+
+        void SearchField_MouseLeave(object sender, MouseEventArgs e)
+        {
+            searchFieldHovered = true;
+            UpdatePlaceholderVisibility();
+        }
+
+        void SearchField_MouseEnter(object sender, MouseEventArgs e)
+        {
+            searchFieldHovered = false;
+            UpdatePlaceholderVisibility();
+        }
+
+        public bool searchFieldHovered;
+
+        public void UpdatePlaceholderVisibility()
+        {
+            T.IsEnabled = searchFieldHovered;
+            T.Visibility = searchFieldHovered && (SearchField == null || string.IsNullOrEmpty(SearchField.Text)) ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        public CheckBox GetModToggle(int i)
+        {
+            switch (i)
+            {
+                case 0: return RTFunctionsEnabled;
+                case 1: return EditorManagementEnabled;
+                case 2: return EventsCoreEnabled;
+                case 3: return CreativePlayersEnabled;
+                case 4: return ObjectModifiersEnabled;
+                case 5: return ArcadiaCustomsEnabled;
+                case 6: return PageCreatorEnabled;
+                case 7: return ExampleCompanionEnabled;
+                default: throw new ArgumentOutOfRangeException("Toggle does not exist.");
+            }
         }
     }
 }
