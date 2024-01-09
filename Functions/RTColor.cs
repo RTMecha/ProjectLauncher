@@ -48,7 +48,7 @@ namespace ProjectLauncher.Functions
         public int B => (int)(b * 255);
         public int A => (int)(a * 255);
 
-        public Color FormsColor => Color.FromArgb((byte)A, (byte)R, (byte)G, (byte)B);
+        public Color SystemColor => Color.FromArgb((byte)A, (byte)R, (byte)G, (byte)B);
 
         public static RTColor White => new(1f, 1f, 1f, 1f);
         public static RTColor Black => new(0f, 0f, 0f, 1f);
