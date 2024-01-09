@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Project Launcher" Height="450" Width="800" Background="#544D48" ResizeMode="CanMinimize">
     <Grid>
-        <TabControl>
+        <TabControl Background="#161513">
             <TabItem x:Name="PlayTab" Header="Play" Background="#776D67">
                 <Grid x:Name="PlayGrid" Background="#211F1D">
                     <Viewbox Height="NaN" Margin="10,226,10,106" Width="NaN">
@@ -45,7 +45,7 @@
                         <CheckBox x:Name="CheckedAll" Content="All" Width="452" Checked="CheckedAll_Checked" Unchecked="CheckedAll_Unchecked" Foreground="#E0B564"/>
                         <CheckBox x:Name="RTFunctionsEnabled" Content="RTFunctions" Width="452" Checked="RTFunctionsEnabled_Checked" Unchecked="RTFunctionsEnabled_Unchecked" Foreground="#E0B564"/>
                         <CheckBox x:Name="EditorManagementEnabled" Content="EditorManagement" Width="452" Checked="EditorManagementEnabled_Checked" Unchecked="EditorManagementEnabled_Unchecked" Foreground="#E0B564"/>
-                        <CheckBox x:Name="EventsCoreEnabled" Content="EventCore" Width="452" Checked="EventsCoreEnabled_Checked" Unchecked="EventsCoreEnabled_Unchecked" Foreground="#E0B564"/>
+                        <CheckBox x:Name="EventsCoreEnabled" Content="EventsCore" Width="452" Checked="EventsCoreEnabled_Checked" Unchecked="EventsCoreEnabled_Unchecked" Foreground="#E0B564"/>
                         <CheckBox x:Name="CreativePlayersEnabled" Content="CreativePlayers" Width="452" Checked="CreativePlayersEnabled_Checked" Unchecked="CreativePlayersEnabled_Unchecked" Foreground="#E0B564"/>
                         <CheckBox x:Name="ObjectModifiersEnabled" Content="ObjectModifiers" Width="452" Checked="ObjectModifiersEnabled_Checked" Unchecked="ObjectModifiersEnabled_Unchecked" Foreground="#E0B564"/>
                         <CheckBox x:Name="ArcadiaCustomsEnabled" Content="ArcadiaCustoms" Width="452" Checked="ArcadiaCustomsEnabled_Checked" Unchecked="ArcadiaCustomsEnabled_Unchecked" Foreground="#E0B564"/>
@@ -58,44 +58,48 @@
                 </Grid>
             </TabItem>
             <TabItem Header="Update Notes" Background="#776D67">
-                <ScrollViewer>
-                    <Grid Background="#211F1D">
-                        <ListBox x:Name="ModUpdateList" Background="#211F1D">
-                            <TextBlock Text="RTFunctions"  Foreground="#E0B564"/>
-                            <ListBox x:Name="RTFunctionsUpdates"  Background="#E0B564">
-
-                            </ListBox>
-                            <TextBlock Text="EditorManagement"  Foreground="#E0B564"/>
-                            <ListBox x:Name="EditorManagementUpdates"  Background="#E0B564">
-
-                            </ListBox>
-                            <TextBlock Text="EventsCore"  Foreground="#E0B564"/>
-                            <ListBox x:Name="EventsCoreUpdates"  Background="#E0B564">
-
-                            </ListBox>
-                            <TextBlock Text="CreativePlayers"  Foreground="#E0B564"/>
-                            <ListBox x:Name="CreativePlayersUpdates"  Background="#E0B564">
-
-                            </ListBox>
-                            <TextBlock Text="ObjectModifiers"  Foreground="#E0B564"/>
-                            <ListBox x:Name="ObjectModifiersUpdates"  Background="#E0B564">
-
-                            </ListBox>
-                            <TextBlock Text="ArcadiaCustoms"  Foreground="#E0B564"/>
-                            <ListBox x:Name="ArcadiaCustomsUpdates"  Background="#E0B564">
-
-                            </ListBox>
-                            <TextBlock Text="PageCreator"  Foreground="#E0B564"/>
-                            <ListBox x:Name="PageCreatorUpdates"  Background="#E0B564">
-
-                            </ListBox>
-                            <TextBlock Text="ExampleCompanion"  Foreground="#E0B564"/>
-                            <ListBox x:Name="ExampleCompanionUpdates"  Background="#E0B564">
-
-                            </ListBox>
-                        </ListBox>
-                    </Grid>
-                </ScrollViewer>
+                <TabControl Background="#211F1D">
+                    <TabItem Header="RTFunctions" Background="#776D67">
+                        <ScrollViewer>
+                            <ListBox x:Name="RTFunctionsUpdates"  Background="#211F1D"/>
+                        </ScrollViewer>
+                    </TabItem>
+                    <TabItem Header="EditorManagement" Background="#776D67">
+                        <ScrollViewer>
+                            <ListBox x:Name="EditorManagementUpdates"  Background="#211F1D"/>
+                        </ScrollViewer>
+                    </TabItem>
+                    <TabItem Header="EventsCore" Background="#776D67">
+                        <ScrollViewer>
+                            <ListBox x:Name="EventsCoreUpdates"  Background="#211F1D"/>
+                        </ScrollViewer>
+                    </TabItem>
+                    <TabItem Header="CreativePlayers" Background="#776D67">
+                        <ScrollViewer>
+                            <ListBox x:Name="CreativePlayersUpdates"  Background="#211F1D"/>
+                        </ScrollViewer>
+                    </TabItem>
+                    <TabItem Header="ObjectModifiers" Background="#776D67">
+                        <ScrollViewer>
+                            <ListBox x:Name="ObjectModifiersUpdates"  Background="#211F1D"/>
+                        </ScrollViewer>
+                    </TabItem>
+                    <TabItem Header="ArcadiaCustoms" Background="#776D67">
+                        <ScrollViewer>
+                            <ListBox x:Name="ArcadiaCustomsUpdates"  Background="#211F1D"/>
+                        </ScrollViewer>
+                    </TabItem>
+                    <TabItem Header="PageCreator" Background="#776D67">
+                        <ScrollViewer>
+                            <ListBox x:Name="PageCreatorUpdates"  Background="#211F1D"/>
+                        </ScrollViewer>
+                    </TabItem>
+                    <TabItem Header="ExampleCompanion" Background="#776D67">
+                        <ScrollViewer>
+                            <ListBox x:Name="ExampleCompanionUpdates"  Background="#211F1D"/>
+                        </ScrollViewer>
+                    </TabItem>
+                </TabControl>
             </TabItem>
             <TabItem Header="Instances" Background="#776D67">
                 <ScrollViewer>
