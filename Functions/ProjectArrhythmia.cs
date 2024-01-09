@@ -55,6 +55,9 @@ namespace ProjectLauncher.Functions
             str += "UnityExplorer" + Environment.NewLine + MainWindow.Instance.UnityExplorerEnabled.IsChecked.ToString() + Environment.NewLine;
             str += "EditorOnStartup" + Environment.NewLine + MainWindow.Instance.EditorOnStartupEnabled.IsChecked.ToString() + Environment.NewLine;
 
+            if (RTFile.DirectoryExists(FolderPath + "settings"))
+                Directory.CreateDirectory(FolderPath + "settings");
+
             RTFile.WriteToFile(FolderPath + "settings/mod_settings.lss", str);
         }
 
@@ -214,7 +217,7 @@ namespace ProjectLauncher.Functions
                     {
                         var version = GetModVersion($"{FolderPath}{ModUpdater.BepInExPlugins}/{key}.dll");
 
-                        int num = i * 2 + 3;
+                        int num = onlineVersions.FindIndex(x => x == key) + 1;
                         MainWindow.Instance.GetModToggle(i).Content = $"{key} - Installed: {version}" + (onlineVersions.Count > num && version != onlineVersions[num] ? $" | Update Available: {onlineVersions[num]}" : "");
 
                         ModUpdater.LocalVersions[key] = version;
