@@ -14,6 +14,7 @@ using System.ComponentModel;
 using System.Reflection;
 using System.Windows.Media.Animation;
 using System.Security.Policy;
+using System.Windows.Input;
 
 namespace ProjectLauncher.Functions
 {
@@ -785,23 +786,23 @@ namespace ProjectLauncher.Functions
 
                             for (int i = 0; i < list.Count; i++)
                             {
-                                if (LocalVersions.ContainsKey(list[i]) && list.Count > i + 1)
+                                if (projectArrhythmia.LocalVersions.ContainsKey(list[i]) && list.Count > i + 1)
                                 {
-                                    LocalVersions[list[i]] = list[i + 1];
+                                    projectArrhythmia.LocalVersions[list[i]] = list[i + 1];
                                 }
                             }
                         }
                     }
                     else
                     {
-                        for (int i = 0; i < LocalVersions.Count; i++)
+                        for (int i = 0; i < projectArrhythmia.LocalVersions.Count; i++)
                         {
-                            var key = LocalVersions.ElementAt(i).Key;
+                            var key = projectArrhythmia.LocalVersions.ElementAt(i).Key;
                             if (RTFile.FileExists($"{b}/{key}.dll"))
                             {
                                 var version = projectArrhythmia.GetModVersion($"{b}/{key}.dll");
 
-                                LocalVersions[key] = version;
+                                projectArrhythmia.LocalVersions[key] = version;
                             }
                         }
                     }
@@ -832,15 +833,15 @@ namespace ProjectLauncher.Functions
 
                 // Verify (Makes sure RTFunctions is on if any dependant mod is)
                 {
-                    if (MainWindow.Instance.EditorManagementEnabled.IsChecked == true ||
-                        MainWindow.Instance.EventsCoreEnabled.IsChecked == true ||
-                        MainWindow.Instance.CreativePlayersEnabled.IsChecked == true ||
-                        MainWindow.Instance.ObjectModifiersEnabled.IsChecked == true ||
-                        MainWindow.Instance.ArcadiaCustomsEnabled.IsChecked == true ||
-                        MainWindow.Instance.PageCreatorEnabled.IsChecked == true ||
-                        MainWindow.Instance.ExampleCompanionEnabled.IsChecked == true)
+                    if (MainWindow.Instance.InstanceEditorManagementEnabled.IsChecked == true ||
+                        MainWindow.Instance.InstanceEventsCoreEnabled.IsChecked == true ||
+                        MainWindow.Instance.InstanceCreativePlayersEnabled.IsChecked == true ||
+                        MainWindow.Instance.InstanceObjectModifiersEnabled.IsChecked == true ||
+                        MainWindow.Instance.InstanceArcadiaCustomsEnabled.IsChecked == true ||
+                        MainWindow.Instance.InstancePageCreatorEnabled.IsChecked == true ||
+                        MainWindow.Instance.InstanceExampleCompanionEnabled.IsChecked == true)
                     {
-                        MainWindow.Instance.RTFunctionsEnabled.IsChecked = true;
+                        MainWindow.Instance.InstanceRTFunctionsEnabled.IsChecked = true;
                     }
                 }
 
@@ -852,8 +853,9 @@ namespace ProjectLauncher.Functions
 
                 #region RTFunctions
 
-                if (MainWindow.Instance.RTFunctionsEnabled != null && MainWindow.Instance.RTFunctionsEnabled.IsChecked == true
-                    && (OnlineVersions["RTFunctions"] != LocalVersions["RTFunctions"]))
+                if (MainWindow.Instance.InstanceRTFunctionsEnabled != null && MainWindow.Instance.InstanceRTFunctionsEnabled.IsChecked == true
+                    && (!RTFile.FileExists(b + "/RTFunctions.dll") && RTFile.FileExists(b + "RTFunctions.disabled") ||
+                    OnlineVersions["RTFunctions"] != projectArrhythmia.LocalVersions["RTFunctions"]))
                 {
                     if (RTFile.FileExists(b + "/RTFunctions.disabled"))
                     {
@@ -870,7 +872,7 @@ namespace ProjectLauncher.Functions
 
                 if (!RTFile.FileExists(b + "/RTFunctions.dll") && RTFile.FileExists(b + "RTFunctions.disabled") || RTFile.FileExists(b + "/RTFunctions.dll") && !RTFile.FileExists(b + "RTFunctions.disabled"))
                 {
-                    bool enabled = MainWindow.Instance.RTFunctionsEnabled != null && MainWindow.Instance.RTFunctionsEnabled.IsChecked == false;
+                    bool enabled = MainWindow.Instance.InstanceRTFunctionsEnabled != null && MainWindow.Instance.InstanceRTFunctionsEnabled.IsChecked == false;
 
                     RTFile.MoveFile(enabled ? b + "/RTFunctions.dll" : b + "/RTFunctions.disabled", !enabled ? b + "/RTFunctions.dll" : b + "/RTFunctions.disabled");
                 }
@@ -879,8 +881,9 @@ namespace ProjectLauncher.Functions
                 
                 #region EditorManagement
 
-                if (MainWindow.Instance.EditorManagementEnabled != null && MainWindow.Instance.EditorManagementEnabled.IsChecked == true
-                    && (OnlineVersions["EditorManagement"] != LocalVersions["EditorManagement"]))
+                if (MainWindow.Instance.InstanceEditorManagementEnabled != null && MainWindow.Instance.InstanceEditorManagementEnabled.IsChecked == true
+                    && (!RTFile.FileExists(b + "/EditorManagement.dll") && RTFile.FileExists(b + "EditorManagement.disabled") ||
+                    OnlineVersions["EditorManagement"] != projectArrhythmia.LocalVersions["EditorManagement"]))
                 {
                     if (RTFile.FileExists(b + "/EditorManagement.disabled"))
                     {
@@ -897,7 +900,7 @@ namespace ProjectLauncher.Functions
 
                 if (!RTFile.FileExists(b + "/EditorManagement.dll") && RTFile.FileExists(b + "EditorManagement.disabled") || RTFile.FileExists(b + "/EditorManagement.dll") && !RTFile.FileExists(b + "EditorManagement.disabled"))
                 {
-                    bool enabled = MainWindow.Instance.EditorManagementEnabled != null && MainWindow.Instance.EditorManagementEnabled.IsChecked == false;
+                    bool enabled = MainWindow.Instance.InstanceEditorManagementEnabled != null && MainWindow.Instance.InstanceEditorManagementEnabled.IsChecked == false;
 
                     RTFile.MoveFile(enabled ? b + "/EditorManagement.dll" : b + "/EditorManagement.disabled", !enabled ? b + "/EditorManagement.dll" : b + "/EditorManagement.disabled");
                 }
@@ -906,8 +909,9 @@ namespace ProjectLauncher.Functions
 
                 #region EventsCore
 
-                if (MainWindow.Instance.EventsCoreEnabled != null && MainWindow.Instance.EventsCoreEnabled.IsChecked == true
-                    && (OnlineVersions["EventsCore"] != LocalVersions["EventsCore"]))
+                if (MainWindow.Instance.InstanceEventsCoreEnabled != null && MainWindow.Instance.InstanceEventsCoreEnabled.IsChecked == true
+                    && (!RTFile.FileExists(b + "/EventsCore.dll") && RTFile.FileExists(b + "EventsCore.disabled") ||
+                    OnlineVersions["EventsCore"] != projectArrhythmia.LocalVersions["EventsCore"]))
                 {
                     if (RTFile.FileExists(b + "/EventsCore.disabled"))
                     {
@@ -924,7 +928,7 @@ namespace ProjectLauncher.Functions
                 
                 if (!RTFile.FileExists(b + "/EventsCore.dll") && RTFile.FileExists(b + "EventsCore.disabled") || RTFile.FileExists(b + "/EventsCore.dll") && !RTFile.FileExists(b + "EventsCore.disabled"))
                 {
-                    bool enabled = MainWindow.Instance.EventsCoreEnabled != null && MainWindow.Instance.EventsCoreEnabled.IsChecked == false;
+                    bool enabled = MainWindow.Instance.InstanceEventsCoreEnabled != null && MainWindow.Instance.InstanceEventsCoreEnabled.IsChecked == false;
 
                     RTFile.MoveFile(enabled ? b + "/EventsCore.dll" : b + "/EventsCore.disabled", !enabled ? b + "/EventsCore.dll" : b + "/EventsCore.disabled");
                 }
@@ -933,8 +937,9 @@ namespace ProjectLauncher.Functions
 
                 #region CreativePlayers
 
-                if (MainWindow.Instance.CreativePlayersEnabled != null && MainWindow.Instance.CreativePlayersEnabled.IsChecked == true
-                    && (OnlineVersions["CreativePlayers"] != LocalVersions["CreativePlayers"]))
+                if (MainWindow.Instance.InstanceCreativePlayersEnabled != null && MainWindow.Instance.InstanceCreativePlayersEnabled.IsChecked == true
+                    && (!RTFile.FileExists(b + "/CreativePlayers.dll") && RTFile.FileExists(b + "CreativePlayers.disabled") ||
+                    OnlineVersions["CreativePlayers"] != projectArrhythmia.LocalVersions["CreativePlayers"]))
                 {
                     if (RTFile.FileExists(b + "/CreativePlayers.disabled"))
                     {
@@ -951,7 +956,7 @@ namespace ProjectLauncher.Functions
                 
                 if (!RTFile.FileExists(b + "/CreativePlayers.dll") && RTFile.FileExists(b + "CreativePlayers.disabled") || RTFile.FileExists(b + "/CreativePlayers.dll") && !RTFile.FileExists(b + "CreativePlayers.disabled"))
                 {
-                    bool enabled = MainWindow.Instance.CreativePlayersEnabled != null && MainWindow.Instance.CreativePlayersEnabled.IsChecked == false;
+                    bool enabled = MainWindow.Instance.InstanceCreativePlayersEnabled != null && MainWindow.Instance.InstanceCreativePlayersEnabled.IsChecked == false;
 
                     RTFile.MoveFile(enabled ? b + "/CreativePlayers.dll" : b + "/CreativePlayers.disabled", !enabled ? b + "/CreativePlayers.dll" : b + "/CreativePlayers.disabled");
                 }
@@ -960,8 +965,9 @@ namespace ProjectLauncher.Functions
 
                 #region ObjectModifiers
 
-                if (MainWindow.Instance.ObjectModifiersEnabled != null && MainWindow.Instance.ObjectModifiersEnabled.IsChecked == true
-                    && (OnlineVersions["ObjectModifiers"] != LocalVersions["ObjectModifiers"]))
+                if (MainWindow.Instance.InstanceObjectModifiersEnabled != null && MainWindow.Instance.InstanceObjectModifiersEnabled.IsChecked == true
+                    && (!RTFile.FileExists(b + "/ObjectModifiers.dll") && RTFile.FileExists(b + "ObjectModifiers.disabled") ||
+                    OnlineVersions["ObjectModifiers"] != projectArrhythmia.LocalVersions["ObjectModifiers"]))
                 {
                     if (RTFile.FileExists(b + "/ObjectModifiers.disabled"))
                     {
@@ -978,7 +984,7 @@ namespace ProjectLauncher.Functions
                 
                 if (!RTFile.FileExists(b + "/ObjectModifiers.dll") && RTFile.FileExists(b + "ObjectModifiers.disabled") || RTFile.FileExists(b + "/ObjectModifiers.dll") && !RTFile.FileExists(b + "ObjectModifiers.disabled"))
                 {
-                    bool enabled = MainWindow.Instance.ObjectModifiersEnabled != null && MainWindow.Instance.ObjectModifiersEnabled.IsChecked == false;
+                    bool enabled = MainWindow.Instance.InstanceObjectModifiersEnabled != null && MainWindow.Instance.InstanceObjectModifiersEnabled.IsChecked == false;
 
                     RTFile.MoveFile(enabled ? b + "/ObjectModifiers.dll" : b + "/ObjectModifiers.disabled", !enabled ? b + "/ObjectModifiers.dll" : b + "/ObjectModifiers.disabled");
                 }
@@ -987,8 +993,9 @@ namespace ProjectLauncher.Functions
 
                 #region ArcadiaCustoms
 
-                if (MainWindow.Instance.ArcadiaCustomsEnabled != null && MainWindow.Instance.ArcadiaCustomsEnabled.IsChecked == true
-                    && (OnlineVersions["ArcadiaCustoms"] != LocalVersions["ArcadiaCustoms"]))
+                if (MainWindow.Instance.InstanceArcadiaCustomsEnabled != null && MainWindow.Instance.InstanceArcadiaCustomsEnabled.IsChecked == true
+                    && (!RTFile.FileExists(b + "/ArcadiaCustoms.dll") && RTFile.FileExists(b + "ArcadiaCustoms.disabled") ||
+                    OnlineVersions["ArcadiaCustoms"] != projectArrhythmia.LocalVersions["ArcadiaCustoms"]))
                 {
                     if (RTFile.FileExists(b + "/ArcadiaCustoms.disabled"))
                     {
@@ -1005,7 +1012,7 @@ namespace ProjectLauncher.Functions
                 
                 if (!RTFile.FileExists(b + "/ArcadiaCustoms.dll") && RTFile.FileExists(b + "ArcadiaCustoms.disabled") || RTFile.FileExists(b + "/ArcadiaCustoms.dll") && !RTFile.FileExists(b + "ArcadiaCustoms.disabled"))
                 {
-                    bool enabled = MainWindow.Instance.ArcadiaCustomsEnabled != null && MainWindow.Instance.ArcadiaCustomsEnabled.IsChecked == false;
+                    bool enabled = MainWindow.Instance.InstanceArcadiaCustomsEnabled != null && MainWindow.Instance.InstanceArcadiaCustomsEnabled.IsChecked == false;
 
                     RTFile.MoveFile(enabled ? b + "/ArcadiaCustoms.dll" : b + "/ArcadiaCustoms.disabled", !enabled ? b + "/ArcadiaCustoms.dll" : b + "/ArcadiaCustoms.disabled");
                 }
@@ -1014,8 +1021,9 @@ namespace ProjectLauncher.Functions
 
                 #region PageCreator
 
-                if (MainWindow.Instance.PageCreatorEnabled != null && MainWindow.Instance.PageCreatorEnabled.IsChecked == true
-                    && (OnlineVersions["PageCreator"] != LocalVersions["PageCreator"]))
+                if (MainWindow.Instance.InstancePageCreatorEnabled != null && MainWindow.Instance.InstancePageCreatorEnabled.IsChecked == true
+                    && (!RTFile.FileExists(b + "/PageCreator.dll") && RTFile.FileExists(b + "PageCreator.disabled") ||
+                    OnlineVersions["PageCreator"] != projectArrhythmia.LocalVersions["PageCreator"]))
                 {
                     if (RTFile.FileExists(b + "/PageCreator.disabled"))
                     {
@@ -1032,7 +1040,7 @@ namespace ProjectLauncher.Functions
                 
                 if (!RTFile.FileExists(b + "/PageCreator.dll") && RTFile.FileExists(b + "PageCreator.disabled") || RTFile.FileExists(b + "/PageCreator.dll") && !RTFile.FileExists(b + "PageCreator.disabled"))
                 {
-                    bool enabled = MainWindow.Instance.PageCreatorEnabled != null && MainWindow.Instance.PageCreatorEnabled.IsChecked == false;
+                    bool enabled = MainWindow.Instance.InstancePageCreatorEnabled != null && MainWindow.Instance.InstancePageCreatorEnabled.IsChecked == false;
 
                     RTFile.MoveFile(enabled ? b + "/PageCreator.dll" : b + "/PageCreator.disabled", !enabled ? b + "/PageCreator.dll" : b + "/PageCreator.disabled");
                 }
@@ -1041,8 +1049,8 @@ namespace ProjectLauncher.Functions
 
                 #region ExampleCompanion
 
-                if (MainWindow.Instance.ExampleCompanionEnabled != null && MainWindow.Instance.ExampleCompanionEnabled.IsChecked == true
-                    && (OnlineVersions["ExampleCompanion"] != LocalVersions["ExampleCompanion"]))
+                if (MainWindow.Instance.InstanceExampleCompanionEnabled != null && MainWindow.Instance.InstanceExampleCompanionEnabled.IsChecked == true
+                    && (OnlineVersions["ExampleCompanion"] != projectArrhythmia.LocalVersions["ExampleCompanion"]))
                 {
                     if (RTFile.FileExists(b + "/ExampleCompanion.disabled"))
                     {
@@ -1059,14 +1067,14 @@ namespace ProjectLauncher.Functions
                 
                 if (!RTFile.FileExists(b + "/ExampleCompanion.dll") && RTFile.FileExists(b + "ExampleCompanion.disabled") || RTFile.FileExists(b + "/ExampleCompanion.dll") && !RTFile.FileExists(b + "ExampleCompanion.disabled"))
                 {
-                    bool enabled = MainWindow.Instance.ExampleCompanionEnabled != null && MainWindow.Instance.ExampleCompanionEnabled.IsChecked == false;
+                    bool enabled = MainWindow.Instance.InstanceExampleCompanionEnabled != null && MainWindow.Instance.InstanceExampleCompanionEnabled.IsChecked == false;
 
                     RTFile.MoveFile(enabled ? b + "/ExampleCompanion.dll" : b + "/ExampleCompanion.disabled", !enabled ? b + "/ExampleCompanion.dll" : b + "/ExampleCompanion.disabled");
                 }
 
                 #endregion
 
-                if (MainWindow.Instance.ConfigurationManagerEnabled != null && MainWindow.Instance.ConfigurationManagerEnabled.IsChecked == true
+                if (MainWindow.Instance.InstanceConfigurationManagerEnabled != null && MainWindow.Instance.InstanceConfigurationManagerEnabled.IsChecked == true
                     && !RTFile.DirectoryExists(b + "/ConfigurationManager"))
                 {
                     // Since the dll's are in sub-folders within the zip file, we have to handle them differently compared to the other mods.
@@ -1079,7 +1087,7 @@ namespace ProjectLauncher.Functions
                         RTFile.ZipUtil.UnZip(rt, rep);
                     }
                 }
-                else if (RTFile.DirectoryExists(b + "/ConfigurationManager") && MainWindow.Instance.ConfigurationManagerEnabled != null && MainWindow.Instance.ConfigurationManagerEnabled.IsChecked == false)
+                else if (RTFile.DirectoryExists(b + "/ConfigurationManager") && MainWindow.Instance.InstanceConfigurationManagerEnabled != null && MainWindow.Instance.InstanceConfigurationManagerEnabled.IsChecked == false)
                 {
                     try
                     {
@@ -1096,7 +1104,7 @@ namespace ProjectLauncher.Functions
                     }
                 }
 
-                if (MainWindow.Instance.UnityExplorerEnabled != null && MainWindow.Instance.UnityExplorerEnabled.IsChecked == true
+                if (MainWindow.Instance.InstanceUnityExplorerEnabled != null && MainWindow.Instance.InstanceUnityExplorerEnabled.IsChecked == true
                     && !RTFile.FileExists(b + "/sinai-dev-UnityExplorer/UnityExplorer.BIE5.Mono.dll"))
                 {
                     // Since the dll's are in sub-folders within the zip file, we have to handle them differently compared to the other mods.
@@ -1109,7 +1117,7 @@ namespace ProjectLauncher.Functions
                         RTFile.ZipUtil.UnZip(rt, rep);
                     }
                 }
-                else if (RTFile.FileExists(b + "/sinai-dev-UnityExplorer/UnityExplorer.BIE5.Mono.dll") && MainWindow.Instance.UnityExplorerEnabled != null && MainWindow.Instance.UnityExplorerEnabled.IsChecked == false)
+                else if (RTFile.FileExists(b + "/sinai-dev-UnityExplorer/UnityExplorer.BIE5.Mono.dll") && MainWindow.Instance.InstanceUnityExplorerEnabled != null && MainWindow.Instance.InstanceUnityExplorerEnabled.IsChecked == false)
                 {
                     try
                     {
@@ -1121,7 +1129,7 @@ namespace ProjectLauncher.Functions
                     }
                 }
 
-                if (MainWindow.Instance.EditorOnStartupEnabled != null && MainWindow.Instance.EditorOnStartupEnabled.IsChecked == true
+                if (MainWindow.Instance.InstanceEditorOnStartupEnabled != null && MainWindow.Instance.InstanceEditorOnStartupEnabled.IsChecked == true
                     && !RTFile.FileExists(b + "/EditorOnStartup.dll"))
                 {
                     var rt = b + "/EditorOnStartup.dll";
@@ -1130,7 +1138,7 @@ namespace ProjectLauncher.Functions
                         client.DownloadFile("https://cdn.discordapp.com/attachments/1092449110805725256/1092449111141257296/EditorOnStartup.dll", rt);
                     }
                 }
-                else if (RTFile.FileExists(b + "/EditorOnStartup.dll") && MainWindow.Instance.EditorOnStartupEnabled != null && MainWindow.Instance.EditorOnStartupEnabled.IsChecked == false)
+                else if (RTFile.FileExists(b + "/EditorOnStartup.dll") && MainWindow.Instance.InstanceEditorOnStartupEnabled != null && MainWindow.Instance.InstanceEditorOnStartupEnabled.IsChecked == false)
                 {
                     try
                     {
@@ -1151,7 +1159,11 @@ namespace ProjectLauncher.Functions
 
                     for (int i = 0; i < OnlineVersions.Count; i++)
                     {
-                        str += OnlineVersions.ElementAt(i).Key + Environment.NewLine + OnlineVersions.ElementAt(i).Value + Environment.NewLine;
+                        var key = OnlineVersions.ElementAt(i).Key;
+                        var version = OnlineVersions.ElementAt(i).Value;
+                        str += key + Environment.NewLine + version + Environment.NewLine;
+
+                        MainWindow.Instance.GetModInstanceToggle(i).Content = $"{key} - Installed: {version}";
                     }
 
                     RTFile.WriteToFile(projectArrhythmia.FolderPath + "settings/versions.lss", str);
@@ -1194,52 +1206,21 @@ namespace ProjectLauncher.Functions
                 }
 
                 // Load Versions (For version comparison, so we're not re-downloading the mods every time we launch the game)
-                {
-                    if (RTFile.FileExists(projectArrhythmia.FolderPath + "settings/versions.lss"))
-                    {
-                        var localVersions = RTFile.ReadFromFile(projectArrhythmia.FolderPath + "settings/versions.lss");
-
-                        if (!string.IsNullOrEmpty(localVersions))
-                        {
-                            var list = localVersions.Split(new string[] { "\n", "\r\n", "\r" }, StringSplitOptions.RemoveEmptyEntries).ToList();
-
-                            for (int i = 0; i < list.Count; i++)
-                            {
-                                if (LocalVersions.ContainsKey(list[i]) && list.Count > i + 1)
-                                {
-                                    LocalVersions[list[i]] = list[i + 1];
-                                }
-                            }
-                        }
-                    }
-                    else
-                    {
-                        for (int i = 0; i < LocalVersions.Count; i++)
-                        {
-                            var key = LocalVersions.ElementAt(i).Key;
-                            if (RTFile.FileExists($"{b}/{key}.dll"))
-                            {
-                                var version = projectArrhythmia.GetModVersion($"{b}/{key}.dll");
-
-                                LocalVersions[key] = version;
-                            }
-                        }
-                    }
-                }
+                projectArrhythmia.LoadVersions();
 
                 MainWindow.Instance.CurrentInstanceProgress.Text = $"Checking dependants...";
 
                 // Verify (Makes sure RTFunctions is on if any dependant mod is)
                 {
-                    if (MainWindow.Instance.EditorManagementEnabled.IsChecked == true ||
-                        MainWindow.Instance.EventsCoreEnabled.IsChecked == true ||
-                        MainWindow.Instance.CreativePlayersEnabled.IsChecked == true ||
-                        MainWindow.Instance.ObjectModifiersEnabled.IsChecked == true ||
-                        MainWindow.Instance.ArcadiaCustomsEnabled.IsChecked == true ||
-                        MainWindow.Instance.PageCreatorEnabled.IsChecked == true ||
-                        MainWindow.Instance.ExampleCompanionEnabled.IsChecked == true)
+                    if (MainWindow.Instance.InstanceEditorManagementEnabled.IsChecked == true ||
+                        MainWindow.Instance.InstanceEventsCoreEnabled.IsChecked == true ||
+                        MainWindow.Instance.InstanceCreativePlayersEnabled.IsChecked == true ||
+                        MainWindow.Instance.InstanceObjectModifiersEnabled.IsChecked == true ||
+                        MainWindow.Instance.InstanceArcadiaCustomsEnabled.IsChecked == true ||
+                        MainWindow.Instance.InstancePageCreatorEnabled.IsChecked == true ||
+                        MainWindow.Instance.InstanceExampleCompanionEnabled.IsChecked == true)
                     {
-                        MainWindow.Instance.RTFunctionsEnabled.IsChecked = true;
+                        MainWindow.Instance.InstanceRTFunctionsEnabled.IsChecked = true;
                     }
                 }
 
@@ -1251,13 +1232,13 @@ namespace ProjectLauncher.Functions
 
                 #region RTFunctions
 
-                if (MainWindow.Instance.RTFunctionsEnabled != null && MainWindow.Instance.RTFunctionsEnabled.IsChecked == true && !RTFile.FileExists(b + "/RTFunctions.dll") && !RTFile.FileExists(b + "/RTFunctions.disabled"))
+                if (MainWindow.Instance.InstanceRTFunctionsEnabled != null && MainWindow.Instance.InstanceRTFunctionsEnabled.IsChecked == true && !RTFile.FileExists(b + "/RTFunctions.dll") && !RTFile.FileExists(b + "/RTFunctions.disabled"))
                 {
                     DownloadFile("https://github.com/RTMecha/RTFunctions/releases/latest/download/RTFunctions.zip", b, "RTFunctions.zip", true);
                 }
                 else if (!RTFile.FileExists(b + "/RTFunctions.dll") && RTFile.FileExists(b + "/RTFunctions.disabled") || RTFile.FileExists(b + "/RTFunctions.dll") && !RTFile.FileExists(b + "/RTFunctions.disabled"))
                 {
-                    bool enabled = MainWindow.Instance.RTFunctionsEnabled != null && MainWindow.Instance.RTFunctionsEnabled.IsChecked == false;
+                    bool enabled = MainWindow.Instance.InstanceRTFunctionsEnabled != null && MainWindow.Instance.InstanceRTFunctionsEnabled.IsChecked == false;
 
                     RTFile.MoveFile(enabled ? b + "/RTFunctions.dll" : b + "/RTFunctions.disabled", !enabled ? b + "/RTFunctions.dll" : b + "/RTFunctions.disabled");
                 }
@@ -1266,13 +1247,13 @@ namespace ProjectLauncher.Functions
 
                 #region EditorManagement
 
-                if (MainWindow.Instance.EditorManagementEnabled != null && MainWindow.Instance.EditorManagementEnabled.IsChecked == true && !RTFile.FileExists(b + "/EditorManagement.dll") && !RTFile.FileExists(b + "/EditorManagement.disabled"))
+                if (MainWindow.Instance.InstanceEditorManagementEnabled != null && MainWindow.Instance.InstanceEditorManagementEnabled.IsChecked == true && !RTFile.FileExists(b + "/EditorManagement.dll") && !RTFile.FileExists(b + "/EditorManagement.disabled"))
                 {
                     DownloadFile("https://github.com/RTMecha/EditorManagement/releases/latest/download/EditorManagement.zip", b, "EditorManagement.zip", true);
                 }
                 else if (!RTFile.FileExists(b + "/EditorManagement.dll") && RTFile.FileExists(b + "/EditorManagement.disabled") || RTFile.FileExists(b + "/EditorManagement.dll") && !RTFile.FileExists(b + "/EditorManagement.disabled"))
                 {
-                    bool enabled = MainWindow.Instance.EditorManagementEnabled != null && MainWindow.Instance.EditorManagementEnabled.IsChecked == false;
+                    bool enabled = MainWindow.Instance.InstanceEditorManagementEnabled != null && MainWindow.Instance.InstanceEditorManagementEnabled.IsChecked == false;
 
                     RTFile.MoveFile(enabled ? b + "/EditorManagement.dll" : b + "/EditorManagement.disabled", !enabled ? b + "/EditorManagement.dll" : b + "/EditorManagement.disabled");
                 }
@@ -1281,13 +1262,13 @@ namespace ProjectLauncher.Functions
 
                 #region EventsCore
 
-                if (MainWindow.Instance.EventsCoreEnabled != null && MainWindow.Instance.EventsCoreEnabled.IsChecked == true && !RTFile.FileExists(b + "/EventsCore.dll") && !RTFile.FileExists(b + "/EventsCore.disabled"))
+                if (MainWindow.Instance.InstanceEventsCoreEnabled != null && MainWindow.Instance.InstanceEventsCoreEnabled.IsChecked == true && !RTFile.FileExists(b + "/EventsCore.dll") && !RTFile.FileExists(b + "/EventsCore.disabled"))
                 {
                     DownloadFile("https://github.com/RTMecha/EventsCore/releases/latest/download/EventsCore.zip", b, "EventsCore.zip", true);
                 }
                 else if (!RTFile.FileExists(b + "/EventsCore.dll") && RTFile.FileExists(b + "/EventsCore.disabled") || RTFile.FileExists(b + "/EventsCore.dll") && !RTFile.FileExists(b + "/EventsCore.disabled"))
                 {
-                    bool enabled = MainWindow.Instance.EventsCoreEnabled != null && MainWindow.Instance.EventsCoreEnabled.IsChecked == false;
+                    bool enabled = MainWindow.Instance.InstanceEventsCoreEnabled != null && MainWindow.Instance.InstanceEventsCoreEnabled.IsChecked == false;
 
                     RTFile.MoveFile(enabled ? b + "/EventsCore.dll" : b + "/EventsCore.disabled", !enabled ? b + "/EventsCore.dll" : b + "/EventsCore.disabled");
                 }
@@ -1296,13 +1277,13 @@ namespace ProjectLauncher.Functions
                 
                 #region CreativePlayers
 
-                if (MainWindow.Instance.CreativePlayersEnabled != null && MainWindow.Instance.CreativePlayersEnabled.IsChecked == true && !RTFile.FileExists(b + "/CreativePlayers.dll") && !RTFile.FileExists(b + "/CreativePlayers.disabled"))
+                if (MainWindow.Instance.InstanceCreativePlayersEnabled != null && MainWindow.Instance.InstanceCreativePlayersEnabled.IsChecked == true && !RTFile.FileExists(b + "/CreativePlayers.dll") && !RTFile.FileExists(b + "/CreativePlayers.disabled"))
                 {
                     DownloadFile("https://github.com/RTMecha/CreativePlayers/releases/latest/download/CreativePlayers.zip", b, "CreativePlayers.zip", true);
                 }
                 else if (!RTFile.FileExists(b + "/CreativePlayers.dll") && RTFile.FileExists(b + "CreativePlayers.disabled") || RTFile.FileExists(b + "/CreativePlayers.dll") && !RTFile.FileExists(b + "/CreativePlayers.disabled"))
                 {
-                    bool enabled = MainWindow.Instance.CreativePlayersEnabled != null && MainWindow.Instance.CreativePlayersEnabled.IsChecked == false;
+                    bool enabled = MainWindow.Instance.InstanceCreativePlayersEnabled != null && MainWindow.Instance.InstanceCreativePlayersEnabled.IsChecked == false;
 
                     RTFile.MoveFile(enabled ? b + "/CreativePlayers.dll" : b + "/CreativePlayers.disabled", !enabled ? b + "/CreativePlayers.dll" : b + "/CreativePlayers.disabled");
                 }
@@ -1311,13 +1292,13 @@ namespace ProjectLauncher.Functions
 
                 #region ObjectModifiers
 
-                if (MainWindow.Instance.ObjectModifiersEnabled != null && MainWindow.Instance.ObjectModifiersEnabled.IsChecked == true && !RTFile.FileExists(b + "/ObjectModifiers.dll") && !RTFile.FileExists(b + "/ObjectModifiers.disabled"))
+                if (MainWindow.Instance.InstanceObjectModifiersEnabled != null && MainWindow.Instance.InstanceObjectModifiersEnabled.IsChecked == true && !RTFile.FileExists(b + "/ObjectModifiers.dll") && !RTFile.FileExists(b + "/ObjectModifiers.disabled"))
                 {
                     DownloadFile("https://github.com/RTMecha/ObjectModifiers/releases/latest/download/ObjectModifiers.zip", b, "ObjectModifiers.zip", true);
                 }
                 else if (!RTFile.FileExists(b + "/ObjectModifiers.dll") && RTFile.FileExists(b + "/ObjectModifiers.disabled") || RTFile.FileExists(b + "/ObjectModifiers.dll") && !RTFile.FileExists(b + "/ObjectModifiers.disabled"))
                 {
-                    bool enabled = MainWindow.Instance.ObjectModifiersEnabled != null && MainWindow.Instance.ObjectModifiersEnabled.IsChecked == false;
+                    bool enabled = MainWindow.Instance.InstanceObjectModifiersEnabled != null && MainWindow.Instance.InstanceObjectModifiersEnabled.IsChecked == false;
 
                     RTFile.MoveFile(enabled ? b + "/ObjectModifiers.dll" : b + "/ObjectModifiers.disabled", !enabled ? b + "/ObjectModifiers.dll" : b + "/ObjectModifiers.disabled");
                 }
@@ -1326,13 +1307,13 @@ namespace ProjectLauncher.Functions
 
                 #region ArcadiaCustoms
 
-                if (MainWindow.Instance.ArcadiaCustomsEnabled != null && MainWindow.Instance.ArcadiaCustomsEnabled.IsChecked == true && !RTFile.FileExists(b + "/ArcadiaCustoms.dll") && !RTFile.FileExists(b + "/ArcadiaCustoms.disabled"))
+                if (MainWindow.Instance.InstanceArcadiaCustomsEnabled != null && MainWindow.Instance.InstanceArcadiaCustomsEnabled.IsChecked == true && !RTFile.FileExists(b + "/ArcadiaCustoms.dll") && !RTFile.FileExists(b + "/ArcadiaCustoms.disabled"))
                 {
                     DownloadFile("https://github.com/RTMecha/ArcadiaCustoms/releases/latest/download/ArcadiaCustoms.zip", b, "ArcadiaCustoms.zip", true);
                 }
                 else if (!RTFile.FileExists(b + "/ArcadiaCustoms.dll") && RTFile.FileExists(b + "/ArcadiaCustoms.disabled") || RTFile.FileExists(b + "/ArcadiaCustoms.dll") && !RTFile.FileExists(b + "/ArcadiaCustoms.disabled"))
                 {
-                    bool enabled = MainWindow.Instance.ArcadiaCustomsEnabled != null && MainWindow.Instance.ArcadiaCustomsEnabled.IsChecked == false;
+                    bool enabled = MainWindow.Instance.InstanceArcadiaCustomsEnabled != null && MainWindow.Instance.InstanceArcadiaCustomsEnabled.IsChecked == false;
 
                     RTFile.MoveFile(enabled ? b + "/ArcadiaCustoms.dll" : b + "/ArcadiaCustoms.disabled", !enabled ? b + "/ArcadiaCustoms.dll" : b + "/ArcadiaCustoms.disabled");
                 }
@@ -1341,13 +1322,13 @@ namespace ProjectLauncher.Functions
 
                 #region PageCreator
 
-                if (MainWindow.Instance.PageCreatorEnabled != null && MainWindow.Instance.PageCreatorEnabled.IsChecked == true && !RTFile.FileExists(b + "/PageCreator.dll") && !RTFile.FileExists(b + "/PageCreator.disabled"))
+                if (MainWindow.Instance.InstancePageCreatorEnabled != null && MainWindow.Instance.InstancePageCreatorEnabled.IsChecked == true && !RTFile.FileExists(b + "/PageCreator.dll") && !RTFile.FileExists(b + "/PageCreator.disabled"))
                 {
                     DownloadFile("https://github.com/RTMecha/PageCreator/releases/latest/download/PageCreator.zip", b, "PageCreator.zip", true);
                 }
                 else if (!RTFile.FileExists(b + "/PageCreator.dll") && RTFile.FileExists(b + "/PageCreator.disabled") || RTFile.FileExists(b + "/PageCreator.dll") && !RTFile.FileExists(b + "/PageCreator.disabled"))
                 {
-                    bool enabled = MainWindow.Instance.PageCreatorEnabled != null && MainWindow.Instance.PageCreatorEnabled.IsChecked == false;
+                    bool enabled = MainWindow.Instance.InstancePageCreatorEnabled != null && MainWindow.Instance.InstancePageCreatorEnabled.IsChecked == false;
 
                     RTFile.MoveFile(enabled ? b + "/PageCreator.dll" : b + "/PageCreator.disabled", !enabled ? b + "/PageCreator.dll" : b + "/PageCreator.disabled");
                 }
@@ -1356,20 +1337,20 @@ namespace ProjectLauncher.Functions
 
                 #region ExampleCompanion
 
-                if (MainWindow.Instance.ExampleCompanionEnabled != null && MainWindow.Instance.ExampleCompanionEnabled.IsChecked == true && !RTFile.FileExists(b + "/ExampleCompanion.dll") && !RTFile.FileExists(b + "/ExampleCompanion.disabled"))
+                if (MainWindow.Instance.InstanceExampleCompanionEnabled != null && MainWindow.Instance.InstanceExampleCompanionEnabled.IsChecked == true && !RTFile.FileExists(b + "/ExampleCompanion.dll") && !RTFile.FileExists(b + "/ExampleCompanion.disabled"))
                 {
                     DownloadFile("https://github.com/RTMecha/ExampleCompanion/releases/latest/download/ExampleCompanion.zip", b, "ExampleCompanion.zip", true);
                 }
                 else if (!RTFile.FileExists(b + "/ExampleCompanion.dll") && RTFile.FileExists(b + "/ExampleCompanion.disabled") || RTFile.FileExists(b + "/ExampleCompanion.dll") && !RTFile.FileExists(b + "/ExampleCompanion.disabled"))
                 {
-                    bool enabled = MainWindow.Instance.ExampleCompanionEnabled != null && MainWindow.Instance.ExampleCompanionEnabled.IsChecked == false;
+                    bool enabled = MainWindow.Instance.InstanceExampleCompanionEnabled != null && MainWindow.Instance.InstanceExampleCompanionEnabled.IsChecked == false;
 
                     RTFile.MoveFile(enabled ? b + "/ExampleCompanion.dll" : b + "/ExampleCompanion.disabled", !enabled ? b + "/ExampleCompanion.dll" : b + "/ExampleCompanion.disabled");
                 }
 
                 #endregion
 
-                if (MainWindow.Instance.ConfigurationManagerEnabled != null && MainWindow.Instance.ConfigurationManagerEnabled.IsChecked == true
+                if (MainWindow.Instance.InstanceConfigurationManagerEnabled != null && MainWindow.Instance.InstanceConfigurationManagerEnabled.IsChecked == true
                     && !RTFile.DirectoryExists(b + "/ConfigurationManager"))
                 {
                     // Since the dll's are in sub-folders within the zip file, we have to handle them differently compared to the other mods.
@@ -1382,7 +1363,7 @@ namespace ProjectLauncher.Functions
                         RTFile.ZipUtil.UnZip(rt, rep);
                     }
                 }
-                else if (RTFile.DirectoryExists(b + "/ConfigurationManager") && MainWindow.Instance.ConfigurationManagerEnabled != null && MainWindow.Instance.ConfigurationManagerEnabled.IsChecked == false)
+                else if (RTFile.DirectoryExists(b + "/ConfigurationManager") && MainWindow.Instance.InstanceConfigurationManagerEnabled != null && MainWindow.Instance.InstanceConfigurationManagerEnabled.IsChecked == false)
                 {
                     try
                     {
@@ -1399,7 +1380,7 @@ namespace ProjectLauncher.Functions
                     }
                 }
 
-                if (MainWindow.Instance.UnityExplorerEnabled != null && MainWindow.Instance.UnityExplorerEnabled.IsChecked == true
+                if (MainWindow.Instance.InstanceUnityExplorerEnabled != null && MainWindow.Instance.InstanceUnityExplorerEnabled.IsChecked == true
                     && !RTFile.FileExists(b + "/sinai-dev-UnityExplorer/UnityExplorer.BIE5.Mono.dll"))
                 {
                     // Since the dll's are in sub-folders within the zip file, we have to handle them differently compared to the other mods.
@@ -1412,7 +1393,7 @@ namespace ProjectLauncher.Functions
                         RTFile.ZipUtil.UnZip(rt, rep);
                     }
                 }
-                else if (RTFile.FileExists(b + "/sinai-dev-UnityExplorer/UnityExplorer.BIE5.Mono.dll") && MainWindow.Instance.UnityExplorerEnabled != null && MainWindow.Instance.UnityExplorerEnabled.IsChecked == false)
+                else if (RTFile.FileExists(b + "/sinai-dev-UnityExplorer/UnityExplorer.BIE5.Mono.dll") && MainWindow.Instance.InstanceUnityExplorerEnabled != null && MainWindow.Instance.InstanceUnityExplorerEnabled.IsChecked == false)
                 {
                     try
                     {
@@ -1424,7 +1405,7 @@ namespace ProjectLauncher.Functions
                     }
                 }
 
-                if (MainWindow.Instance.EditorOnStartupEnabled != null && MainWindow.Instance.EditorOnStartupEnabled.IsChecked == true
+                if (MainWindow.Instance.InstanceEditorOnStartupEnabled != null && MainWindow.Instance.InstanceEditorOnStartupEnabled.IsChecked == true
                     && !RTFile.FileExists(b + "/EditorOnStartup.dll"))
                 {
                     var rt = b + "/EditorOnStartup.dll";
@@ -1433,7 +1414,7 @@ namespace ProjectLauncher.Functions
                         client.DownloadFile("https://cdn.discordapp.com/attachments/1092449110805725256/1092449111141257296/EditorOnStartup.dll", rt);
                     }
                 }
-                else if (RTFile.FileExists(b + "/EditorOnStartup.dll") && MainWindow.Instance.EditorOnStartupEnabled != null && MainWindow.Instance.EditorOnStartupEnabled.IsChecked == false)
+                else if (RTFile.FileExists(b + "/EditorOnStartup.dll") && MainWindow.Instance.InstanceEditorOnStartupEnabled != null && MainWindow.Instance.InstanceEditorOnStartupEnabled.IsChecked == false)
                 {
                     try
                     {
@@ -1452,9 +1433,9 @@ namespace ProjectLauncher.Functions
                 {
                     var str = "";
 
-                    for (int i = 0; i < LocalVersions.Count; i++)
+                    for (int i = 0; i < projectArrhythmia.LocalVersions.Count; i++)
                     {
-                        str += LocalVersions.ElementAt(i).Key + Environment.NewLine + LocalVersions.ElementAt(i).Value + Environment.NewLine;
+                        str += projectArrhythmia.LocalVersions.ElementAt(i).Key + Environment.NewLine + projectArrhythmia.LocalVersions.ElementAt(i).Value + Environment.NewLine;
                     }
 
                     RTFile.WriteToFile(projectArrhythmia.FolderPath + "settings/versions.lss", str);

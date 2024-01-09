@@ -102,30 +102,48 @@
                 </TabControl>
             </TabItem>
             <TabItem Header="Instances" Background="#776D67">
-                <ScrollViewer>
-                    <Grid Background="#211F1D" Height="406">
-                        <Viewbox Margin="60,309,400,39">
+                <ScrollViewer Margin="0,0,0,0">
+                    <Grid Background="#211F1D" Height="700">
+                        <Viewbox Margin="60,309,400,336">
                             <Button x:Name="LaunchInstance" Content="Launch" Click="LaunchInstance_Click" Width="122" Background="#E0B564"/>
                         </Viewbox>
-                        <Viewbox Margin="400,306,60,36">
+                        <Viewbox Margin="400,309,60,336">
                             <Button x:Name="UpdateInstance" Content="Update" Click="UpdateInstance_Click" Width="122" Background="#E0B564"/>
                         </Viewbox>
-                        <Viewbox x:Name="NewNameViewbox" Height="NaN" Margin="10,0,0,376" HorizontalAlignment="Left" Width="753">
-                            <TextBlock x:Name="NewNameLabel" TextWrapping="Wrap" FontSize="14" Text="New Name:" HorizontalAlignment="Center" Foreground="#E0B564"/>
+                        <Viewbox x:Name="NewNameViewbox" Height="NaN" Margin="10,8,0,661" HorizontalAlignment="Left" Width="763">
+                            <TextBlock x:Name="NewNameLabel" TextWrapping="Wrap" FontSize="11" Text="New Name:" HorizontalAlignment="Center" Foreground="#E0B564" Width="476"/>
                         </Viewbox>
-                        <Viewbox Height="NaN" Margin="10,34,10,334" Width="NaN">
-                            <TextBox x:Name="NewName" TextWrapping="Wrap" Text="PA Legacy" Width="380" Height="19" Background="#DDCCAD"/>
+                        <Viewbox Height="NaN" Margin="8,38,8,623" Width="NaN">
+                            <TextBox x:Name="NewName" TextWrapping="Wrap" Text="PA Legacy" Width="387" Height="19" Background="#DDCCAD"/>
                         </Viewbox>
-                        <ListBox x:Name="InstancesList" Background="#211F1D" SelectionChanged="InstancesList_SelectionChanged" Margin="10,114,10,143">
+                        <ListBox x:Name="InstancesList" Background="#211F1D" SelectionChanged="InstancesList_SelectionChanged" Margin="10,114,10,443">
 
                         </ListBox>
-                        <Viewbox Margin="0,271,0,99" HorizontalAlignment="Center" Width="755">
+                        <Viewbox Margin="0,249,0,394" HorizontalAlignment="Center" Width="755">
                             <TextBlock x:Name="CurrentInstanceProgress" TextWrapping="NoWrap" FontSize="16" Text="Current Progress" HorizontalAlignment="Center" Foreground="#E0B564"/>
                         </Viewbox>
-                        <Viewbox Height="NaN" Margin="10,76,10,292" Width="NaN">
+                        <Viewbox Height="NaN" Margin="10,76,10,582" Width="NaN">
                             <TextBox x:Name="SearchField" TextWrapping="NoWrap" Width="380" Height="19" Background="#2D2A27" Foreground="#DDCCAD" TextChanged="SearchField_TextChanged" MouseLeave="SearchField_MouseLeave" MouseEnter="SearchField_MouseEnter"/>
                         </Viewbox>
                         <TextBlock x:Name="T" TextWrapping="Wrap" FontSize="18" Text="Search for instances..." Opacity="0.4" Foreground="#DDCCAD" Margin="0,84,0,0" Width="737" HorizontalAlignment="Center" VerticalAlignment="Top" FontStyle="Italic" MouseEnter="T_MouseEnter"/>
+
+                        <ListBox x:Name="InstanceSettingsList" SelectionChanged="InstanceListBox_SelectionChanged" Background="#211F1D" Margin="0,369,0,-369">
+                            <Viewbox>
+                                <Button x:Name="InstanceResetToLocal" Content="Reset to Local Settings File." Click="InstanceResetToLocal_Click" Width="122" Background="#E0B564"/>
+                            </Viewbox>
+                            <CheckBox x:Name="InstanceCheckedAll" Content="All" Width="452" Checked="InstanceCheckedAll_Checked" Unchecked="InstanceCheckedAll_Unchecked" Foreground="#E0B564"/>
+                            <CheckBox x:Name="InstanceRTFunctionsEnabled" Content="RTFunctions" Width="452" Checked="InstanceRTFunctionsEnabled_Checked" Unchecked="InstanceRTFunctionsEnabled_Unchecked" Foreground="#E0B564"/>
+                            <CheckBox x:Name="InstanceEditorManagementEnabled" Content="EditorManagement" Width="452" Checked="InstanceEditorManagementEnabled_Checked" Unchecked="InstanceEditorManagementEnabled_Unchecked" Foreground="#E0B564"/>
+                            <CheckBox x:Name="InstanceEventsCoreEnabled" Content="EventsCore" Width="452" Checked="InstanceEventsCoreEnabled_Checked" Unchecked="InstanceEventsCoreEnabled_Unchecked" Foreground="#E0B564"/>
+                            <CheckBox x:Name="InstanceCreativePlayersEnabled" Content="CreativePlayers" Width="452" Checked="InstanceCreativePlayersEnabled_Checked" Unchecked="InstanceCreativePlayersEnabled_Unchecked" Foreground="#E0B564"/>
+                            <CheckBox x:Name="InstanceObjectModifiersEnabled" Content="ObjectModifiers" Width="452" Checked="InstanceObjectModifiersEnabled_Checked" Unchecked="InstanceObjectModifiersEnabled_Unchecked" Foreground="#E0B564"/>
+                            <CheckBox x:Name="InstanceArcadiaCustomsEnabled" Content="ArcadiaCustoms" Width="452" Checked="InstanceArcadiaCustomsEnabled_Checked" Unchecked="InstanceArcadiaCustomsEnabled_Unchecked" Foreground="#E0B564"/>
+                            <CheckBox x:Name="InstancePageCreatorEnabled" Content="PageCreator" Width="452" Checked="InstancePageCreatorEnabled_Checked" Unchecked="InstancePageCreatorEnabled_Unchecked" Foreground="#E0B564"/>
+                            <CheckBox x:Name="InstanceExampleCompanionEnabled" Content="ExampleCompanion" Width="452" Checked="InstanceExampleCompanionEnabled_Checked" Unchecked="InstanceExampleCompanionEnabled_Unchecked" Foreground="#E0B564"/>
+                            <CheckBox x:Name="InstanceConfigurationManagerEnabled" Content="ConfigurationManager" Width="452" Checked="InstanceConfigurationManagerEnabled_Checked" Unchecked="InstanceConfigurationManagerEnabled_Unchecked" Foreground="#E0B564"/>
+                            <CheckBox x:Name="InstanceUnityExplorerEnabled" Content="UnityExplorer" Width="452" Checked="InstanceUnityExplorerEnabled_Checked" Unchecked="InstanceUnityExplorerEnabled_Unchecked" Foreground="#E0B564"/>
+                            <CheckBox x:Name="InstanceEditorOnStartupEnabled" Content="EditorOnStartup" Width="452" Checked="InstanceEditorOnStartupEnabled_Checked" Unchecked="InstanceEditorOnStartupEnabled_Unchecked" Foreground="#E0B564"/>
+                        </ListBox>
                     </Grid>
                 </ScrollViewer>
             </TabItem>
