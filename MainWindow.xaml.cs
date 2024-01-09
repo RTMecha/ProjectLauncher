@@ -28,7 +28,7 @@ namespace ProjectLauncher
     {
         public static MainWindow? Instance { get; private set; }
 
-        public static string Version => "1.1.0";
+        public static string Version => "1.1.1";
 
         public static int MaxUpdateNotesLines => 134;
 
@@ -151,7 +151,8 @@ namespace ProjectLauncher
                     {
                         var textBlock = new TextBlock();
                         textBlock.Text = list[i];
-                        textBlock.Background = new SolidColorBrush(Color.FromRgb(224, 181, 100));
+                        textBlock.Background = new SolidColorBrush(RTColor.FromHex("211F1D").SystemColor);
+                        textBlock.Foreground = new SolidColorBrush(RTColor.FromHex("E0B564").SystemColor);
                         RTFunctionsUpdates.Items.Add(textBlock);
                     }
                 }
@@ -166,7 +167,8 @@ namespace ProjectLauncher
                     {
                         var textBlock = new TextBlock();
                         textBlock.Text = list[i];
-                        textBlock.Background = new SolidColorBrush(Color.FromRgb(224, 181, 100));
+                        textBlock.Background = new SolidColorBrush(RTColor.FromHex("211F1D").SystemColor);
+                        textBlock.Foreground = new SolidColorBrush(RTColor.FromHex("E0B564").SystemColor);
                         EditorManagementUpdates.Items.Add(textBlock);
                     }
                 }
@@ -183,7 +185,8 @@ namespace ProjectLauncher
                         {
                             var textBlock = new TextBlock();
                             textBlock.Text = list[i];
-                            textBlock.Background = new SolidColorBrush(Color.FromRgb(224, 181, 100));
+                            textBlock.Background = new SolidColorBrush(RTColor.FromHex("211F1D").SystemColor);
+                            textBlock.Foreground = new SolidColorBrush(RTColor.FromHex("E0B564").SystemColor);
                             EventsCoreUpdates.Items.Add(textBlock);
                         }
                     }
@@ -191,7 +194,7 @@ namespace ProjectLauncher
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"EventsCore Update Notes Exception. {ex}");
+                    Debug.WriteLine($"EventsCore Update Notes Exception. {ex}");
                 }
 
                 try
@@ -206,14 +209,15 @@ namespace ProjectLauncher
                         {
                             var textBlock = new TextBlock();
                             textBlock.Text = list[i];
-                            textBlock.Background = new SolidColorBrush(Color.FromRgb(224, 181, 100));
+                            textBlock.Background = new SolidColorBrush(RTColor.FromHex("211F1D").SystemColor);
+                            textBlock.Foreground = new SolidColorBrush(RTColor.FromHex("E0B564").SystemColor);
                             CreativePlayersUpdates.Items.Add(textBlock);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"CreativePlayers Update Notes Exception. {ex}");
+                    Debug.WriteLine($"CreativePlayers Update Notes Exception. {ex}");
                 }
 
                 try
@@ -228,14 +232,15 @@ namespace ProjectLauncher
                         {
                             var textBlock = new TextBlock();
                             textBlock.Text = list[i];
-                            textBlock.Background = new SolidColorBrush(Color.FromRgb(224, 181, 100));
+                            textBlock.Background = new SolidColorBrush(RTColor.FromHex("211F1D").SystemColor);
+                            textBlock.Foreground = new SolidColorBrush(RTColor.FromHex("E0B564").SystemColor);
                             ObjectModifiersUpdates.Items.Add(textBlock);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"ObjectModifiers Update Notes Exception. {ex}");
+                    Debug.WriteLine($"ObjectModifiers Update Notes Exception. {ex}");
                 }
 
                 try
@@ -250,14 +255,15 @@ namespace ProjectLauncher
                         {
                             var textBlock = new TextBlock();
                             textBlock.Text = list[i];
-                            textBlock.Background = new SolidColorBrush(Color.FromRgb(224, 181, 100));
+                            textBlock.Background = new SolidColorBrush(RTColor.FromHex("211F1D").SystemColor);
+                            textBlock.Foreground = new SolidColorBrush(RTColor.FromHex("E0B564").SystemColor);
                             ArcadiaCustomsUpdates.Items.Add(textBlock);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"ArcadiaCustoms Update Notes Exception. {ex}");
+                    Debug.WriteLine($"ArcadiaCustoms Update Notes Exception. {ex}");
                 }
 
                 try
@@ -272,14 +278,15 @@ namespace ProjectLauncher
                         {
                             var textBlock = new TextBlock();
                             textBlock.Text = list[i];
-                            textBlock.Background = new SolidColorBrush(Color.FromRgb(224, 181, 100));
+                            textBlock.Background = new SolidColorBrush(RTColor.FromHex("211F1D").SystemColor);
+                            textBlock.Foreground = new SolidColorBrush(RTColor.FromHex("E0B564").SystemColor);
                             PageCreatorUpdates.Items.Add(textBlock);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"PageCreator Update Notes Exception. {ex}");
+                    Debug.WriteLine($"PageCreator Update Notes Exception. {ex}");
                 }
 
                 try
@@ -294,14 +301,15 @@ namespace ProjectLauncher
                         {
                             var textBlock = new TextBlock();
                             textBlock.Text = list[i];
-                            textBlock.Background = new SolidColorBrush(Color.FromRgb(224, 181, 100));
+                            textBlock.Background = new SolidColorBrush(RTColor.FromHex("211F1D").SystemColor);
+                            textBlock.Foreground = new SolidColorBrush(RTColor.FromHex("E0B564").SystemColor);
                             ExampleCompanionUpdates.Items.Add(textBlock);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"ExampleCompanion Update Notes Exception. {ex}");
+                    Debug.WriteLine($"ExampleCompanion Update Notes Exception. {ex}");
                 }
             }
 
@@ -379,18 +387,18 @@ namespace ProjectLauncher
 
         public void LoadUI()
         {
-            var doCreateNew = RTFile.DirectoryExists(RTFile.ApplicationDirectory + "PA Legacy - Pure");
+            var doCreateNew = RTFile.DirectoryExists(PathField.Text);
 
             if (NewNameLabel != null)
                 NewNameLabel.Text = doCreateNew ? "New Name:" :
-                    "New Name: (requires an unmodded copy of Project Arrhythmia in the ProjectLauncher app folder called \"PA Legacy - Pure\")";
+                    "New Name: (requires app path to be set to an existing copy of Project Arrhythmia)";
 
             InstancesList.Items.Clear();
 
             if (doCreateNew)
             {
                 var createNew = new Button();
-                createNew.Background = new SolidColorBrush(RTColor.FromHex("E0B564").FormsColor);
+                createNew.Background = new SolidColorBrush(RTColor.FromHex("E0B564").SystemColor);
                 createNew.Content = "Create New Instance";
                 createNew.Name = "CreateNew";
                 createNew.Width = 727;
@@ -404,8 +412,8 @@ namespace ProjectLauncher
                 if (SearchField == null || string.IsNullOrEmpty(SearchField.Text) || instance.Name.ToLower().Contains(SearchField.Text.ToLower()))
                 {
                     var button = new Button();
-                    button.Background = new SolidColorBrush(RTColor.Transparent.FormsColor);
-                    button.Foreground = new SolidColorBrush(RTColor.FromHex("FFCCA5").FormsColor);
+                    button.Background = new SolidColorBrush(RTColor.Transparent.SystemColor);
+                    button.Foreground = new SolidColorBrush(RTColor.FromHex("FFCCA5").SystemColor);
                     button.Content = instance.Name;
                     button.Click += Instance_Checked;
                     button.Width = 727;
@@ -427,12 +435,12 @@ namespace ProjectLauncher
                 Directory.CreateDirectory($"{RTFile.ApplicationDirectory}/instances");
 
             Debug.WriteLine($"Create new clicked with New Name set as {NewName.Text}");
-            if (RTFile.DirectoryExists(RTFile.ApplicationDirectory + "PA Legacy - Pure"))
+            if (RTFile.DirectoryExists(PathField.Text))
             {
                 creating = true;
 
                 Debug.WriteLine($"Getting directories...");
-                var allDirectories = Directory.GetDirectories(RTFile.ApplicationDirectory + "PA Legacy - Pure", "*", SearchOption.AllDirectories);
+                var allDirectories = Directory.GetDirectories(PathField.Text, "*", SearchOption.AllDirectories);
 
                 string s = RTFile.ApplicationDirectory + "instances/" + NewName.Text;
                 int num = 0;
@@ -456,20 +464,20 @@ namespace ProjectLauncher
                 {
                     if (!dir.Contains("beatmaps"))
                     {
-                        string dirToCreate = dir.Replace(RTFile.ApplicationDirectory + "PA Legacy - Pure", s);
+                        string dirToCreate = dir.Replace(PathField.Text, s);
                         Directory.CreateDirectory(dirToCreate);
                     }
                 }
 
                 Debug.WriteLine($"Getting files...");
-                var allFiles = Directory.GetFiles(RTFile.ApplicationDirectory + "PA Legacy - Pure", "*.*", SearchOption.AllDirectories);
+                var allFiles = Directory.GetFiles(PathField.Text, "*.*", SearchOption.AllDirectories);
 
                 Debug.WriteLine($"Copying files to new location {s}...");
                 foreach (string newFile in allFiles)
                 {
                     if (!newFile.Contains("beatmaps"))
                     {
-                        File.Copy(newFile, newFile.Replace(RTFile.ApplicationDirectory + "PA Legacy - Pure", s));
+                        File.Copy(newFile, newFile.Replace(PathField.Text, s));
                     }
                 }
 
@@ -507,7 +515,7 @@ namespace ProjectLauncher
 
         void SetSelected()
         {
-            int num = RTFile.DirectoryExists(RTFile.ApplicationDirectory + "PA Legacy - Pure") ? 1 : 0;
+            int num = RTFile.DirectoryExists(PathField.Text) ? 1 : 0;
             //foreach (var instance in Instances)
             //{
             //    if (InstancesList.Items.Count > num && InstancesList.Items[num] == InstancesList.SelectedItem)
