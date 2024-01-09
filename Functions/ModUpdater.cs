@@ -753,6 +753,8 @@ namespace ProjectLauncher.Functions
             {
                 MainWindow.Instance.DebugLogger.Text = $"Updating mods, please wait...";
 
+                Debug.WriteLine(projectArrhythmia.FolderPath);
+
                 projectArrhythmia.SaveSettings();
 
                 var a = projectArrhythmia.FolderPath;
@@ -851,12 +853,16 @@ namespace ProjectLauncher.Functions
                 #region RTFunctions
 
                 if (MainWindow.Instance.RTFunctionsEnabled != null && MainWindow.Instance.RTFunctionsEnabled.IsChecked == true
-                    && (!RTFile.FileExists(b + "/RTFunctions.dll") ||
-                    OnlineVersions["RTFunctions"] != LocalVersions["RTFunctions"]))
+                    && (OnlineVersions["RTFunctions"] != LocalVersions["RTFunctions"]))
                 {
                     if (RTFile.FileExists(b + "/RTFunctions.disabled"))
                     {
                         File.Delete(b + "/RTFunctions.disabled");
+                    }
+                    
+                    if (RTFile.FileExists(b + "/RTFunctions.dll"))
+                    {
+                        File.Delete(b + "/RTFunctions.dll");
                     }
 
                     DownloadFile("https://github.com/RTMecha/RTFunctions/releases/latest/download/RTFunctions.zip", b, "RTFunctions.zip");
@@ -874,12 +880,16 @@ namespace ProjectLauncher.Functions
                 #region EditorManagement
 
                 if (MainWindow.Instance.EditorManagementEnabled != null && MainWindow.Instance.EditorManagementEnabled.IsChecked == true
-                    && (!RTFile.FileExists(b + "/EditorManagement.dll") ||
-                    OnlineVersions["EditorManagement"] != LocalVersions["EditorManagement"]))
+                    && (OnlineVersions["EditorManagement"] != LocalVersions["EditorManagement"]))
                 {
                     if (RTFile.FileExists(b + "/EditorManagement.disabled"))
                     {
                         File.Delete(b + "/EditorManagement.disabled");
+                    }
+
+                    if (RTFile.FileExists(b + "/EditorManagement.dll"))
+                    {
+                        File.Delete(b + "/EditorManagement.dll");
                     }
 
                     DownloadFile("https://github.com/RTMecha/EditorManagement/releases/latest/download/EditorManagement.zip", b, "EditorManagement.zip");
@@ -897,12 +907,16 @@ namespace ProjectLauncher.Functions
                 #region EventsCore
 
                 if (MainWindow.Instance.EventsCoreEnabled != null && MainWindow.Instance.EventsCoreEnabled.IsChecked == true
-                    && (!RTFile.FileExists(b + "/EventsCore.dll") ||
-                    OnlineVersions["EventsCore"] != LocalVersions["EventsCore"]))
+                    && (OnlineVersions["EventsCore"] != LocalVersions["EventsCore"]))
                 {
                     if (RTFile.FileExists(b + "/EventsCore.disabled"))
                     {
                         File.Delete(b + "/EventsCore.disabled");
+                    }
+
+                    if (RTFile.FileExists(b + "/EventsCore.dll"))
+                    {
+                        File.Delete(b + "/EventsCore.dll");
                     }
 
                     DownloadFile("https://github.com/RTMecha/EventsCore/releases/latest/download/EventsCore.zip", b, "EventsCore.zip");
@@ -920,12 +934,16 @@ namespace ProjectLauncher.Functions
                 #region CreativePlayers
 
                 if (MainWindow.Instance.CreativePlayersEnabled != null && MainWindow.Instance.CreativePlayersEnabled.IsChecked == true
-                    && (!RTFile.FileExists(b + "/CreativePlayers.dll") ||
-                    OnlineVersions["CreativePlayers"] != LocalVersions["CreativePlayers"]))
+                    && (OnlineVersions["CreativePlayers"] != LocalVersions["CreativePlayers"]))
                 {
                     if (RTFile.FileExists(b + "/CreativePlayers.disabled"))
                     {
                         File.Delete(b + "/CreativePlayers.disabled");
+                    }
+
+                    if (RTFile.FileExists(b + "/CreativePlayers.dll"))
+                    {
+                        File.Delete(b + "/CreativePlayers.dll");
                     }
 
                     DownloadFile("https://github.com/RTMecha/CreativePlayers/releases/latest/download/CreativePlayers.zip", b, "CreativePlayers.zip");
@@ -943,12 +961,16 @@ namespace ProjectLauncher.Functions
                 #region ObjectModifiers
 
                 if (MainWindow.Instance.ObjectModifiersEnabled != null && MainWindow.Instance.ObjectModifiersEnabled.IsChecked == true
-                    && (!RTFile.FileExists(b + "/ObjectModifiers.dll") ||
-                    OnlineVersions["ObjectModifiers"] != LocalVersions["ObjectModifiers"]))
+                    && (OnlineVersions["ObjectModifiers"] != LocalVersions["ObjectModifiers"]))
                 {
                     if (RTFile.FileExists(b + "/ObjectModifiers.disabled"))
                     {
                         File.Delete(b + "/ObjectModifiers.disabled");
+                    }
+
+                    if (RTFile.FileExists(b + "/ObjectModifiers.dll"))
+                    {
+                        File.Delete(b + "/ObjectModifiers.dll");
                     }
 
                     DownloadFile("https://github.com/RTMecha/ObjectModifiers/releases/latest/download/ObjectModifiers.zip", b, "ObjectModifiers.zip");
@@ -966,12 +988,16 @@ namespace ProjectLauncher.Functions
                 #region ArcadiaCustoms
 
                 if (MainWindow.Instance.ArcadiaCustomsEnabled != null && MainWindow.Instance.ArcadiaCustomsEnabled.IsChecked == true
-                    && (!RTFile.FileExists(b + "/ArcadiaCustoms.dll") ||
-                    OnlineVersions["ArcadiaCustoms"] != LocalVersions["ArcadiaCustoms"]))
+                    && (OnlineVersions["ArcadiaCustoms"] != LocalVersions["ArcadiaCustoms"]))
                 {
                     if (RTFile.FileExists(b + "/ArcadiaCustoms.disabled"))
                     {
                         File.Delete(b + "/ArcadiaCustoms.disabled");
+                    }
+
+                    if (RTFile.FileExists(b + "/ArcadiaCustoms.dll"))
+                    {
+                        File.Delete(b + "/ArcadiaCustoms.dll");
                     }
 
                     DownloadFile("https://github.com/RTMecha/ArcadiaCustoms/releases/latest/download/ArcadiaCustoms.zip", b, "ArcadiaCustoms.zip");
@@ -989,12 +1015,16 @@ namespace ProjectLauncher.Functions
                 #region PageCreator
 
                 if (MainWindow.Instance.PageCreatorEnabled != null && MainWindow.Instance.PageCreatorEnabled.IsChecked == true
-                    && (!RTFile.FileExists(b + "/PageCreator.dll") ||
-                    OnlineVersions["PageCreator"] != LocalVersions["PageCreator"]))
+                    && (OnlineVersions["PageCreator"] != LocalVersions["PageCreator"]))
                 {
                     if (RTFile.FileExists(b + "/PageCreator.disabled"))
                     {
                         File.Delete(b + "/PageCreator.disabled");
+                    }
+
+                    if (RTFile.FileExists(b + "/PageCreator.dll"))
+                    {
+                        File.Delete(b + "/PageCreator.dll");
                     }
 
                     DownloadFile("https://github.com/RTMecha/PageCreator/releases/latest/download/PageCreator.zip", b, "PageCreator.zip");
@@ -1012,12 +1042,16 @@ namespace ProjectLauncher.Functions
                 #region ExampleCompanion
 
                 if (MainWindow.Instance.ExampleCompanionEnabled != null && MainWindow.Instance.ExampleCompanionEnabled.IsChecked == true
-                    && (!RTFile.FileExists(b + "/ExampleCompanion.dll") ||
-                    OnlineVersions["ExampleCompanion"] != LocalVersions["ExampleCompanion"]))
+                    && (OnlineVersions["ExampleCompanion"] != LocalVersions["ExampleCompanion"]))
                 {
                     if (RTFile.FileExists(b + "/ExampleCompanion.disabled"))
                     {
                         File.Delete(b + "/ExampleCompanion.disabled");
+                    }
+
+                    if (RTFile.FileExists(b + "/ExampleCompanion.dll"))
+                    {
+                        File.Delete(b + "/ExampleCompanion.dll");
                     }
 
                     DownloadFile("https://github.com/RTMecha/ExampleCompanion/releases/latest/download/ExampleCompanion.zip", b, "ExampleCompanion.zip");
@@ -1139,7 +1173,7 @@ namespace ProjectLauncher.Functions
         {
             if (MainWindow.Instance != null)
             {
-                MainWindow.Instance.DebugLogger.Text = $"Start opening the game, please wait...";
+                MainWindow.Instance.CurrentInstanceProgress.Text = $"Start opening the game, please wait...";
 
                 projectArrhythmia.SaveSettings();
 
