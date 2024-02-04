@@ -162,23 +162,80 @@
                         <Viewbox Margin="0,53,0,593">
                             <TextBlock Text="Welcome to the Project Launcher!" Foreground="#E0B564"/>
                         </Viewbox>
-                        <Viewbox Margin="10,149,10,510">
+                        <Viewbox Margin="10,107,10,552">
                             <TextBlock Text="To launch from a singular instance of Project Arrhythmia, go to the Play tab," Foreground="#E0B564"/>
                         </Viewbox>
-                        <Viewbox Margin="10,179,10,480">
+                        <Viewbox Margin="10,132,10,528">
                             <TextBlock Text="and set the App path to where you have a copy of Project Arrhythmia Legacy." Foreground="#E0B564"/>
                         </Viewbox>
-                        <Viewbox Margin="10,207,10,452">
+                        <Viewbox Margin="10,160,10,499">
                             <TextBlock Text="Now you can launch the game and you can press update whenever there's an update." Foreground="#E0B564"/>
                         </Viewbox>
-                        <Viewbox Margin="10,281,10,388">
+                        <Viewbox Margin="10,218,10,443">
                             <TextBlock Text="To modify what mods you have installed for that instance, go to the Settings tab." Foreground="#E0B564"/>
                         </Viewbox>
-                        <Viewbox Margin="10,338,10,338">
+                        <Viewbox Margin="10,285,10,377">
                             <TextBlock Text="If you want multiple instances of Project Arrhythmia (aka different workspaces for different needs)," Foreground="#E0B564"/>
                         </Viewbox>
-                        <Viewbox Margin="10,355,10,321">
+                        <Viewbox Margin="10,304,10,359">
                             <TextBlock Text="you can navigate to the Instances tab to create, modify and load instances of Project Arrhythmia." Foreground="#E0B564"/>
+                        </Viewbox>
+                    </Grid>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="Mod Info" Background="#776D67">
+                <ScrollViewer Margin="0,0,0,0">
+                    <Grid Background="#211F1D" Height="700">
+                        <Viewbox Margin="10,10,0,660" HorizontalAlignment="Left" Width="180">
+                            <TextBlock Text="Mod info:" Foreground="#E0B564"/>
+                        </Viewbox>
+                        <Viewbox Margin="10,38,10,624" HorizontalAlignment="Left">
+                            <TextBlock Text="- RTFunctions -" Foreground="#E0B564"/>
+                        </Viewbox>
+                        <Viewbox Margin="10,81,0,561" HorizontalAlignment="Left" Width="749">
+                            <TextBlock Text="Adds loads of fixes, optimizations and features to the base of Project Arrhythmia. Acts as a core mod for others, so you will need this installed for others to work." TextWrapping="Wrap" Foreground="#E0B564" Width="777" Height="46"/>
+                        </Viewbox>
+                        <Viewbox Margin="10,132,0,530" HorizontalAlignment="Left" Width="767">
+                            <TextBlock Text="- EditorManagement -" Foreground="#E0B564"/>
+                        </Viewbox>
+                        <Viewbox Margin="10,168,0,474" HorizontalAlignment="Left" Width="749">
+                            <TextBlock Text="Complete rework of the Legacy editor code with a ton of new features, fixes and optimizations such as undo / redo working deleting objects, selection fixes and optimizations and wayyy more. This mod is required for other mods to work in the editor." TextWrapping="Wrap" Foreground="#E0B564" Width="777" Height="46"/>
+                        </Viewbox>
+                        <Viewbox Margin="10,224,0,438" HorizontalAlignment="Left" Width="767">
+                            <TextBlock Text="- EventsCore -" Foreground="#E0B564"/>
+                        </Viewbox>
+                        <Viewbox Margin="10,260,0,382" HorizontalAlignment="Left" Width="749">
+                            <TextBlock Text="Adds a lot of new effects and event keyframes to levels, including some from modern Project Arrhythmia. (Advanced Color Grading, Game Timeline movement, Camera Following Player, audio pitch, etc.)" TextWrapping="Wrap" Foreground="#E0B564" Width="777" Height="46"/>
+                        </Viewbox>
+                        <Viewbox Margin="10,311,0,351" HorizontalAlignment="Left" Width="767">
+                            <TextBlock Text="- CreativePlayers -" Foreground="#E0B564"/>
+                        </Viewbox>
+                        <Viewbox Margin="10,347,0,295" HorizontalAlignment="Left" Width="749">
+                            <TextBlock Text="Makes it possible to customize the model of the Player. This mod doesn't have any data on its own and only acts as an option for if you want custom models or not." TextWrapping="Wrap" Foreground="#E0B564" Width="777" Height="46"/>
+                        </Viewbox>
+                        <Viewbox Margin="10,403,0,259" HorizontalAlignment="Left" Width="767">
+                            <TextBlock Text="- ObjectModifiers -" Foreground="#E0B564"/>
+                        </Viewbox>
+                        <Viewbox Margin="10,439,0,203" HorizontalAlignment="Left" Width="749">
+                            <TextBlock Text="Allows you to create incredibly advanced and dynamic levels. ObjectModifiers adds modifiers to the regular objects you use to create levels with. These modifiers have different functions depending on their name and type. There are two types of modifiers, that being Trigger and Action. Trigger modifiers check if something is happening and if it is, it'll activate all Action modifiers in the objects modifier list. If there are no modifiers, all Action modifiers will activate anyway." TextWrapping="Wrap" Foreground="#E0B564" Width="777" Height="46"/>
+                        </Viewbox>
+                        <Viewbox Margin="10,490,0,172" HorizontalAlignment="Left" Width="767">
+                            <TextBlock Text="- ArcadiaCustoms -" Foreground="#E0B564"/>
+                        </Viewbox>
+                        <Viewbox Margin="10,521,0,121" HorizontalAlignment="Left" Width="749">
+                            <TextBlock Text="Play modded and local non-Steam levels in the arcade." TextWrapping="Wrap" Foreground="#E0B564" Width="777" Height="46"/>
+                        </Viewbox>
+                        <Viewbox Margin="10,553,0,109" HorizontalAlignment="Left" Width="767">
+                            <TextBlock Text="- PageCreator -" Foreground="#E0B564"/>
+                        </Viewbox>
+                        <Viewbox Margin="10,589,0,53" HorizontalAlignment="Left" Width="749">
+                            <TextBlock Text="Customize the menus of Project Arrhythmia, and even write your own story mode." TextWrapping="Wrap" Foreground="#E0B564" Width="777" Height="46"/>
+                        </Viewbox>
+                        <Viewbox Margin="10,616,0,46" HorizontalAlignment="Left" Width="767">
+                            <TextBlock Text="- ExampleCompanion -" Foreground="#E0B564"/>
+                        </Viewbox>
+                        <Viewbox Margin="10,647,0,-5" HorizontalAlignment="Left" Width="749">
+                            <TextBlock Text="Adds a little friend to accompany you on your Project Arrhythmia journey." TextWrapping="Wrap" Foreground="#E0B564" Width="777" Height="46"/>
                         </Viewbox>
                     </Grid>
                 </ScrollViewer>
