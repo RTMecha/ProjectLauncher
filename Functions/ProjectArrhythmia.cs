@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -60,7 +61,7 @@ namespace ProjectLauncher.Functions
             }
         }
 
-        public void SaveSettings()
+        public async void SaveSettings()
         {
             string str = "";
 
@@ -83,136 +84,151 @@ namespace ProjectLauncher.Functions
             if (RTFile.DirectoryExists(FolderPath + "settings"))
                 Directory.CreateDirectory(FolderPath + "settings");
 
-            RTFile.WriteToFile(FolderPath + "settings/mod_settings.lss", str);
+            await File.WriteAllTextAsync(FolderPath + "settings/mod_settings.lss", str);
         }
 
-        public void LoadSettings()
+        public async void LoadSettings()
         {
-            if (MainWindow.Instance == null)
-                return;
-
-            if (RTFile.FileExists(FolderPath + "settings/mod_settings.lss"))
+            if (MainWindow.Instance != null)
             {
-                var settings = RTFile.ReadFromFile(FolderPath + "settings/mod_settings.lss");
-
-                if (!string.IsNullOrEmpty(settings))
+                if (RTFile.FileExists(FolderPath + "settings/mod_settings.lss"))
                 {
-                    var list = settings.Split(new string[] { "\n", "\r\n", "\r" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                    var settings = await File.ReadAllTextAsync(FolderPath + "settings/mod_settings.lss");
 
-                    for (int i = 0; i < list.Count; i++)
+                    if (!string.IsNullOrEmpty(settings))
                     {
-                        switch (list[i])
+                        var list = settings.Split(new string[] { "\n", "\r\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
+
+                        for (int i = 0; i < list.Length; i++)
                         {
-                            case "All":
-                                {
-                                    if (list.Count > i + 1 && bool.TryParse(list[i + 1], out var value))
-                                        MainWindow.Instance.InstanceCheckedAll.IsChecked = value;
-                                    break;
-                                }
-                            case "RTFunctions":
-                                {
-                                    if (list.Count > i + 1 && bool.TryParse(list[i + 1], out var value))
-                                        MainWindow.Instance.InstanceRTFunctionsEnabled.IsChecked = value;
-                                    break;
-                                }
-                            case "EditorManagement":
-                                {
-                                    if (list.Count > i + 1 && bool.TryParse(list[i + 1], out var value))
-                                        MainWindow.Instance.InstanceEditorManagementEnabled.IsChecked = value;
-                                    break;
-                                }
-                            case "EventsCore":
-                                {
-                                    if (list.Count > i + 1 && bool.TryParse(list[i + 1], out var value))
-                                        MainWindow.Instance.InstanceEventsCoreEnabled.IsChecked = value;
-                                    break;
-                                }
-                            case "CreativePlayers":
-                                {
-                                    if (list.Count > i + 1 && bool.TryParse(list[i + 1], out var value))
-                                        MainWindow.Instance.InstanceCreativePlayersEnabled.IsChecked = value;
-                                    break;
-                                }
-                            case "ObjectModifiers":
-                                {
-                                    if (list.Count > i + 1 && bool.TryParse(list[i + 1], out var value))
-                                        MainWindow.Instance.InstanceObjectModifiersEnabled.IsChecked = value;
-                                    break;
-                                }
-                            case "ArcadiaCustoms":
-                                {
-                                    if (list.Count > i + 1 && bool.TryParse(list[i + 1], out var value))
-                                        MainWindow.Instance.InstanceArcadiaCustomsEnabled.IsChecked = value;
-                                    break;
-                                }
-                            case "PageCreator":
-                                {
-                                    if (list.Count > i + 1 && bool.TryParse(list[i + 1], out var value))
-                                        MainWindow.Instance.InstancePageCreatorEnabled.IsChecked = value;
-                                    break;
-                                }
-                            case "ExampleCompanion":
-                                {
-                                    if (list.Count > i + 1 && bool.TryParse(list[i + 1], out var value))
-                                        MainWindow.Instance.InstanceExampleCompanionEnabled.IsChecked = value;
-                                    break;
-                                }
-                            case "ConfigurationManager":
-                                {
-                                    if (list.Count > i + 1 && bool.TryParse(list[i + 1], out var value))
-                                        MainWindow.Instance.InstanceConfigurationManagerEnabled.IsChecked = value;
-                                    break;
-                                }
-                            case "UnityExplorer":
-                                {
-                                    if (list.Count > i + 1 && bool.TryParse(list[i + 1], out var value))
-                                        MainWindow.Instance.InstanceUnityExplorerEnabled.IsChecked = value;
-                                    break;
-                                }
-                            case "EditorOnStartup":
-                                {
-                                    if (list.Count > i + 1 && bool.TryParse(list[i + 1], out var value))
-                                        MainWindow.Instance.InstanceEditorOnStartupEnabled.IsChecked = value;
-                                    break;
-                                }
+                            switch (list[i])
+                            {
+                                case "All":
+                                    {
+                                        if (list.Length > i + 1 && bool.TryParse(list[i + 1], out var value))
+                                            MainWindow.Instance.InstanceCheckedAll.IsChecked = value;
+                                        break;
+                                    }
+                                case "RTFunctions":
+                                    {
+                                        if (list.Length > i + 1 && bool.TryParse(list[i + 1], out var value))
+                                            MainWindow.Instance.InstanceRTFunctionsEnabled.IsChecked = value;
+                                        break;
+                                    }
+                                case "EditorManagement":
+                                    {
+                                        if (list.Length > i + 1 && bool.TryParse(list[i + 1], out var value))
+                                            MainWindow.Instance.InstanceEditorManagementEnabled.IsChecked = value;
+                                        break;
+                                    }
+                                case "EventsCore":
+                                    {
+                                        if (list.Length > i + 1 && bool.TryParse(list[i + 1], out var value))
+                                            MainWindow.Instance.InstanceEventsCoreEnabled.IsChecked = value;
+                                        break;
+                                    }
+                                case "CreativePlayers":
+                                    {
+                                        if (list.Length > i + 1 && bool.TryParse(list[i + 1], out var value))
+                                            MainWindow.Instance.InstanceCreativePlayersEnabled.IsChecked = value;
+                                        break;
+                                    }
+                                case "ObjectModifiers":
+                                    {
+                                        if (list.Length > i + 1 && bool.TryParse(list[i + 1], out var value))
+                                            MainWindow.Instance.InstanceObjectModifiersEnabled.IsChecked = value;
+                                        break;
+                                    }
+                                case "ArcadiaCustoms":
+                                    {
+                                        if (list.Length > i + 1 && bool.TryParse(list[i + 1], out var value))
+                                            MainWindow.Instance.InstanceArcadiaCustomsEnabled.IsChecked = value;
+                                        break;
+                                    }
+                                case "PageCreator":
+                                    {
+                                        if (list.Length > i + 1 && bool.TryParse(list[i + 1], out var value))
+                                            MainWindow.Instance.InstancePageCreatorEnabled.IsChecked = value;
+                                        break;
+                                    }
+                                case "ExampleCompanion":
+                                    {
+                                        if (list.Length > i + 1 && bool.TryParse(list[i + 1], out var value))
+                                            MainWindow.Instance.InstanceExampleCompanionEnabled.IsChecked = value;
+                                        break;
+                                    }
+                                case "ConfigurationManager":
+                                    {
+                                        if (list.Length > i + 1 && bool.TryParse(list[i + 1], out var value))
+                                            MainWindow.Instance.InstanceConfigurationManagerEnabled.IsChecked = value;
+                                        break;
+                                    }
+                                case "UnityExplorer":
+                                    {
+                                        if (list.Length > i + 1 && bool.TryParse(list[i + 1], out var value))
+                                            MainWindow.Instance.InstanceUnityExplorerEnabled.IsChecked = value;
+                                        break;
+                                    }
+                                case "EditorOnStartup":
+                                    {
+                                        if (list.Length > i + 1 && bool.TryParse(list[i + 1], out var value))
+                                            MainWindow.Instance.InstanceEditorOnStartupEnabled.IsChecked = value;
+                                        break;
+                                    }
+                            }
                         }
                     }
                 }
+                else
+                {
+                    MainWindow.Instance.InstanceCheckedAll.IsChecked = false;
+                }
+
+                await LoadVersions();
             }
 
-            LoadVersions();
         }
 
-        public void LoadVersions()
+        public async Task LoadVersions()
         {
             if (MainWindow.Instance == null)
                 return;
 
             if (RTFile.FileExists(FolderPath + "settings/versions.lss"))
             {
-                var localVersions = RTFile.ReadFromFile(FolderPath + "settings/versions.lss");
+                var localVersions = await File.ReadAllTextAsync(FolderPath + "settings/versions.lss");
 
-                List<string> onlineVersions = new List<string>();
+                string[]? onlineVersions = null;
 
-                using (var client = new WebClient())
+                //using (var client = new WebClient())
+                //{
+                //    var data = client.DownloadString("https://raw.githubusercontent.com/RTMecha/RTFunctions/master/mod_info.lss");
+
+                //    if (!string.IsNullOrEmpty(data))
+                //    {
+                //        onlineVersions = data.Split(new string[] { "\n", "\r\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
+                //    }
+                //}
+
+                var http = new HttpClient();
+                var data = await http.GetStringAsync("https://raw.githubusercontent.com/RTMecha/RTFunctions/master/mod_info.lss");
+
+                if (!string.IsNullOrEmpty(data))
                 {
-                    var data = client.DownloadString("https://raw.githubusercontent.com/RTMecha/RTFunctions/master/mod_info.lss");
-
-                    if (!string.IsNullOrEmpty(data))
-                    {
-                        onlineVersions = data.Split(new string[] { "\n", "\r\n", "\r" }, StringSplitOptions.RemoveEmptyEntries).ToList();
-                    }
+                    onlineVersions = data.Split(new string[] { "\n", "\r\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
                 }
+
+                http.Dispose();
 
                 if (!string.IsNullOrEmpty(localVersions))
                 {
-                    var list = localVersions.Split(new string[] { "\n", "\r\n", "\r" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                    var list = localVersions.Split(new string[] { "\n", "\r\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
 
-                    if (list.Count > 0 && onlineVersions.Count > 0)
+                    if (list.Length > 0 && onlineVersions != null && onlineVersions.Length > 0)
                     {
-                        for (int i = 0; i < list.Count; i++)
+                        for (int i = 0; i < list.Length; i++)
                         {
-                            if (LocalVersions.ContainsKey(list[i]) && list.Count > i + 1)
+                            if (LocalVersions.ContainsKey(list[i]) && list.Length > i + 1)
                             {
                                 LocalVersions[list[i]] = list[i + 1];
                             }
@@ -231,22 +247,32 @@ namespace ProjectLauncher.Functions
             }
             else
             {
-                List<string> onlineVersions = new List<string>();
+                List<string>? onlineVersions = null;
 
-                using (var client = new WebClient())
+                //using (var client = new WebClient())
+                //{
+                //    var data = client.DownloadString("https://raw.githubusercontent.com/RTMecha/RTFunctions/master/mod_info.lss");
+
+                //    if (!string.IsNullOrEmpty(data))
+                //    {
+                //        onlineVersions = data.Split(new string[] { "\n", "\r\n", "\r" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                //    }
+                //}
+
+                var http = new HttpClient();
+                var data = await http.GetStringAsync("https://raw.githubusercontent.com/RTMecha/RTFunctions/master/mod_info.lss");
+
+                if (!string.IsNullOrEmpty(data))
                 {
-                    var data = client.DownloadString("https://raw.githubusercontent.com/RTMecha/RTFunctions/master/mod_info.lss");
-
-                    if (!string.IsNullOrEmpty(data))
-                    {
-                        onlineVersions = data.Split(new string[] { "\n", "\r\n", "\r" }, StringSplitOptions.RemoveEmptyEntries).ToList();
-                    }
+                    onlineVersions = data.Split(new string[] { "\n", "\r\n", "\r" }, StringSplitOptions.RemoveEmptyEntries).ToList();
                 }
+
+                http.Dispose();
 
                 for (int i = 0; i < LocalVersions.Count; i++)
                 {
                     var key = LocalVersions.ElementAt(i).Key;
-                    if (RTFile.FileExists($"{FolderPath}{ModUpdater.BepInExPlugins}/{key}.dll"))
+                    if (onlineVersions != null && RTFile.FileExists($"{FolderPath}{ModUpdater.BepInExPlugins}/{key}.dll"))
                     {
                         var version = GetModVersion($"{FolderPath}{ModUpdater.BepInExPlugins}/{key}.dll");
 
