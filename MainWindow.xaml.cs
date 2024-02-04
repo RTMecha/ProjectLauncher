@@ -30,7 +30,7 @@ namespace ProjectLauncher
         public static MainWindow? Instance { get; private set; }
 
         public bool init = false;
-        public static string Version => "1.1.3";
+        public static string Version => "1.2.0";
 
         public static int MaxUpdateNotesLines => 134;
 
