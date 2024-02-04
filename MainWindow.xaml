@@ -8,6 +8,31 @@
         Title="Project Launcher" Height="490" Width="800" Background="#544D48" ResizeMode="CanMinimize">
     <Grid>
         <TabControl Background="#161513">
+            <TabItem Header="Welcome" Background="#776D67">
+                <Grid Background="#211F1D" Height="700">
+                        <Viewbox Margin="0,53,0,593">
+                            <TextBlock Text="Welcome to the Project Launcher!" Foreground="#E0B564"/>
+                        </Viewbox>
+                        <Viewbox Margin="10,107,10,552">
+                            <TextBlock Text="To launch from a singular instance of Project Arrhythmia, go to the Play tab," Foreground="#E0B564"/>
+                        </Viewbox>
+                        <Viewbox Margin="10,132,10,528">
+                            <TextBlock Text="and set the App path to where you have a copy of Project Arrhythmia Legacy." Foreground="#E0B564"/>
+                        </Viewbox>
+                        <Viewbox Margin="10,160,10,499">
+                            <TextBlock Text="Now you can launch the game and you can press update whenever there's an update." Foreground="#E0B564"/>
+                        </Viewbox>
+                        <Viewbox Margin="10,218,10,443">
+                            <TextBlock Text="To modify what mods you have installed for that instance, go to the Settings tab." Foreground="#E0B564"/>
+                        </Viewbox>
+                        <Viewbox Margin="10,285,10,377">
+                            <TextBlock Text="If you want multiple instances of Project Arrhythmia (aka different workspaces for different needs)," Foreground="#E0B564"/>
+                        </Viewbox>
+                        <Viewbox Margin="10,304,10,359">
+                            <TextBlock Text="you can navigate to the Instances tab to create, modify and load instances of Project Arrhythmia." Foreground="#E0B564"/>
+                        </Viewbox>
+                    </Grid>
+            </TabItem>
             <TabItem x:Name="PlayTab" Header="Play" Background="#776D67">
                 <Grid x:Name="PlayGrid" Background="#211F1D">
                     <Viewbox Height="NaN" Margin="10,226,10,106" Width="NaN">
@@ -21,9 +46,6 @@
                     </Viewbox>
                     <Viewbox Height="NaN" Margin="10,217,0,167" HorizontalAlignment="Left" Width="355">
                         <TextBlock x:Name="PathLabel" TextWrapping="Wrap" Text="App Path: (Set this to whatever PA you want to launch)" HorizontalAlignment="Center" Foreground="#E0B564"/>
-                    </Viewbox>
-                    <Viewbox Margin="10,29,10,325">
-                        <TextBlock TextWrapping="Wrap" Text="Welcome to the Project Arrhythmia Legacy Mod Launcher." Foreground="#E0B564"/>
                     </Viewbox>
                     <Viewbox Margin="10,91,10,256">
                         <TextBlock TextWrapping="Wrap" Text="Here you can stay up to date with the latest mod versions." Foreground="#E0B564"/>
@@ -153,33 +175,6 @@
                             <CheckBox x:Name="InstanceUnityExplorerEnabled" Content="UnityExplorer" Width="452" Checked="InstanceUnityExplorerEnabled_Checked" Unchecked="InstanceUnityExplorerEnabled_Unchecked" Foreground="#E0B564"/>
                             <CheckBox x:Name="InstanceEditorOnStartupEnabled" Content="EditorOnStartup" Width="452" Checked="InstanceEditorOnStartupEnabled_Checked" Unchecked="InstanceEditorOnStartupEnabled_Unchecked" Foreground="#E0B564"/>
                         </ListBox>
-                    </Grid>
-                </ScrollViewer>
-            </TabItem>
-            <TabItem Header="READ ME" Background="#776D67">
-                <ScrollViewer Margin="0,0,0,0">
-                    <Grid Background="#211F1D" Height="700">
-                        <Viewbox Margin="0,53,0,593">
-                            <TextBlock Text="Welcome to the Project Launcher!" Foreground="#E0B564"/>
-                        </Viewbox>
-                        <Viewbox Margin="10,107,10,552">
-                            <TextBlock Text="To launch from a singular instance of Project Arrhythmia, go to the Play tab," Foreground="#E0B564"/>
-                        </Viewbox>
-                        <Viewbox Margin="10,132,10,528">
-                            <TextBlock Text="and set the App path to where you have a copy of Project Arrhythmia Legacy." Foreground="#E0B564"/>
-                        </Viewbox>
-                        <Viewbox Margin="10,160,10,499">
-                            <TextBlock Text="Now you can launch the game and you can press update whenever there's an update." Foreground="#E0B564"/>
-                        </Viewbox>
-                        <Viewbox Margin="10,218,10,443">
-                            <TextBlock Text="To modify what mods you have installed for that instance, go to the Settings tab." Foreground="#E0B564"/>
-                        </Viewbox>
-                        <Viewbox Margin="10,285,10,377">
-                            <TextBlock Text="If you want multiple instances of Project Arrhythmia (aka different workspaces for different needs)," Foreground="#E0B564"/>
-                        </Viewbox>
-                        <Viewbox Margin="10,304,10,359">
-                            <TextBlock Text="you can navigate to the Instances tab to create, modify and load instances of Project Arrhythmia." Foreground="#E0B564"/>
-                        </Viewbox>
                     </Grid>
                 </ScrollViewer>
             </TabItem>
