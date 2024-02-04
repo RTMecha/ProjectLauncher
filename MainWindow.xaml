@@ -5,22 +5,22 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjectLauncher"
         mc:Ignorable="d"
-        Title="Project Launcher" Height="450" Width="800" Background="#544D48" ResizeMode="CanMinimize">
+        Title="Project Launcher" Height="490" Width="800" Background="#544D48" ResizeMode="CanMinimize">
     <Grid>
         <TabControl Background="#161513">
             <TabItem x:Name="PlayTab" Header="Play" Background="#776D67">
                 <Grid x:Name="PlayGrid" Background="#211F1D">
                     <Viewbox Height="NaN" Margin="10,226,10,106" Width="NaN">
-                        <TextBox x:Name="PathField" TextWrapping="Wrap" Text="E:\4.1.16" Width="380" Height="19" TextChanged="PathField_TextChanged" Background="#DDCCAD"/>
+                        <TextBox x:Name="PathField" TextWrapping="Wrap" Text="C:\Program Files (x86)\Steam\steamapps\common\Project Arrhythmia" Width="380" Height="19" TextChanged="PathField_TextChanged" Background="#DDCCAD"/>
                     </Viewbox>
-                    <Viewbox Height="NaN" Margin="-520,322,0,15">
+                    <Viewbox Height="NaN" Margin="2,367,372,15">
                         <Button x:Name="PlayButton" Content="Launch" Width="98" Click="PlayButton_Click" Background="#E0B564"/>
                     </Viewbox>
-                    <Viewbox Height="NaN" Margin="25,322,0,15">
+                    <Viewbox Height="NaN" Margin="362,367,0,15">
                         <Button x:Name="UpdateButton" Content="Update" Width="98" Click="UpdateButton_Click" Background="#E0B564"/>
                     </Viewbox>
-                    <Viewbox Height="NaN" Margin="10,196,0,167" HorizontalAlignment="Left" Width="134">
-                        <TextBlock x:Name="PathLabel" TextWrapping="Wrap" Text="App Path:" HorizontalAlignment="Center" Foreground="#E0B564"/>
+                    <Viewbox Height="NaN" Margin="10,217,0,167" HorizontalAlignment="Left" Width="355">
+                        <TextBlock x:Name="PathLabel" TextWrapping="Wrap" Text="App Path: (Set this to whatever PA you want to launch)" HorizontalAlignment="Center" Foreground="#E0B564"/>
                     </Viewbox>
                     <Viewbox Margin="10,29,10,325">
                         <TextBlock TextWrapping="Wrap" Text="Welcome to the Project Arrhythmia Legacy Mod Launcher." Foreground="#E0B564"/>
@@ -28,11 +28,11 @@
                     <Viewbox Margin="10,91,10,256">
                         <TextBlock TextWrapping="Wrap" Text="Here you can stay up to date with the latest mod versions." Foreground="#E0B564"/>
                     </Viewbox>
-                    <Viewbox Margin="10,146,10,201">
-                        <TextBlock TextWrapping="Wrap" Text="It is recommended to make a backup copy of the game before using this launcher, in case anything goes wrong." Foreground="#E0B564" Width="301"/>
+                    <Viewbox Margin="10,166,10,188">
+                        <TextBlock TextWrapping="Wrap" Text="It is recommended to make a backup copy of the game before using this launcher, in case anything goes wrong." Foreground="#E0B564" Width="433" Height="54"/>
                     </Viewbox>
-                    <Viewbox Margin="557,298,10,10">
-                        <TextBlock x:Name="DebugLogger" TextWrapping="Wrap" Text="Download progress" Foreground="#E0B564"/>
+                    <Viewbox Margin="436,298,10,86">
+                        <TextBlock x:Name="DebugLogger" TextWrapping="Wrap" Text="Download progress" Foreground="#E0B564" Width="141" Height="16"/>
                     </Viewbox>
                 </Grid>
             </TabItem>
@@ -104,30 +104,39 @@
             <TabItem Header="Instances" Background="#776D67">
                 <ScrollViewer Margin="0,0,0,0">
                     <Grid Background="#211F1D" Height="700">
-                        <Viewbox Margin="60,309,400,336">
+                        <Viewbox x:Name="PurePathViewbox" Height="NaN" Margin="10,-2,0,670" HorizontalAlignment="Left" Width="763">
+                            <TextBlock x:Name="PurePathLabel" TextWrapping="Wrap" FontSize="11" Text="Pure Legacy Path:" HorizontalAlignment="Center" Foreground="#E0B564" Width="476"/>
+                        </Viewbox>
+                        <Viewbox Height="NaN" Margin="8,27,8,634" Width="NaN">
+                            <TextBox x:Name="PurePath" TextWrapping="Wrap" Text="C:\Program Files (x86)\Steam\steamapps\common\Project Arrhythmia" Width="387" Height="19" Background="#DDCCAD" TextChanged="PurePath_TextChanged"/>
+                        </Viewbox>
+                        <Viewbox Margin="651,68,12,610">
+                            <Button x:Name="ReloadInstances" Content="Reload" HorizontalAlignment="Left" VerticalAlignment="Top" Width="102" Height="20" Click="ReloadInstances_Click"/>
+                        </Viewbox>
+                        <Viewbox Margin="60,346,400,301">
                             <Button x:Name="LaunchInstance" Content="Launch" Click="LaunchInstance_Click" Width="122" Background="#E0B564"/>
                         </Viewbox>
-                        <Viewbox Margin="400,309,60,336">
+                        <Viewbox Margin="400,346,60,301">
                             <Button x:Name="UpdateInstance" Content="Update" Click="UpdateInstance_Click" Width="122" Background="#E0B564"/>
                         </Viewbox>
-                        <Viewbox x:Name="NewNameViewbox" Height="NaN" Margin="10,8,0,661" HorizontalAlignment="Left" Width="763">
+                        <Viewbox x:Name="NewNameViewbox" Height="NaN" Margin="10,63,0,609" HorizontalAlignment="Left" Width="637">
                             <TextBlock x:Name="NewNameLabel" TextWrapping="Wrap" FontSize="11" Text="New Name:" HorizontalAlignment="Center" Foreground="#E0B564" Width="476"/>
                         </Viewbox>
-                        <Viewbox Height="NaN" Margin="8,38,8,623" Width="NaN">
+                        <Viewbox Height="NaN" Margin="8,92,8,570" Width="NaN">
                             <TextBox x:Name="NewName" TextWrapping="Wrap" Text="PA Legacy" Width="387" Height="19" Background="#DDCCAD"/>
                         </Viewbox>
-                        <ListBox x:Name="InstancesList" Background="#211F1D" SelectionChanged="InstancesList_SelectionChanged" Margin="10,114,10,443">
+                        <ListBox x:Name="InstancesList" Background="#211F1D" SelectionChanged="InstancesList_SelectionChanged" Margin="8,175,12,382">
 
                         </ListBox>
-                        <Viewbox Margin="0,249,0,394" HorizontalAlignment="Center" Width="755">
+                        <Viewbox Margin="10,323,0,353" HorizontalAlignment="Left" Width="751">
                             <TextBlock x:Name="CurrentInstanceProgress" TextWrapping="NoWrap" FontSize="16" Text="Current Progress" HorizontalAlignment="Center" Foreground="#E0B564"/>
                         </Viewbox>
-                        <Viewbox Height="NaN" Margin="10,76,10,582" Width="NaN">
+                        <Viewbox Height="NaN" Margin="10,134,10,528" Width="NaN">
                             <TextBox x:Name="SearchField" TextWrapping="NoWrap" Width="380" Height="19" Background="#2D2A27" Foreground="#DDCCAD" TextChanged="SearchField_TextChanged" MouseLeave="SearchField_MouseLeave" MouseEnter="SearchField_MouseEnter"/>
                         </Viewbox>
-                        <TextBlock x:Name="T" TextWrapping="Wrap" FontSize="18" Text="Search for instances..." Opacity="0.4" Foreground="#DDCCAD" Margin="0,84,0,0" Width="737" HorizontalAlignment="Center" VerticalAlignment="Top" FontStyle="Italic" MouseEnter="T_MouseEnter"/>
+                        <TextBlock x:Name="T" TextWrapping="Wrap" FontSize="18" Text="Search for instances..." Opacity="0.4" Foreground="#DDCCAD" Margin="18,141,0,0" Width="737" HorizontalAlignment="Left" VerticalAlignment="Top" FontStyle="Italic" MouseEnter="T_MouseEnter"/>
 
-                        <ListBox x:Name="InstanceSettingsList" SelectionChanged="InstanceListBox_SelectionChanged" Background="#211F1D" Margin="0,369,0,-369">
+                        <ListBox x:Name="InstanceSettingsList" SelectionChanged="InstanceListBox_SelectionChanged" Background="#211F1D" Margin="0,402,0,-402">
                             <Viewbox>
                                 <Button x:Name="InstanceResetToLocal" Content="Reset to Local Settings File." Click="InstanceResetToLocal_Click" Width="122" Background="#E0B564"/>
                             </Viewbox>
@@ -144,6 +153,33 @@
                             <CheckBox x:Name="InstanceUnityExplorerEnabled" Content="UnityExplorer" Width="452" Checked="InstanceUnityExplorerEnabled_Checked" Unchecked="InstanceUnityExplorerEnabled_Unchecked" Foreground="#E0B564"/>
                             <CheckBox x:Name="InstanceEditorOnStartupEnabled" Content="EditorOnStartup" Width="452" Checked="InstanceEditorOnStartupEnabled_Checked" Unchecked="InstanceEditorOnStartupEnabled_Unchecked" Foreground="#E0B564"/>
                         </ListBox>
+                    </Grid>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="READ ME" Background="#776D67">
+                <ScrollViewer Margin="0,0,0,0">
+                    <Grid Background="#211F1D" Height="700">
+                        <Viewbox Margin="0,53,0,593">
+                            <TextBlock Text="Welcome to the Project Launcher!" Foreground="#E0B564"/>
+                        </Viewbox>
+                        <Viewbox Margin="10,149,10,510">
+                            <TextBlock Text="To launch from a singular instance of Project Arrhythmia, go to the Play tab," Foreground="#E0B564"/>
+                        </Viewbox>
+                        <Viewbox Margin="10,179,10,480">
+                            <TextBlock Text="and set the App path to where you have a copy of Project Arrhythmia Legacy." Foreground="#E0B564"/>
+                        </Viewbox>
+                        <Viewbox Margin="10,207,10,452">
+                            <TextBlock Text="Now you can launch the game and you can press update whenever there's an update." Foreground="#E0B564"/>
+                        </Viewbox>
+                        <Viewbox Margin="10,281,10,388">
+                            <TextBlock Text="To modify what mods you have installed for that instance, go to the Settings tab." Foreground="#E0B564"/>
+                        </Viewbox>
+                        <Viewbox Margin="10,338,10,338">
+                            <TextBlock Text="If you want multiple instances of Project Arrhythmia (aka different workspaces for different needs)," Foreground="#E0B564"/>
+                        </Viewbox>
+                        <Viewbox Margin="10,355,10,321">
+                            <TextBlock Text="you can navigate to the Instances tab to create, modify and load instances of Project Arrhythmia." Foreground="#E0B564"/>
+                        </Viewbox>
                     </Grid>
                 </ScrollViewer>
             </TabItem>
