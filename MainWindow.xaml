@@ -35,13 +35,16 @@
             </TabItem>
             <TabItem x:Name="PlayTab" Header="Play" Background="#776D67">
                 <Grid x:Name="PlayGrid" Background="#211F1D">
-                    <Viewbox Height="NaN" Margin="10,226,10,106" Width="NaN">
+                    <Viewbox Height="NaN" Margin="10,226,107,106" Width="NaN">
                         <TextBox x:Name="PathField" TextWrapping="Wrap" Text="C:\Program Files (x86)\Steam\steamapps\common\Project Arrhythmia" Width="380" Height="19" TextChanged="PathField_TextChanged" Background="#DDCCAD"/>
                     </Viewbox>
-                    <Viewbox Height="NaN" Margin="2,367,372,15">
+                    <Viewbox Height="NaN" Margin="680,239,6,120">
+                        <Button x:Name="BrowseButton" Content="Browse" Width="98" Click="BrowseButton_Click" FontSize="18" Background="#E0B564" Height="38"/>
+                    </Viewbox>
+                    <Viewbox Height="NaN" Margin="2,358,372,10">
                         <Button x:Name="PlayButton" Content="Launch" Width="98" Click="PlayButton_Click" Background="#E0B564"/>
                     </Viewbox>
-                    <Viewbox Height="NaN" Margin="362,367,0,15">
+                    <Viewbox Height="NaN" Margin="362,358,0,10">
                         <Button x:Name="UpdateButton" Content="Update" Width="98" Click="UpdateButton_Click" Background="#E0B564"/>
                     </Viewbox>
                     <Viewbox Height="NaN" Margin="10,217,0,167" HorizontalAlignment="Left" Width="355">
@@ -129,8 +132,11 @@
                         <Viewbox x:Name="PurePathViewbox" Height="NaN" Margin="10,-2,0,670" HorizontalAlignment="Left" Width="763">
                             <TextBlock x:Name="PurePathLabel" TextWrapping="Wrap" FontSize="11" Text="Pure Legacy Path:" HorizontalAlignment="Center" Foreground="#E0B564" Width="476"/>
                         </Viewbox>
-                        <Viewbox Height="NaN" Margin="8,27,8,634" Width="NaN">
+                        <Viewbox Height="NaN" Margin="8,27,130,634" Width="NaN">
                             <TextBox x:Name="PurePath" TextWrapping="Wrap" Text="C:\Program Files (x86)\Steam\steamapps\common\Project Arrhythmia" Width="387" Height="19" Background="#DDCCAD" TextChanged="PurePath_TextChanged"/>
+                        </Viewbox>
+                        <Viewbox Height="NaN" Margin="649,31,26,637">
+                            <Button x:Name="InstanceBrowseButton" Content="Browse" Width="98" Click="InstanceBrowseButton_Click" FontSize="18" Background="#E0B564" Height="38"/>
                         </Viewbox>
                         <Viewbox Margin="651,68,12,610">
                             <Button x:Name="ReloadInstances" Content="Reload" HorizontalAlignment="Left" VerticalAlignment="Top" Width="102" Height="20" Click="ReloadInstances_Click"/>
