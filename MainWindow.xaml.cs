@@ -1,4 +1,5 @@
-﻿using ProjectLauncher.Functions;
+﻿using Microsoft.Win32;
+using ProjectLauncher.Functions;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -30,9 +31,9 @@ namespace ProjectLauncher
         public static MainWindow? Instance { get; private set; }
 
         public bool init = false;
-        public static string Version => "1.2.0";
+        public static string Version => "1.2.2";
 
-        public static int MaxUpdateNotesLines => 134;
+        public static int MaxUpdateNotesLines => 120;
 
         public List<ProjectArrhythmia> Instances { get; set; } = new List<ProjectArrhythmia>();
 
@@ -209,6 +210,7 @@ namespace ProjectLauncher
 
         public async Task SetupSettings()
         {
+            loadingSettings = true;
             if (RTFile.FileExists(RTFile.ApplicationDirectory + "settings.lss"))
             {
                 var settings = await File.ReadAllTextAsync(RTFile.ApplicationDirectory + "settings.lss");
@@ -309,6 +311,7 @@ namespace ProjectLauncher
                     }
                 }
             }
+            loadingSettings = false;
         }
 
         public async void Start()
@@ -383,11 +386,11 @@ namespace ProjectLauncher
             if (InstancesList == null || InstancesList.Items == null)
                 return;
 
-            var doCreateNew = RTFile.DirectoryExists(PurePath.Text) && !RTFile.DirectoryExists(PurePath.Text + "/BepInEx");
+            var doCreateNew = RTFile.DirectoryExists(PurePath.Text);
 
             if (NewNameLabel != null)
                 NewNameLabel.Text = doCreateNew ? "New Name:" :
-                    "New Name: (requires app path to be set to an existing copy of Project Arrhythmia)";
+                    "New Name: (requires app path to be set to an existing copy of Project Arrhythmia Legacy)";
 
             InstancesList.Items.Clear();
 
@@ -494,7 +497,7 @@ namespace ProjectLauncher
         {
             if (Current != null)
             {
-                ModUpdater.Open(Current);
+                ModUpdater.Launch(Current);
             }
         }
 
@@ -502,7 +505,7 @@ namespace ProjectLauncher
         {
             if (Current != null)
             {
-                ModUpdater.CheckForUpdates(Current);
+                ModUpdater.Update(Current);
             }
         }
 
@@ -530,6 +533,7 @@ namespace ProjectLauncher
                     Current = instance;
                     try
                     {
+                        instanceLoading = true;
                         instance.LoadSettings();
                     }
                     catch (Exception ex)
@@ -539,6 +543,8 @@ namespace ProjectLauncher
                 }
             }
         }
+
+        public bool instanceLoading = false;
 
         void InstancesList_Selected(object sender, RoutedEventArgs e)
         {
@@ -575,8 +581,11 @@ namespace ProjectLauncher
 
         #region Instance Settings
 
+        bool instanceAllBeingChecked = false;
         void InstanceCheckedAll_Checked(object sender, RoutedEventArgs e)
         {
+            instanceAllBeingChecked = true;
+
             InstanceRTFunctionsEnabled.IsChecked = true;
             InstanceEditorManagementEnabled.IsChecked = true;
             InstanceEventsCoreEnabled.IsChecked = true;
@@ -589,14 +598,21 @@ namespace ProjectLauncher
             InstanceUnityExplorerEnabled.IsChecked = true;
             InstanceEditorOnStartupEnabled.IsChecked = true;
             isInstanceChanging = false;
+
+            Current?.SaveSettings();
+
+            instanceAllBeingChecked = false;
         }
 
         bool isInstanceChanging;
 
+        bool instanceAllBeingUnchecked = false;
         void InstanceCheckedAll_Unchecked(object sender, RoutedEventArgs e)
         {
             if (!isInstanceChanging)
             {
+                instanceAllBeingUnchecked = true;
+
                 InstanceRTFunctionsEnabled.IsChecked = false;
                 InstanceEditorManagementEnabled.IsChecked = false;
                 InstanceEventsCoreEnabled.IsChecked = false;
@@ -608,6 +624,8 @@ namespace ProjectLauncher
                 InstanceConfigurationManagerEnabled.IsChecked = false;
                 InstanceUnityExplorerEnabled.IsChecked = false;
                 InstanceEditorOnStartupEnabled.IsChecked = false;
+
+                instanceAllBeingUnchecked = false;
             }
             isInstanceChanging = false;
         }
@@ -625,10 +643,14 @@ namespace ProjectLauncher
             }
         }
 
+        bool instanceRTFunctionsBeingUnchecked = false;
         void InstanceRTFunctionsEnabled_Unchecked(object sender, RoutedEventArgs e)
         {
             Current?.SaveSettings();
             isInstanceChanging = false;
+
+            instanceRTFunctionsBeingUnchecked = true;
+
             InstanceEditorManagementEnabled.IsChecked = false;
             InstanceEventsCoreEnabled.IsChecked = false;
             InstanceCreativePlayersEnabled.IsChecked = false;
@@ -637,6 +659,8 @@ namespace ProjectLauncher
             InstancePageCreatorEnabled.IsChecked = false;
             InstanceExampleCompanionEnabled.IsChecked = false;
             InstanceCheckedAll.IsChecked = false;
+
+            instanceRTFunctionsBeingUnchecked = false;
         }
 
         void InstanceEditorManagementEnabled_Checked(object sender, RoutedEventArgs e)
@@ -1032,11 +1056,13 @@ namespace ProjectLauncher
 
         #endregion
 
+        public bool loadingSettings = false;
+
         public async Task SaveSettings()
         {
             string str = "";
 
-            if (CheckedAll == null)
+            if (CheckedAll == null || loadingSettings)
                 return;
 
             str += "All" + Environment.NewLine + CheckedAll.IsChecked.ToString() + Environment.NewLine;
@@ -1074,9 +1100,9 @@ namespace ProjectLauncher
 
         async void PathField_TextChanged(object sender, TextChangedEventArgs e) => await SaveSettings();
 
-        void PlayButton_Click(object sender, RoutedEventArgs e) => ModUpdater.Open();
+        void PlayButton_Click(object sender, RoutedEventArgs e) => ModUpdater.Launch();
 
-        void UpdateButton_Click(object sender, RoutedEventArgs e) => ModUpdater.CheckForUpdates();
+        void UpdateButton_Click(object sender, RoutedEventArgs e) => ModUpdater.Update();
 
         #region Settings
 
@@ -1505,6 +1531,42 @@ namespace ProjectLauncher
             {
                 LoadUI();
                 await SaveSettings();
+            }
+        }
+
+        void BrowseButton_Click(object sender, RoutedEventArgs e)
+        {
+            var openFileDialog = new OpenFileDialog
+            {
+                Multiselect = false,
+                Filter = "PA Legacy (*.exe)|Project Arrhythmia.exe|All files (*.*)|*.*",
+            };
+            if (openFileDialog.ShowDialog() == true && openFileDialog.FileName.Replace("\\", "/").Contains("/Project Arrhythmia.exe"))
+            {
+                if (!RTFile.FileExists(openFileDialog.FileName.Replace("\\", "/").Replace("/Project Arrhythmia.exe", "") + "/GameAssembly.dll"))
+                    PathField.Text = openFileDialog.FileName.Replace("\\", "/").Replace("/Project Arrhythmia.exe", "");
+                else
+                {
+                    MessageBox.Show("Cannot use non-PA Legacy versions.");
+                }
+            }
+        }
+
+        void InstanceBrowseButton_Click(object sender, RoutedEventArgs e)
+        {
+            var openFileDialog = new OpenFileDialog
+            {
+                Multiselect = false,
+                Filter = "PA Legacy (*.exe)|Project Arrhythmia.exe|All files (*.*)|*.*",
+            };
+            if (openFileDialog.ShowDialog() == true && openFileDialog.FileName.Replace("\\", "/").Contains("/Project Arrhythmia.exe"))
+            {
+                if (!RTFile.FileExists(openFileDialog.FileName.Replace("\\", "/").Replace("/Project Arrhythmia.exe", "") + "/GameAssembly.dll"))
+                    PurePath.Text = openFileDialog.FileName.Replace("\\", "/").Replace("/Project Arrhythmia.exe", "");
+                else
+                {
+                    MessageBox.Show("Cannot use non-PA Legacy versions.");
+                }
             }
         }
     }

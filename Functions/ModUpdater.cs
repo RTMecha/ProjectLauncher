@@ -73,7 +73,7 @@ namespace ProjectLauncher.Functions
             }
         }
 
-        public async static void CheckForUpdates()
+        public async static void Update()
         {
             if (MainWindow.Instance != null)
             {
@@ -165,7 +165,7 @@ namespace ProjectLauncher.Functions
                 Action<string, CheckBox> downloadhandler = delegate (string mod, CheckBox checkBox)
                 {
                     if (checkBox != null && checkBox.IsChecked == true
-                        && (!RTFile.FileExists($"{b}/{mod}.dll") && RTFile.FileExists($"{b}{mod}.disabled") ||
+                        && (!RTFile.FileExists($"{b}/{mod}.dll") && !RTFile.FileExists($"{b}/{mod}.disabled") ||
                         OnlineVersions[$"{mod}"] != LocalVersions[$"{mod}"]))
                     {
                         if (RTFile.FileExists($"{b}/{mod}.disabled"))
@@ -181,8 +181,7 @@ namespace ProjectLauncher.Functions
                         DownloadFile($"https://github.com/RTMecha/{mod}/releases/latest/download/{mod}.zip", b, $"{mod}.zip");
                     }
 
-                    if (!RTFile.FileExists($"{b}/RTFunctions.dll") && RTFile.FileExists($"{b}RTFunctions.disabled")
-                        || RTFile.FileExists($"{b}/RTFunctions.dll") && !RTFile.FileExists($"{b}RTFunctions.disabled"))
+                    if (!RTFile.FileExists($"{b}/{mod}.dll") || !RTFile.FileExists($"{b}/{mod}.disabled"))
                     {
                         bool enabled = checkBox != null && checkBox.IsChecked == false;
 
@@ -304,7 +303,7 @@ namespace ProjectLauncher.Functions
             }
         }
 
-        public async static void Open()
+        public async static void Launch()
         {
             if (MainWindow.Instance != null)
             {
@@ -387,141 +386,31 @@ namespace ProjectLauncher.Functions
                 if (!Directory.Exists(b))
                     Directory.CreateDirectory(b);
 
-                #region RTFunctions
-
-                MainWindow.Instance.DebugLogger.Text = $"Checking RTFunctions...";
-
-                if (MainWindow.Instance.RTFunctionsEnabled != null && MainWindow.Instance.RTFunctionsEnabled.IsChecked == true && !RTFile.FileExists(b + "/RTFunctions.dll") && !RTFile.FileExists(b + "/RTFunctions.disabled"))
+                Action<string, CheckBox> downloadhandler = delegate (string mod, CheckBox checkBox)
                 {
-                    DownloadFile("https://github.com/RTMecha/RTFunctions/releases/latest/download/RTFunctions.zip", b, "RTFunctions.zip");
-                }
-                else if (!RTFile.FileExists(b + "/RTFunctions.dll") && RTFile.FileExists(b + "/RTFunctions.disabled") || RTFile.FileExists(b + "/RTFunctions.dll") && !RTFile.FileExists(b + "/RTFunctions.disabled"))
-                {
-                    bool enabled = MainWindow.Instance.RTFunctionsEnabled != null && MainWindow.Instance.RTFunctionsEnabled.IsChecked == false;
+                    MainWindow.Instance.CurrentInstanceProgress.Text = $"Checking {mod}...";
+                    bool enabled = checkBox != null && checkBox.IsChecked == true;
+                    bool disabled = checkBox == null || checkBox.IsChecked == false;
 
-                    RTFile.MoveFile(enabled ? b + "/RTFunctions.dll" : b + "/RTFunctions.disabled", !enabled ? b + "/RTFunctions.dll" : b + "/RTFunctions.disabled");
-                }
+                    if (checkBox != null && checkBox.IsChecked == true && !RTFile.FileExists($"{b}/{mod}.dll") && !RTFile.FileExists($"{b}/{mod}.disabled"))
+                    {
+                        DownloadFile($"https://github.com/RTMecha/{mod}/releases/latest/download/{mod}.zip", b, $"{mod}.zip", true);
+                    }
+                    else if (enabled && !RTFile.FileExists($"{b}/{mod}.dll") && RTFile.FileExists($"{b}/{mod}.disabled") || disabled && RTFile.FileExists($"{b}/{mod}.dll") && !RTFile.FileExists($"{b}/{mod}.disabled"))
+                    {
 
-                #endregion
+                        RTFile.MoveFile(disabled ? $"{b}/{mod}.dll" : $"{b}/{mod}.disabled", !disabled ? $"{b}/{mod}.dll" : $"{b}/{mod}.disabled");
+                    }
+                };
 
-                #region EditorManagement
-
-                MainWindow.Instance.DebugLogger.Text = $"Checking EditorManagement...";
-
-                if (MainWindow.Instance.EditorManagementEnabled != null && MainWindow.Instance.EditorManagementEnabled.IsChecked == true && !RTFile.FileExists(b + "/EditorManagement.dll") && !RTFile.FileExists(b + "/EditorManagement.disabled"))
-                {
-                    DownloadFile("https://github.com/RTMecha/EditorManagement/releases/latest/download/EditorManagement.zip", b, "EditorManagement.zip");
-                }
-                else if (!RTFile.FileExists(b + "/EditorManagement.dll") && RTFile.FileExists(b + "/EditorManagement.disabled") || RTFile.FileExists(b + "/EditorManagement.dll") && !RTFile.FileExists(b + "/EditorManagement.disabled"))
-                {
-                    bool enabled = MainWindow.Instance.EditorManagementEnabled != null && MainWindow.Instance.EditorManagementEnabled.IsChecked == false;
-
-                    RTFile.MoveFile(enabled ? b + "/EditorManagement.dll" : b + "/EditorManagement.disabled", !enabled ? b + "/EditorManagement.dll" : b + "/EditorManagement.disabled");
-                }
-
-                #endregion
-
-                #region EventsCore
-
-                MainWindow.Instance.DebugLogger.Text = $"Checking EventsCore...";
-
-                if (MainWindow.Instance.EventsCoreEnabled != null && MainWindow.Instance.EventsCoreEnabled.IsChecked == true && !RTFile.FileExists(b + "/EventsCore.dll") && !RTFile.FileExists(b + "/EventsCore.disabled"))
-                {
-                    DownloadFile("https://github.com/RTMecha/EventsCore/releases/latest/download/EventsCore.zip", b, "EventsCore.zip");
-                }
-                else if (!RTFile.FileExists(b + "/EventsCore.dll") && RTFile.FileExists(b + "/EventsCore.disabled") || RTFile.FileExists(b + "/EventsCore.dll") && !RTFile.FileExists(b + "/EventsCore.disabled"))
-                {
-                    bool enabled = MainWindow.Instance.EventsCoreEnabled != null && MainWindow.Instance.EventsCoreEnabled.IsChecked == false;
-
-                    RTFile.MoveFile(enabled ? b + "/EventsCore.dll" : b + "/EventsCore.disabled", !enabled ? b + "/EventsCore.dll" : b + "/EventsCore.disabled");
-                }
-
-                #endregion
-
-                #region CreativePlayers
-
-                MainWindow.Instance.DebugLogger.Text = $"Checking CreativePlayers...";
-
-                if (MainWindow.Instance.CreativePlayersEnabled != null && MainWindow.Instance.CreativePlayersEnabled.IsChecked == true && !RTFile.FileExists(b + "/CreativePlayers.dll") && !RTFile.FileExists(b + "/CreativePlayers.disabled"))
-                {
-                    DownloadFile("https://github.com/RTMecha/CreativePlayers/releases/latest/download/CreativePlayers.zip", b, "CreativePlayers.zip");
-                }
-                else if (!RTFile.FileExists(b + "/CreativePlayers.dll") && RTFile.FileExists(b + "CreativePlayers.disabled") || RTFile.FileExists(b + "/CreativePlayers.dll") && !RTFile.FileExists(b + "/CreativePlayers.disabled"))
-                {
-                    bool enabled = MainWindow.Instance.CreativePlayersEnabled != null && MainWindow.Instance.CreativePlayersEnabled.IsChecked == false;
-
-                    RTFile.MoveFile(enabled ? b + "/CreativePlayers.dll" : b + "/CreativePlayers.disabled", !enabled ? b + "/CreativePlayers.dll" : b + "/CreativePlayers.disabled");
-                }
-
-                #endregion
-
-                #region ObjectModifiers
-
-                MainWindow.Instance.DebugLogger.Text = $"Checking ObjectModifiers...";
-
-                if (MainWindow.Instance.ObjectModifiersEnabled != null && MainWindow.Instance.ObjectModifiersEnabled.IsChecked == true && !RTFile.FileExists(b + "/ObjectModifiers.dll") && !RTFile.FileExists(b + "/ObjectModifiers.disabled"))
-                {
-                    DownloadFile("https://github.com/RTMecha/ObjectModifiers/releases/latest/download/ObjectModifiers.zip", b, "ObjectModifiers.zip");
-                }
-                else if (!RTFile.FileExists(b + "/ObjectModifiers.dll") && RTFile.FileExists(b + "/ObjectModifiers.disabled") || RTFile.FileExists(b + "/ObjectModifiers.dll") && !RTFile.FileExists(b + "/ObjectModifiers.disabled"))
-                {
-                    bool enabled = MainWindow.Instance.ObjectModifiersEnabled != null && MainWindow.Instance.ObjectModifiersEnabled.IsChecked == false;
-
-                    RTFile.MoveFile(enabled ? b + "/ObjectModifiers.dll" : b + "/ObjectModifiers.disabled", !enabled ? b + "/ObjectModifiers.dll" : b + "/ObjectModifiers.disabled");
-                }
-
-                #endregion
-
-                #region ArcadiaCustoms
-
-                MainWindow.Instance.DebugLogger.Text = $"Checking ArcadiaCustoms...";
-
-                if (MainWindow.Instance.ArcadiaCustomsEnabled != null && MainWindow.Instance.ArcadiaCustomsEnabled.IsChecked == true && !RTFile.FileExists(b + "/ArcadiaCustoms.dll") && !RTFile.FileExists(b + "/ArcadiaCustoms.disabled"))
-                {
-                    DownloadFile("https://github.com/RTMecha/ArcadiaCustoms/releases/latest/download/ArcadiaCustoms.zip", b, "ArcadiaCustoms.zip");
-                }
-                else if (!RTFile.FileExists(b + "/ArcadiaCustoms.dll") && RTFile.FileExists(b + "/ArcadiaCustoms.disabled") || RTFile.FileExists(b + "/ArcadiaCustoms.dll") && !RTFile.FileExists(b + "/ArcadiaCustoms.disabled"))
-                {
-                    bool enabled = MainWindow.Instance.ArcadiaCustomsEnabled != null && MainWindow.Instance.ArcadiaCustomsEnabled.IsChecked == false;
-
-                    RTFile.MoveFile(enabled ? b + "/ArcadiaCustoms.dll" : b + "/ArcadiaCustoms.disabled", !enabled ? b + "/ArcadiaCustoms.dll" : b + "/ArcadiaCustoms.disabled");
-                }
-
-                #endregion
-
-                #region PageCreator
-
-                MainWindow.Instance.DebugLogger.Text = $"Checking PageCreator...";
-
-                if (MainWindow.Instance.PageCreatorEnabled != null && MainWindow.Instance.PageCreatorEnabled.IsChecked == true && !RTFile.FileExists(b + "/PageCreator.dll") && !RTFile.FileExists(b + "/PageCreator.disabled"))
-                {
-                    DownloadFile("https://github.com/RTMecha/PageCreator/releases/latest/download/PageCreator.zip", b, "PageCreator.zip");
-                }
-                else if (!RTFile.FileExists(b + "/PageCreator.dll") && RTFile.FileExists(b + "/PageCreator.disabled") || RTFile.FileExists(b + "/PageCreator.dll") && !RTFile.FileExists(b + "/PageCreator.disabled"))
-                {
-                    bool enabled = MainWindow.Instance.PageCreatorEnabled != null && MainWindow.Instance.PageCreatorEnabled.IsChecked == false;
-
-                    RTFile.MoveFile(enabled ? b + "/PageCreator.dll" : b + "/PageCreator.disabled", !enabled ? b + "/PageCreator.dll" : b + "/PageCreator.disabled");
-                }
-
-                #endregion
-
-                #region ExampleCompanion
-
-                MainWindow.Instance.DebugLogger.Text = $"Checking ExampleCompanion...";
-
-                if (MainWindow.Instance.ExampleCompanionEnabled != null && MainWindow.Instance.ExampleCompanionEnabled.IsChecked == true && !RTFile.FileExists(b + "/ExampleCompanion.dll") && !RTFile.FileExists(b + "/ExampleCompanion.disabled"))
-                {
-                    DownloadFile("https://github.com/RTMecha/ExampleCompanion/releases/latest/download/ExampleCompanion.zip", b, "ExampleCompanion.zip");
-                }
-                else if (!RTFile.FileExists(b + "/ExampleCompanion.dll") && RTFile.FileExists(b + "/ExampleCompanion.disabled") || RTFile.FileExists(b + "/ExampleCompanion.dll") && !RTFile.FileExists(b + "/ExampleCompanion.disabled"))
-                {
-                    bool enabled = MainWindow.Instance.ExampleCompanionEnabled != null && MainWindow.Instance.ExampleCompanionEnabled.IsChecked == false;
-
-                    RTFile.MoveFile(enabled ? b + "/ExampleCompanion.dll" : b + "/ExampleCompanion.disabled", !enabled ? b + "/ExampleCompanion.dll" : b + "/ExampleCompanion.disabled");
-                }
-
-                #endregion
+                downloadhandler?.Invoke("RTFunctions", MainWindow.Instance.RTFunctionsEnabled);
+                downloadhandler?.Invoke("EditorManagement", MainWindow.Instance.EditorManagementEnabled);
+                downloadhandler?.Invoke("EventsCore", MainWindow.Instance.EventsCoreEnabled);
+                downloadhandler?.Invoke("CreativePlayers", MainWindow.Instance.CreativePlayersEnabled);
+                downloadhandler?.Invoke("ObjectModifiers", MainWindow.Instance.ObjectModifiersEnabled);
+                downloadhandler?.Invoke("ArcadiaCustoms", MainWindow.Instance.ArcadiaCustomsEnabled);
+                downloadhandler?.Invoke("PageCreator", MainWindow.Instance.PageCreatorEnabled);
+                downloadhandler?.Invoke("ExampleCompanion", MainWindow.Instance.ExampleCompanionEnabled);
 
                 MainWindow.Instance.DebugLogger.Text = $"Checking ConfigurationManager...";
 
@@ -639,7 +528,7 @@ namespace ProjectLauncher.Functions
             }
         }
 
-        public async static void CheckForUpdates(ProjectArrhythmia projectArrhythmia)
+        public async static void Update(ProjectArrhythmia projectArrhythmia)
         {
             if (MainWindow.Instance != null)
             {
@@ -746,7 +635,7 @@ namespace ProjectLauncher.Functions
                 Action<string, CheckBox> downloadhandler = delegate (string mod, CheckBox checkBox)
                 {
                     if (checkBox != null && checkBox.IsChecked == true
-                        && ((!RTFile.FileExists($"{b}/{mod}.dll") || !RTFile.FileExists($"{b}{mod}.disabled")) ||
+                        && ((!RTFile.FileExists($"{b}/{mod}.dll") && !RTFile.FileExists($"{b}/{mod}.disabled")) ||
                         OnlineVersions[$"{mod}"] != projectArrhythmia.LocalVersions[$"{mod}"]))
                     {
                         if (RTFile.FileExists($"{b}/{mod}.disabled"))
@@ -762,8 +651,8 @@ namespace ProjectLauncher.Functions
                         DownloadFile($"https://github.com/RTMecha/{mod}/releases/latest/download/{mod}.zip", b, $"{mod}.zip");
                     }
 
-                    if (!RTFile.FileExists($"{b}/RTFunctions.dll") && RTFile.FileExists($"{b}RTFunctions.disabled")
-                        || RTFile.FileExists($"{b}/RTFunctions.dll") && !RTFile.FileExists($"{b}RTFunctions.disabled"))
+                    if (!RTFile.FileExists($"{b}/{mod}.dll") && RTFile.FileExists($"{b}/{mod}.disabled")
+                        || RTFile.FileExists($"{b}/{mod}.dll") && !RTFile.FileExists($"{b}/{mod}.disabled"))
                     {
                         bool enabled = checkBox != null && checkBox.IsChecked == false;
 
@@ -878,7 +767,7 @@ namespace ProjectLauncher.Functions
             }
         }
 
-        public async static void Open(ProjectArrhythmia projectArrhythmia)
+        public async static void Launch(ProjectArrhythmia projectArrhythmia)
         {
             if (MainWindow.Instance != null)
             {
@@ -930,141 +819,31 @@ namespace ProjectLauncher.Functions
                 if (!Directory.Exists(b))
                     Directory.CreateDirectory(b);
 
-                #region RTFunctions
-
-                MainWindow.Instance.CurrentInstanceProgress.Text = $"Checking RTFunctions...";
-
-                if (MainWindow.Instance.InstanceRTFunctionsEnabled != null && MainWindow.Instance.InstanceRTFunctionsEnabled.IsChecked == true && !RTFile.FileExists(b + "/RTFunctions.dll") && !RTFile.FileExists(b + "/RTFunctions.disabled"))
+                Action<string, CheckBox> downloadhandler = delegate (string mod, CheckBox checkBox)
                 {
-                    DownloadFile("https://github.com/RTMecha/RTFunctions/releases/latest/download/RTFunctions.zip", b, "RTFunctions.zip", true);
-                }
-                else if (!RTFile.FileExists(b + "/RTFunctions.dll") && RTFile.FileExists(b + "/RTFunctions.disabled") || RTFile.FileExists(b + "/RTFunctions.dll") && !RTFile.FileExists(b + "/RTFunctions.disabled"))
-                {
-                    bool enabled = MainWindow.Instance.InstanceRTFunctionsEnabled != null && MainWindow.Instance.InstanceRTFunctionsEnabled.IsChecked == false;
+                    MainWindow.Instance.CurrentInstanceProgress.Text = $"Checking {mod}...";
+                    bool enabled = checkBox != null && checkBox.IsChecked == true;
+                    bool disabled = checkBox == null || checkBox.IsChecked == false;
 
-                    RTFile.MoveFile(enabled ? b + "/RTFunctions.dll" : b + "/RTFunctions.disabled", !enabled ? b + "/RTFunctions.dll" : b + "/RTFunctions.disabled");
-                }
+                    if (checkBox != null && checkBox.IsChecked == true && !RTFile.FileExists($"{b}/{mod}.dll") && !RTFile.FileExists($"{b}/{mod}.disabled"))
+                    {
+                        DownloadFile($"https://github.com/RTMecha/{mod}/releases/latest/download/{mod}.zip", b, $"{mod}.zip", true);
+                    }
+                    else if (enabled && !RTFile.FileExists($"{b}/{mod}.dll") && RTFile.FileExists($"{b}/{mod}.disabled") || disabled && RTFile.FileExists($"{b}/{mod}.dll") && !RTFile.FileExists($"{b}/{mod}.disabled"))
+                    {
 
-                #endregion
+                        RTFile.MoveFile(disabled ? $"{b}/{mod}.dll" : $"{b}/{mod}.disabled", !disabled ? $"{b}/{mod}.dll" : $"{b}/{mod}.disabled");
+                    }
+                };
 
-                #region EditorManagement
-
-                MainWindow.Instance.CurrentInstanceProgress.Text = $"Checking EditorManagement...";
-
-                if (MainWindow.Instance.InstanceEditorManagementEnabled != null && MainWindow.Instance.InstanceEditorManagementEnabled.IsChecked == true && !RTFile.FileExists(b + "/EditorManagement.dll") && !RTFile.FileExists(b + "/EditorManagement.disabled"))
-                {
-                    DownloadFile("https://github.com/RTMecha/EditorManagement/releases/latest/download/EditorManagement.zip", b, "EditorManagement.zip", true);
-                }
-                else if (!RTFile.FileExists(b + "/EditorManagement.dll") && RTFile.FileExists(b + "/EditorManagement.disabled") || RTFile.FileExists(b + "/EditorManagement.dll") && !RTFile.FileExists(b + "/EditorManagement.disabled"))
-                {
-                    bool enabled = MainWindow.Instance.InstanceEditorManagementEnabled != null && MainWindow.Instance.InstanceEditorManagementEnabled.IsChecked == false;
-
-                    RTFile.MoveFile(enabled ? b + "/EditorManagement.dll" : b + "/EditorManagement.disabled", !enabled ? b + "/EditorManagement.dll" : b + "/EditorManagement.disabled");
-                }
-
-                #endregion
-
-                #region EventsCore
-
-                MainWindow.Instance.CurrentInstanceProgress.Text = $"Checking EventsCore...";
-
-                if (MainWindow.Instance.InstanceEventsCoreEnabled != null && MainWindow.Instance.InstanceEventsCoreEnabled.IsChecked == true && !RTFile.FileExists(b + "/EventsCore.dll") && !RTFile.FileExists(b + "/EventsCore.disabled"))
-                {
-                    DownloadFile("https://github.com/RTMecha/EventsCore/releases/latest/download/EventsCore.zip", b, "EventsCore.zip", true);
-                }
-                else if (!RTFile.FileExists(b + "/EventsCore.dll") && RTFile.FileExists(b + "/EventsCore.disabled") || RTFile.FileExists(b + "/EventsCore.dll") && !RTFile.FileExists(b + "/EventsCore.disabled"))
-                {
-                    bool enabled = MainWindow.Instance.InstanceEventsCoreEnabled != null && MainWindow.Instance.InstanceEventsCoreEnabled.IsChecked == false;
-
-                    RTFile.MoveFile(enabled ? b + "/EventsCore.dll" : b + "/EventsCore.disabled", !enabled ? b + "/EventsCore.dll" : b + "/EventsCore.disabled");
-                }
-
-                #endregion
-
-                #region CreativePlayers
-
-                MainWindow.Instance.CurrentInstanceProgress.Text = $"Checking CreativePlayers...";
-
-                if (MainWindow.Instance.InstanceCreativePlayersEnabled != null && MainWindow.Instance.InstanceCreativePlayersEnabled.IsChecked == true && !RTFile.FileExists(b + "/CreativePlayers.dll") && !RTFile.FileExists(b + "/CreativePlayers.disabled"))
-                {
-                    DownloadFile("https://github.com/RTMecha/CreativePlayers/releases/latest/download/CreativePlayers.zip", b, "CreativePlayers.zip", true);
-                }
-                else if (!RTFile.FileExists(b + "/CreativePlayers.dll") && RTFile.FileExists(b + "CreativePlayers.disabled") || RTFile.FileExists(b + "/CreativePlayers.dll") && !RTFile.FileExists(b + "/CreativePlayers.disabled"))
-                {
-                    bool enabled = MainWindow.Instance.InstanceCreativePlayersEnabled != null && MainWindow.Instance.InstanceCreativePlayersEnabled.IsChecked == false;
-
-                    RTFile.MoveFile(enabled ? b + "/CreativePlayers.dll" : b + "/CreativePlayers.disabled", !enabled ? b + "/CreativePlayers.dll" : b + "/CreativePlayers.disabled");
-                }
-
-                #endregion
-
-                #region ObjectModifiers
-
-                MainWindow.Instance.CurrentInstanceProgress.Text = $"Checking ObjectModifiers...";
-
-                if (MainWindow.Instance.InstanceObjectModifiersEnabled != null && MainWindow.Instance.InstanceObjectModifiersEnabled.IsChecked == true && !RTFile.FileExists(b + "/ObjectModifiers.dll") && !RTFile.FileExists(b + "/ObjectModifiers.disabled"))
-                {
-                    DownloadFile("https://github.com/RTMecha/ObjectModifiers/releases/latest/download/ObjectModifiers.zip", b, "ObjectModifiers.zip", true);
-                }
-                else if (!RTFile.FileExists(b + "/ObjectModifiers.dll") && RTFile.FileExists(b + "/ObjectModifiers.disabled") || RTFile.FileExists(b + "/ObjectModifiers.dll") && !RTFile.FileExists(b + "/ObjectModifiers.disabled"))
-                {
-                    bool enabled = MainWindow.Instance.InstanceObjectModifiersEnabled != null && MainWindow.Instance.InstanceObjectModifiersEnabled.IsChecked == false;
-
-                    RTFile.MoveFile(enabled ? b + "/ObjectModifiers.dll" : b + "/ObjectModifiers.disabled", !enabled ? b + "/ObjectModifiers.dll" : b + "/ObjectModifiers.disabled");
-                }
-
-                #endregion
-
-                #region ArcadiaCustoms
-
-                MainWindow.Instance.CurrentInstanceProgress.Text = $"Checking ArcadiaCustoms...";
-
-                if (MainWindow.Instance.InstanceArcadiaCustomsEnabled != null && MainWindow.Instance.InstanceArcadiaCustomsEnabled.IsChecked == true && !RTFile.FileExists(b + "/ArcadiaCustoms.dll") && !RTFile.FileExists(b + "/ArcadiaCustoms.disabled"))
-                {
-                    DownloadFile("https://github.com/RTMecha/ArcadiaCustoms/releases/latest/download/ArcadiaCustoms.zip", b, "ArcadiaCustoms.zip", true);
-                }
-                else if (!RTFile.FileExists(b + "/ArcadiaCustoms.dll") && RTFile.FileExists(b + "/ArcadiaCustoms.disabled") || RTFile.FileExists(b + "/ArcadiaCustoms.dll") && !RTFile.FileExists(b + "/ArcadiaCustoms.disabled"))
-                {
-                    bool enabled = MainWindow.Instance.InstanceArcadiaCustomsEnabled != null && MainWindow.Instance.InstanceArcadiaCustomsEnabled.IsChecked == false;
-
-                    RTFile.MoveFile(enabled ? b + "/ArcadiaCustoms.dll" : b + "/ArcadiaCustoms.disabled", !enabled ? b + "/ArcadiaCustoms.dll" : b + "/ArcadiaCustoms.disabled");
-                }
-
-                #endregion
-
-                #region PageCreator
-
-                MainWindow.Instance.CurrentInstanceProgress.Text = $"Checking PageCreator...";
-
-                if (MainWindow.Instance.InstancePageCreatorEnabled != null && MainWindow.Instance.InstancePageCreatorEnabled.IsChecked == true && !RTFile.FileExists(b + "/PageCreator.dll") && !RTFile.FileExists(b + "/PageCreator.disabled"))
-                {
-                    DownloadFile("https://github.com/RTMecha/PageCreator/releases/latest/download/PageCreator.zip", b, "PageCreator.zip", true);
-                }
-                else if (!RTFile.FileExists(b + "/PageCreator.dll") && RTFile.FileExists(b + "/PageCreator.disabled") || RTFile.FileExists(b + "/PageCreator.dll") && !RTFile.FileExists(b + "/PageCreator.disabled"))
-                {
-                    bool enabled = MainWindow.Instance.InstancePageCreatorEnabled != null && MainWindow.Instance.InstancePageCreatorEnabled.IsChecked == false;
-
-                    RTFile.MoveFile(enabled ? b + "/PageCreator.dll" : b + "/PageCreator.disabled", !enabled ? b + "/PageCreator.dll" : b + "/PageCreator.disabled");
-                }
-
-                #endregion
-
-                #region ExampleCompanion
-
-                MainWindow.Instance.CurrentInstanceProgress.Text = $"Checking ExampleCompanion...";
-
-                if (MainWindow.Instance.InstanceExampleCompanionEnabled != null && MainWindow.Instance.InstanceExampleCompanionEnabled.IsChecked == true && !RTFile.FileExists(b + "/ExampleCompanion.dll") && !RTFile.FileExists(b + "/ExampleCompanion.disabled"))
-                {
-                    DownloadFile("https://github.com/RTMecha/ExampleCompanion/releases/latest/download/ExampleCompanion.zip", b, "ExampleCompanion.zip", true);
-                }
-                else if (!RTFile.FileExists(b + "/ExampleCompanion.dll") && RTFile.FileExists(b + "/ExampleCompanion.disabled") || RTFile.FileExists(b + "/ExampleCompanion.dll") && !RTFile.FileExists(b + "/ExampleCompanion.disabled"))
-                {
-                    bool enabled = MainWindow.Instance.InstanceExampleCompanionEnabled != null && MainWindow.Instance.InstanceExampleCompanionEnabled.IsChecked == false;
-
-                    RTFile.MoveFile(enabled ? b + "/ExampleCompanion.dll" : b + "/ExampleCompanion.disabled", !enabled ? b + "/ExampleCompanion.dll" : b + "/ExampleCompanion.disabled");
-                }
-
-                #endregion
+                downloadhandler?.Invoke("RTFunctions", MainWindow.Instance.InstanceRTFunctionsEnabled);
+                downloadhandler?.Invoke("EditorManagement", MainWindow.Instance.InstanceEditorManagementEnabled);
+                downloadhandler?.Invoke("EventsCore", MainWindow.Instance.InstanceEventsCoreEnabled);
+                downloadhandler?.Invoke("CreativePlayers", MainWindow.Instance.InstanceCreativePlayersEnabled);
+                downloadhandler?.Invoke("ObjectModifiers", MainWindow.Instance.InstanceObjectModifiersEnabled);
+                downloadhandler?.Invoke("ArcadiaCustoms", MainWindow.Instance.InstanceArcadiaCustomsEnabled);
+                downloadhandler?.Invoke("PageCreator", MainWindow.Instance.InstancePageCreatorEnabled);
+                downloadhandler?.Invoke("ExampleCompanion", MainWindow.Instance.InstanceExampleCompanionEnabled);
 
                 MainWindow.Instance.CurrentInstanceProgress.Text = $"Checking ConfigurationManager...";
 

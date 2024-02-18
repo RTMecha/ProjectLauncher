@@ -65,7 +65,7 @@ namespace ProjectLauncher.Functions
         {
             string str = "";
 
-            if (MainWindow.Instance == null || MainWindow.Instance.InstanceCheckedAll == null)
+            if (MainWindow.Instance == null || MainWindow.Instance.InstanceCheckedAll == null || MainWindow.Instance.instanceLoading)
                 return;
 
             str += "All" + Environment.NewLine + MainWindow.Instance.InstanceCheckedAll.IsChecked.ToString() + Environment.NewLine;
@@ -185,6 +185,8 @@ namespace ProjectLauncher.Functions
                 }
 
                 await LoadVersions();
+
+                MainWindow.Instance.instanceLoading = false;
             }
 
         }
