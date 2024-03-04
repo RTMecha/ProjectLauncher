@@ -20,6 +20,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+//using static System.Net.WebRequestMethods;
 
 namespace ProjectLauncher
 {
@@ -31,7 +32,7 @@ namespace ProjectLauncher
         public static MainWindow? Instance { get; private set; }
 
         public bool init = false;
-        public static string Version => "1.2.2";
+        public static string Version => "1.2.4";
 
         public static int MaxUpdateNotesLines => 120;
 
@@ -39,10 +40,9 @@ namespace ProjectLauncher
 
         public ProjectArrhythmia Current { get; set; } = null;
 
-        public async Task SetupUpdateNotes()
+        async Task SetupUpdateNote(ListBox listBox, HttpClient http, string url)
         {
-            var http = new HttpClient();
-            var data = await http.GetStringAsync("https://raw.githubusercontent.com/RTMecha/RTFunctions/master/updates.lss");
+            var data = await http.GetStringAsync(url);
 
             if (!string.IsNullOrEmpty(data))
             {
@@ -54,267 +54,185 @@ namespace ProjectLauncher
                     textBlock.Text = list[i];
                     textBlock.Background = new SolidColorBrush(RTColor.FromHex("211F1D").SystemColor);
                     textBlock.Foreground = new SolidColorBrush(RTColor.FromHex("E0B564").SystemColor);
-                    RTFunctionsUpdates.Items.Add(textBlock);
+                    listBox.Items.Add(textBlock);
                 }
             }
 
-            data = await http.GetStringAsync("https://raw.githubusercontent.com/RTMecha/EditorManagement/master/updates.lss");
-
-            if (!string.IsNullOrEmpty(data))
-            {
-                var list = RTFile.WordWrap(data, MaxUpdateNotesLines);
-
-                for (int i = 0; i < list.Count; i++)
-                {
-                    var textBlock = new TextBlock();
-                    textBlock.Text = list[i];
-                    textBlock.Background = new SolidColorBrush(RTColor.FromHex("211F1D").SystemColor);
-                    textBlock.Foreground = new SolidColorBrush(RTColor.FromHex("E0B564").SystemColor);
-                    EditorManagementUpdates.Items.Add(textBlock);
-                }
-            }
-
-            data = await http.GetStringAsync("https://raw.githubusercontent.com/RTMecha/EventsCore/master/updates.lss");
-
-            if (!string.IsNullOrEmpty(data))
-            {
-                var list = RTFile.WordWrap(data, MaxUpdateNotesLines);
-
-                for (int i = 0; i < list.Count; i++)
-                {
-                    var textBlock = new TextBlock();
-                    textBlock.Text = list[i];
-                    textBlock.Background = new SolidColorBrush(RTColor.FromHex("211F1D").SystemColor);
-                    textBlock.Foreground = new SolidColorBrush(RTColor.FromHex("E0B564").SystemColor);
-                    EventsCoreUpdates.Items.Add(textBlock);
-                }
-            }
-
-            data = await http.GetStringAsync("https://raw.githubusercontent.com/RTMecha/CreativePlayers/master/updates.lss");
-
-            if (!string.IsNullOrEmpty(data))
-            {
-                var list = RTFile.WordWrap(data, MaxUpdateNotesLines);
-
-                for (int i = 0; i < list.Count; i++)
-                {
-                    var textBlock = new TextBlock();
-                    textBlock.Text = list[i];
-                    textBlock.Background = new SolidColorBrush(RTColor.FromHex("211F1D").SystemColor);
-                    textBlock.Foreground = new SolidColorBrush(RTColor.FromHex("E0B564").SystemColor);
-                    CreativePlayersUpdates.Items.Add(textBlock);
-                }
-            }
-
-            data = await http.GetStringAsync("https://raw.githubusercontent.com/RTMecha/ObjectModifiers/master/updates.lss");
-
-            if (!string.IsNullOrEmpty(data))
-            {
-                var list = RTFile.WordWrap(data, MaxUpdateNotesLines);
-
-                for (int i = 0; i < list.Count; i++)
-                {
-                    var textBlock = new TextBlock();
-                    textBlock.Text = list[i];
-                    textBlock.Background = new SolidColorBrush(RTColor.FromHex("211F1D").SystemColor);
-                    textBlock.Foreground = new SolidColorBrush(RTColor.FromHex("E0B564").SystemColor);
-                    ObjectModifiersUpdates.Items.Add(textBlock);
-                }
-            }
-
-            data = await http.GetStringAsync("https://raw.githubusercontent.com/RTMecha/ArcadiaCustoms/master/updates.lss");
-
-            if (!string.IsNullOrEmpty(data))
-            {
-                var list = RTFile.WordWrap(data, MaxUpdateNotesLines);
-
-                for (int i = 0; i < list.Count; i++)
-                {
-                    var textBlock = new TextBlock();
-                    textBlock.Text = list[i];
-                    textBlock.Background = new SolidColorBrush(RTColor.FromHex("211F1D").SystemColor);
-                    textBlock.Foreground = new SolidColorBrush(RTColor.FromHex("E0B564").SystemColor);
-                    ArcadiaCustomsUpdates.Items.Add(textBlock);
-                }
-            }
-
-            data = await http.GetStringAsync("https://raw.githubusercontent.com/RTMecha/PageCreator/master/updates.lss");
-
-            if (!string.IsNullOrEmpty(data))
-            {
-                var list = RTFile.WordWrap(data, MaxUpdateNotesLines);
-
-                for (int i = 0; i < list.Count; i++)
-                {
-                    var textBlock = new TextBlock();
-                    textBlock.Text = list[i];
-                    textBlock.Background = new SolidColorBrush(RTColor.FromHex("211F1D").SystemColor);
-                    textBlock.Foreground = new SolidColorBrush(RTColor.FromHex("E0B564").SystemColor);
-                    PageCreatorUpdates.Items.Add(textBlock);
-                }
-            }
-
-            data = await http.GetStringAsync("https://raw.githubusercontent.com/RTMecha/ExampleCompanion/master/updates.lss");
-
-            if (!string.IsNullOrEmpty(data))
-            {
-                var list = RTFile.WordWrap(data, MaxUpdateNotesLines);
-
-                for (int i = 0; i < list.Count; i++)
-                {
-                    var textBlock = new TextBlock();
-                    textBlock.Text = list[i];
-                    textBlock.Background = new SolidColorBrush(RTColor.FromHex("211F1D").SystemColor);
-                    textBlock.Foreground = new SolidColorBrush(RTColor.FromHex("E0B564").SystemColor);
-                    ExampleCompanionUpdates.Items.Add(textBlock);
-                }
-            }
-
-            http.Dispose();
         }
 
-        public async Task SetupVersions()
+        async Task SetupUpdateNotes()
+        {
+            try
+            {
+                using var http = new HttpClient();
+
+                await SetupUpdateNote(RTFunctionsUpdates, http, "https://raw.githubusercontent.com/RTMecha/RTFunctions/master/updates.lss");
+                await SetupUpdateNote(EditorManagementUpdates, http, "https://raw.githubusercontent.com/RTMecha/EditorManagement/master/updates.lss");
+                await SetupUpdateNote(EventsCoreUpdates, http, "https://raw.githubusercontent.com/RTMecha/EventsCore/master/updates.lss");
+                await SetupUpdateNote(CreativePlayersUpdates, http, "https://raw.githubusercontent.com/RTMecha/CreativePlayers/master/updates.lss");
+                await SetupUpdateNote(ObjectModifiersUpdates, http, "https://raw.githubusercontent.com/RTMecha/ObjectModifiers/master/updates.lss");
+                await SetupUpdateNote(ArcadiaCustomsUpdates, http, "https://raw.githubusercontent.com/RTMecha/ArcadiaCustoms/master/updates.lss");
+                await SetupUpdateNote(PageCreatorUpdates, http, "https://raw.githubusercontent.com/RTMecha/PageCreator/master/updates.lss");
+                await SetupUpdateNote(ExampleCompanionUpdates, http, "https://raw.githubusercontent.com/RTMecha/ExampleCompanion/master/updates.lss");
+            }
+            catch
+            {
+
+            }
+        }
+
+        async Task SetupVersions()
         {
             if (RTFile.FileExists(RTFile.ApplicationDirectory + "versions.lss"))
+                return;
+            try
             {
                 var localVersions = await File.ReadAllTextAsync(RTFile.ApplicationDirectory + "versions.lss");
-
-                string[]? onlineVersions = null;
 
                 var http = new HttpClient();
                 var data = await http.GetStringAsync("https://raw.githubusercontent.com/RTMecha/RTFunctions/master/mod_info.lss");
 
-                if (!string.IsNullOrEmpty(data))
-                {
-                    onlineVersions = data.Split(new string[] { "\n", "\r\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
-                }
+                if (string.IsNullOrEmpty(data) || string.IsNullOrEmpty(localVersions))
+                    return;
 
-                if (!string.IsNullOrEmpty(localVersions))
-                {
-                    var list = localVersions.Split(new string[] { "\n", "\r\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
+                var onlineVersions = data.Split(new string[] { "\n", "\r\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
 
-                    if (onlineVersions != null && list.Length > 0 && onlineVersions.Length > 0)
-                    {
-                        RTFunctionsEnabled.Content = $"{list[0]} - Installed: {list[1]}" + (list[1] == onlineVersions[1] ? "" : $" | Update Available: {onlineVersions[1]}");
-                        EditorManagementEnabled.Content = $"{list[2]} - Installed: {list[3]}" + (list[3] == onlineVersions[3] ? "" : $" | Update Available: {onlineVersions[3]}");
-                        EventsCoreEnabled.Content = $"{list[4]} - Installed: {list[5]}" + (list[5] == onlineVersions[5] ? "" : $" | Update Available: {onlineVersions[5]}");
-                        CreativePlayersEnabled.Content = $"{list[6]} - Installed: {list[7]}" + (list[7] == onlineVersions[7] ? "" : $" | Update Available: {onlineVersions[7]}");
-                        ObjectModifiersEnabled.Content = $"{list[8]} - Installed: {list[9]}" + (list[9] == onlineVersions[9] ? "" : $" | Update Available: {onlineVersions[9]}");
-                        ArcadiaCustomsEnabled.Content = $"{list[10]} - Installed: {list[11]}" + (list[11] == onlineVersions[11] ? "" : $" | Update Available: {onlineVersions[11]}");
-                        PageCreatorEnabled.Content = $"{list[12]} - Installed: {list[13]}" + (list[13] == onlineVersions[13] ? "" : $" | Update Available: {onlineVersions[13]}");
-                        ExampleCompanionEnabled.Content = $"{list[14]} - Installed: {list[15]}" + (list[15] == onlineVersions[15] ? "" : $" | Update Available: {onlineVersions[15]}");
-                    }
-                }
+                var list = localVersions.Split(new string[] { "\n", "\r\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
+
+                if (onlineVersions == null || list.Length < 1 || onlineVersions.Length < 1)
+                    return;
+
+                RTFunctionsEnabled.Content = $"{list[0]} - Installed: {list[1]}" + (list[1] == onlineVersions[1] ? "" : $" | Update Available: {onlineVersions[1]}");
+                EditorManagementEnabled.Content = $"{list[2]} - Installed: {list[3]}" + (list[3] == onlineVersions[3] ? "" : $" | Update Available: {onlineVersions[3]}");
+                EventsCoreEnabled.Content = $"{list[4]} - Installed: {list[5]}" + (list[5] == onlineVersions[5] ? "" : $" | Update Available: {onlineVersions[5]}");
+                CreativePlayersEnabled.Content = $"{list[6]} - Installed: {list[7]}" + (list[7] == onlineVersions[7] ? "" : $" | Update Available: {onlineVersions[7]}");
+                ObjectModifiersEnabled.Content = $"{list[8]} - Installed: {list[9]}" + (list[9] == onlineVersions[9] ? "" : $" | Update Available: {onlineVersions[9]}");
+                ArcadiaCustomsEnabled.Content = $"{list[10]} - Installed: {list[11]}" + (list[11] == onlineVersions[11] ? "" : $" | Update Available: {onlineVersions[11]}");
+                PageCreatorEnabled.Content = $"{list[12]} - Installed: {list[13]}" + (list[13] == onlineVersions[13] ? "" : $" | Update Available: {onlineVersions[13]}");
+                ExampleCompanionEnabled.Content = $"{list[14]} - Installed: {list[15]}" + (list[15] == onlineVersions[15] ? "" : $" | Update Available: {onlineVersions[15]}");
+            }
+            catch
+            {
+
             }
         }
 
-        public async Task SetupSettings()
+        async Task SetupSettings()
         {
             loadingSettings = true;
-            if (RTFile.FileExists(RTFile.ApplicationDirectory + "settings.lss"))
+
+            if (!RTFile.FileExists(RTFile.ApplicationDirectory + "settings.lss"))
+                return;
+
+            try
             {
                 var settings = await File.ReadAllTextAsync(RTFile.ApplicationDirectory + "settings.lss");
 
-                if (!string.IsNullOrEmpty(settings))
-                {
-                    var list = settings.Split(new string[] { "\n", "\r\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
+                if (string.IsNullOrEmpty(settings))
+                    return;
 
-                    for (int i = 0; i < list.Length; i++)
+                var list = settings.Split(new string[] { "\n", "\r\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
+
+                for (int i = 0; i < list.Length; i++)
+                {
+                    switch (list[i])
                     {
-                        switch (list[i])
-                        {
-                            case "All":
-                                {
-                                    if (list.Length > i + 1 && bool.TryParse(list[i + 1], out var value))
-                                        CheckedAll.IsChecked = value;
-                                    break;
-                                }
-                            case "RTFunctions":
-                                {
-                                    if (list.Length > i + 1 && bool.TryParse(list[i + 1], out var value))
-                                        RTFunctionsEnabled.IsChecked = value;
-                                    break;
-                                }
-                            case "EditorManagement":
-                                {
-                                    if (list.Length > i + 1 && bool.TryParse(list[i + 1], out var value))
-                                        EditorManagementEnabled.IsChecked = value;
-                                    break;
-                                }
-                            case "EventsCore":
-                                {
-                                    if (list.Length > i + 1 && bool.TryParse(list[i + 1], out var value))
-                                        EventsCoreEnabled.IsChecked = value;
-                                    break;
-                                }
-                            case "CreativePlayers":
-                                {
-                                    if (list.Length > i + 1 && bool.TryParse(list[i + 1], out var value))
-                                        CreativePlayersEnabled.IsChecked = value;
-                                    break;
-                                }
-                            case "ObjectModifiers":
-                                {
-                                    if (list.Length > i + 1 && bool.TryParse(list[i + 1], out var value))
-                                        ObjectModifiersEnabled.IsChecked = value;
-                                    break;
-                                }
-                            case "ArcadiaCustoms":
-                                {
-                                    if (list.Length > i + 1 && bool.TryParse(list[i + 1], out var value))
-                                        ArcadiaCustomsEnabled.IsChecked = value;
-                                    break;
-                                }
-                            case "PageCreator":
-                                {
-                                    if (list.Length > i + 1 && bool.TryParse(list[i + 1], out var value))
-                                        PageCreatorEnabled.IsChecked = value;
-                                    break;
-                                }
-                            case "ExampleCompanion":
-                                {
-                                    if (list.Length > i + 1 && bool.TryParse(list[i + 1], out var value))
-                                        ExampleCompanionEnabled.IsChecked = value;
-                                    break;
-                                }
-                            case "ConfigurationManager":
-                                {
-                                    if (list.Length > i + 1 && bool.TryParse(list[i + 1], out var value))
-                                        ConfigurationManagerEnabled.IsChecked = value;
-                                    break;
-                                }
-                            case "UnityExplorer":
-                                {
-                                    if (list.Length > i + 1 && bool.TryParse(list[i + 1], out var value))
-                                        UnityExplorerEnabled.IsChecked = value;
-                                    break;
-                                }
-                            case "EditorOnStartup":
-                                {
-                                    if (list.Length > i + 1 && bool.TryParse(list[i + 1], out var value))
-                                        EditorOnStartupEnabled.IsChecked = value;
-                                    break;
-                                }
-                            case "Path":
-                                {
-                                    if (list.Length > i + 1)
-                                        PathField.Text = list[i + 1];
-                                    break;
-                                }
-                            case "CreateNewPath":
-                                {
-                                    if (list.Length > i + 1)
-                                        PurePath.Text = list[i + 1];
-                                    break;
-                                }
-                        }
+                        case "All":
+                            {
+                                if (list.Length > i + 1 && bool.TryParse(list[i + 1], out var value))
+                                    CheckedAll.IsChecked = value;
+                                break;
+                            }
+                        case "RTFunctions":
+                            {
+                                if (list.Length > i + 1 && bool.TryParse(list[i + 1], out var value))
+                                    RTFunctionsEnabled.IsChecked = value;
+                                break;
+                            }
+                        case "EditorManagement":
+                            {
+                                if (list.Length > i + 1 && bool.TryParse(list[i + 1], out var value))
+                                    EditorManagementEnabled.IsChecked = value;
+                                break;
+                            }
+                        case "EventsCore":
+                            {
+                                if (list.Length > i + 1 && bool.TryParse(list[i + 1], out var value))
+                                    EventsCoreEnabled.IsChecked = value;
+                                break;
+                            }
+                        case "CreativePlayers":
+                            {
+                                if (list.Length > i + 1 && bool.TryParse(list[i + 1], out var value))
+                                    CreativePlayersEnabled.IsChecked = value;
+                                break;
+                            }
+                        case "ObjectModifiers":
+                            {
+                                if (list.Length > i + 1 && bool.TryParse(list[i + 1], out var value))
+                                    ObjectModifiersEnabled.IsChecked = value;
+                                break;
+                            }
+                        case "ArcadiaCustoms":
+                            {
+                                if (list.Length > i + 1 && bool.TryParse(list[i + 1], out var value))
+                                    ArcadiaCustomsEnabled.IsChecked = value;
+                                break;
+                            }
+                        case "PageCreator":
+                            {
+                                if (list.Length > i + 1 && bool.TryParse(list[i + 1], out var value))
+                                    PageCreatorEnabled.IsChecked = value;
+                                break;
+                            }
+                        case "ExampleCompanion":
+                            {
+                                if (list.Length > i + 1 && bool.TryParse(list[i + 1], out var value))
+                                    ExampleCompanionEnabled.IsChecked = value;
+                                break;
+                            }
+                        case "ConfigurationManager":
+                            {
+                                if (list.Length > i + 1 && bool.TryParse(list[i + 1], out var value))
+                                    ConfigurationManagerEnabled.IsChecked = value;
+                                break;
+                            }
+                        case "UnityExplorer":
+                            {
+                                if (list.Length > i + 1 && bool.TryParse(list[i + 1], out var value))
+                                    UnityExplorerEnabled.IsChecked = value;
+                                break;
+                            }
+                        case "EditorOnStartup":
+                            {
+                                if (list.Length > i + 1 && bool.TryParse(list[i + 1], out var value))
+                                    EditorOnStartupEnabled.IsChecked = value;
+                                break;
+                            }
+                        case "Path":
+                            {
+                                if (list.Length > i + 1)
+                                    PathField.Text = list[i + 1];
+                                break;
+                            }
+                        case "CreateNewPath":
+                            {
+                                if (list.Length > i + 1)
+                                    PurePath.Text = list[i + 1];
+                                break;
+                            }
                     }
                 }
             }
+            catch
+            {
+
+            }
+
             loadingSettings = false;
         }
 
-        public async void Start()
+        async void Start()
         {
             await SetupUpdateNotes();
             await SetupVersions();
