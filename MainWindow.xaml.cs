@@ -122,7 +122,11 @@ namespace ProjectLauncher
             loadingSettings = true;
 
             if (!RTFile.FileExists(RTFile.ApplicationDirectory + "settings.lss"))
+            {
+                loadingSettings = false;
+
                 return;
+            }
 
             try
             {
@@ -499,11 +503,8 @@ namespace ProjectLauncher
 
         #region Instance Settings
 
-        bool instanceAllBeingChecked = false;
         void InstanceCheckedAll_Checked(object sender, RoutedEventArgs e)
         {
-            instanceAllBeingChecked = true;
-
             InstanceRTFunctionsEnabled.IsChecked = true;
             InstanceEditorManagementEnabled.IsChecked = true;
             InstanceEventsCoreEnabled.IsChecked = true;
@@ -516,21 +517,14 @@ namespace ProjectLauncher
             InstanceUnityExplorerEnabled.IsChecked = true;
             InstanceEditorOnStartupEnabled.IsChecked = true;
             isInstanceChanging = false;
-
-            Current?.SaveSettings();
-
-            instanceAllBeingChecked = false;
         }
 
         bool isInstanceChanging;
 
-        bool instanceAllBeingUnchecked = false;
         void InstanceCheckedAll_Unchecked(object sender, RoutedEventArgs e)
         {
             if (!isInstanceChanging)
             {
-                instanceAllBeingUnchecked = true;
-
                 InstanceRTFunctionsEnabled.IsChecked = false;
                 InstanceEditorManagementEnabled.IsChecked = false;
                 InstanceEventsCoreEnabled.IsChecked = false;
@@ -542,8 +536,6 @@ namespace ProjectLauncher
                 InstanceConfigurationManagerEnabled.IsChecked = false;
                 InstanceUnityExplorerEnabled.IsChecked = false;
                 InstanceEditorOnStartupEnabled.IsChecked = false;
-
-                instanceAllBeingUnchecked = false;
             }
             isInstanceChanging = false;
         }
@@ -554,21 +546,14 @@ namespace ProjectLauncher
                 InstanceCheckedAll.IsChecked = true;
             else
             {
-                if (!isInstanceChanging)
-                    Current?.SaveSettings();
                 isInstanceChanging = true;
                 InstanceCheckedAll.IsChecked = false;
             }
         }
 
-        bool instanceRTFunctionsBeingUnchecked = false;
         void InstanceRTFunctionsEnabled_Unchecked(object sender, RoutedEventArgs e)
         {
-            Current?.SaveSettings();
             isInstanceChanging = false;
-
-            instanceRTFunctionsBeingUnchecked = true;
-
             InstanceEditorManagementEnabled.IsChecked = false;
             InstanceEventsCoreEnabled.IsChecked = false;
             InstanceCreativePlayersEnabled.IsChecked = false;
@@ -577,8 +562,6 @@ namespace ProjectLauncher
             InstancePageCreatorEnabled.IsChecked = false;
             InstanceExampleCompanionEnabled.IsChecked = false;
             InstanceCheckedAll.IsChecked = false;
-
-            instanceRTFunctionsBeingUnchecked = false;
         }
 
         void InstanceEditorManagementEnabled_Checked(object sender, RoutedEventArgs e)
@@ -590,8 +573,6 @@ namespace ProjectLauncher
                 InstanceCheckedAll.IsChecked = true;
             else
             {
-                if (!isInstanceChanging)
-                    Current?.SaveSettings();
                 isInstanceChanging = true;
                 InstanceCheckedAll.IsChecked = false;
             }
@@ -599,8 +580,6 @@ namespace ProjectLauncher
 
         void InstanceEditorManagementEnabled_Unchecked(object sender, RoutedEventArgs e)
         {
-            if (!isInstanceChanging)
-                Current?.SaveSettings();
             isInstanceChanging = true;
             InstanceCheckedAll.IsChecked = false;
         }
@@ -614,8 +593,6 @@ namespace ProjectLauncher
                 InstanceCheckedAll.IsChecked = true;
             else
             {
-                if (!isInstanceChanging)
-                    Current?.SaveSettings();
                 isInstanceChanging = true;
                 InstanceCheckedAll.IsChecked = false;
             }
@@ -623,8 +600,6 @@ namespace ProjectLauncher
 
         void InstanceEventsCoreEnabled_Unchecked(object sender, RoutedEventArgs e)
         {
-            if (!isInstanceChanging)
-                Current?.SaveSettings();
             isInstanceChanging = true;
             InstanceCheckedAll.IsChecked = false;
         }
@@ -638,8 +613,6 @@ namespace ProjectLauncher
                 InstanceCheckedAll.IsChecked = true;
             else
             {
-                if (!isInstanceChanging)
-                    Current?.SaveSettings();
                 isInstanceChanging = true;
                 InstanceCheckedAll.IsChecked = false;
             }
@@ -647,8 +620,6 @@ namespace ProjectLauncher
 
         void InstanceCreativePlayersEnabled_Unchecked(object sender, RoutedEventArgs e)
         {
-            if (!isInstanceChanging)
-                Current?.SaveSettings();
             isInstanceChanging = true;
             InstanceCheckedAll.IsChecked = false;
         }
@@ -662,8 +633,6 @@ namespace ProjectLauncher
                 InstanceCheckedAll.IsChecked = true;
             else
             {
-                if (!isInstanceChanging)
-                    Current?.SaveSettings();
                 isInstanceChanging = true;
                 InstanceCheckedAll.IsChecked = false;
             }
@@ -671,8 +640,6 @@ namespace ProjectLauncher
 
         void InstanceObjectModifiersEnabled_Unchecked(object sender, RoutedEventArgs e)
         {
-            if (!isInstanceChanging)
-                Current?.SaveSettings();
             isInstanceChanging = true;
             InstanceCheckedAll.IsChecked = false;
         }
@@ -686,8 +653,6 @@ namespace ProjectLauncher
                 InstanceCheckedAll.IsChecked = true;
             else
             {
-                if (!isInstanceChanging)
-                    Current?.SaveSettings();
                 isInstanceChanging = true;
                 InstanceCheckedAll.IsChecked = false;
             }
@@ -695,8 +660,6 @@ namespace ProjectLauncher
 
         void InstanceArcadiaCustomsEnabled_Unchecked(object sender, RoutedEventArgs e)
         {
-            if (!isInstanceChanging)
-                Current?.SaveSettings();
             isInstanceChanging = true;
             InstanceCheckedAll.IsChecked = false;
         }
@@ -710,8 +673,6 @@ namespace ProjectLauncher
                 InstanceCheckedAll.IsChecked = true;
             else
             {
-                if (!isInstanceChanging)
-                    Current?.SaveSettings();
                 isInstanceChanging = true;
                 InstanceCheckedAll.IsChecked = false;
             }
@@ -719,8 +680,6 @@ namespace ProjectLauncher
 
         void InstancePageCreatorEnabled_Unchecked(object sender, RoutedEventArgs e)
         {
-            if (!isInstanceChanging)
-                Current?.SaveSettings();
             isInstanceChanging = true;
             InstanceCheckedAll.IsChecked = false;
         }
@@ -734,8 +693,6 @@ namespace ProjectLauncher
                 InstanceCheckedAll.IsChecked = true;
             else
             {
-                if (!isInstanceChanging)
-                    Current?.SaveSettings();
                 isInstanceChanging = true;
                 InstanceCheckedAll.IsChecked = false;
             }
@@ -743,8 +700,6 @@ namespace ProjectLauncher
 
         void InstanceExampleCompanionEnabled_Unchecked(object sender, RoutedEventArgs e)
         {
-            if (!isInstanceChanging)
-                Current?.SaveSettings();
             isInstanceChanging = true;
             InstanceCheckedAll.IsChecked = false;
         }
@@ -756,8 +711,6 @@ namespace ProjectLauncher
                 InstanceCheckedAll.IsChecked = true;
             else
             {
-                if (!isInstanceChanging)
-                    Current?.SaveSettings();
                 isInstanceChanging = true;
                 InstanceCheckedAll.IsChecked = false;
             }
@@ -765,8 +718,6 @@ namespace ProjectLauncher
 
         void InstanceConfigurationManagerEnabled_Unchecked(object sender, RoutedEventArgs e)
         {
-            if (!isInstanceChanging)
-                Current?.SaveSettings();
             isInstanceChanging = true;
             InstanceCheckedAll.IsChecked = false;
         }
@@ -777,8 +728,6 @@ namespace ProjectLauncher
                 InstanceCheckedAll.IsChecked = true;
             else
             {
-                if (!isInstanceChanging)
-                    Current?.SaveSettings();
                 isInstanceChanging = true;
                 InstanceCheckedAll.IsChecked = false;
             }
@@ -786,8 +735,6 @@ namespace ProjectLauncher
 
         void InstanceUnityExplorerEnabled_Unchecked(object sender, RoutedEventArgs e)
         {
-            if (!isInstanceChanging)
-                Current?.SaveSettings();
             isInstanceChanging = true;
             InstanceCheckedAll.IsChecked = false;
         }
@@ -798,8 +745,6 @@ namespace ProjectLauncher
                 InstanceCheckedAll.IsChecked = true;
             else
             {
-                if (!isInstanceChanging)
-                    Current?.SaveSettings();
                 isInstanceChanging = true;
                 InstanceCheckedAll.IsChecked = false;
             }
@@ -807,8 +752,6 @@ namespace ProjectLauncher
 
         void InstanceEditorOnStartupEnabled_Unchecked(object sender, RoutedEventArgs e)
         {
-            if (!isInstanceChanging)
-                Current?.SaveSettings();
             isInstanceChanging = true;
             InstanceCheckedAll.IsChecked = false;
         }
@@ -829,131 +772,9 @@ namespace ProjectLauncher
             InstanceUnityExplorerEnabled.IsChecked == true &&
             InstanceEditorOnStartupEnabled.IsChecked == true;
 
-        // Set this to instance path
-        async void InstanceResetToLocal_Click(object sender, RoutedEventArgs e)
+        void InstanceResetToLocal_Click(object sender, RoutedEventArgs e)
         {
-            if (Current == null)
-                return;
-
-            if (RTFile.FileExists(Current.FolderPath + "settings/mod_settings.lss"))
-            {
-                var settings = await File.ReadAllTextAsync(Current.FolderPath + "settings/mod_settings.lss");
-
-                if (!string.IsNullOrEmpty(settings))
-                {
-                    var list = settings.Split(new string[] { "\n", "\r\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
-
-                    for (int i = 0; i < list.Length; i++)
-                    {
-                        switch (list[i])
-                        {
-                            case "All":
-                                {
-                                    if (list.Length > i + 1 && bool.TryParse(list[i + 1], out var value))
-                                        InstanceCheckedAll.IsChecked = value;
-                                    break;
-                                }
-                            case "RTFunctions":
-                                {
-                                    if (list.Length > i + 1 && bool.TryParse(list[i + 1], out var value))
-                                        InstanceRTFunctionsEnabled.IsChecked = value;
-                                    break;
-                                }
-                            case "EditorManagement":
-                                {
-                                    if (list.Length > i + 1 && bool.TryParse(list[i + 1], out var value))
-                                        InstanceEditorManagementEnabled.IsChecked = value;
-                                    break;
-                                }
-                            case "EventsCore":
-                                {
-                                    if (list.Length > i + 1 && bool.TryParse(list[i + 1], out var value))
-                                        InstanceEventsCoreEnabled.IsChecked = value;
-                                    break;
-                                }
-                            case "CreativePlayers":
-                                {
-                                    if (list.Length > i + 1 && bool.TryParse(list[i + 1], out var value))
-                                        InstanceCreativePlayersEnabled.IsChecked = value;
-                                    break;
-                                }
-                            case "ObjectModifiers":
-                                {
-                                    if (list.Length > i + 1 && bool.TryParse(list[i + 1], out var value))
-                                        InstanceObjectModifiersEnabled.IsChecked = value;
-                                    break;
-                                }
-                            case "ArcadiaCustoms":
-                                {
-                                    if (list.Length > i + 1 && bool.TryParse(list[i + 1], out var value))
-                                        InstanceArcadiaCustomsEnabled.IsChecked = value;
-                                    break;
-                                }
-                            case "PageCreator":
-                                {
-                                    if (list.Length > i + 1 && bool.TryParse(list[i + 1], out var value))
-                                        InstancePageCreatorEnabled.IsChecked = value;
-                                    break;
-                                }
-                            case "ExampleCompanion":
-                                {
-                                    if (list.Length > i + 1 && bool.TryParse(list[i + 1], out var value))
-                                        InstanceExampleCompanionEnabled.IsChecked = value;
-                                    break;
-                                }
-                            case "ConfigurationManager":
-                                {
-                                    if (list.Length > i + 1 && bool.TryParse(list[i + 1], out var value))
-                                        InstanceConfigurationManagerEnabled.IsChecked = value;
-                                    break;
-                                }
-                            case "UnityExplorer":
-                                {
-                                    if (list.Length > i + 1 && bool.TryParse(list[i + 1], out var value))
-                                        InstanceUnityExplorerEnabled.IsChecked = value;
-                                    break;
-                                }
-                            case "EditorOnStartup":
-                                {
-                                    if (list.Length > i + 1 && bool.TryParse(list[i + 1], out var value))
-                                        InstanceEditorOnStartupEnabled.IsChecked = value;
-                                    break;
-                                }
-                        }
-                    }
-                }
-            }
-
-            if (RTFile.FileExists(Current.FolderPath + "settings/versions.lss"))
-            {
-                var localVersions = await File.ReadAllTextAsync(Current.FolderPath + "settings/versions.lss");
-
-                string[]? onlineVersions = null;
-
-                var http = new HttpClient();
-                var data = await http.GetStringAsync(ModUpdater.CurrentVersionsList);
-                if (!string.IsNullOrEmpty(data))
-                {
-                    onlineVersions = data.Split(new string[] { "\n", "\r\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
-                }
-
-                if (!string.IsNullOrEmpty(localVersions) && onlineVersions != null)
-                {
-                    var list = localVersions.Split(new string[] { "\n", "\r\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
-
-                    if (list.Length > 0 && onlineVersions.Length > 0)
-                    {
-                        InstanceRTFunctionsEnabled.Content = $"{list[0]} - Installed: {list[1]}" + (list[1] == onlineVersions[1] ? "" : $" | Update Available: {onlineVersions[1]}");
-                        InstanceEditorManagementEnabled.Content = $"{list[2]} - Installed: {list[3]}" + (list[3] == onlineVersions[3] ? "" : $" | Update Available: {onlineVersions[3]}");
-                        InstanceEventsCoreEnabled.Content = $"{list[4]} - Installed: {list[5]}" + (list[5] == onlineVersions[5] ? "" : $" | Update Available: {onlineVersions[5]}");
-                        InstanceCreativePlayersEnabled.Content = $"{list[6]} - Installed: {list[7]}" + (list[7] == onlineVersions[7] ? "" : $" | Update Available: {onlineVersions[7]}");
-                        InstanceObjectModifiersEnabled.Content = $"{list[8]} - Installed: {list[9]}" + (list[9] == onlineVersions[9] ? "" : $" | Update Available: {onlineVersions[9]}");
-                        InstanceArcadiaCustomsEnabled.Content = $"{list[10]} - Installed: {list[11]}" + (list[11] == onlineVersions[11] ? "" : $" | Update Available: {onlineVersions[11]}");
-                        InstancePageCreatorEnabled.Content = $"{list[12]} - Installed: {list[13]}" + (list[13] == onlineVersions[13] ? "" : $" | Update Available: {onlineVersions[13]}");
-                        InstanceExampleCompanionEnabled.Content = $"{list[14]} - Installed: {list[15]}" + (list[15] == onlineVersions[15] ? "" : $" | Update Available: {onlineVersions[15]}");
-                    }
-                }
-            }
+            Current?.SaveSettings();
         }
 
         public CheckBox GetModInstanceToggle(int i)
@@ -1293,136 +1114,9 @@ namespace ProjectLauncher
             UnityExplorerEnabled.IsChecked == true &&
             EditorOnStartupEnabled.IsChecked == true;
 
-        void ResetToLocal_Click(object sender, RoutedEventArgs e)
+        async void SaveLocal_Click(object sender, RoutedEventArgs e)
         {
-            if (RTFile.FileExists(RTFile.ApplicationDirectory + "settings.lss"))
-            {
-                var settings = RTFile.ReadFromFile(RTFile.ApplicationDirectory + "settings.lss");
-
-                if (!string.IsNullOrEmpty(settings))
-                {
-                    var list = settings.Split(new string[] { "\n", "\r\n", "\r" }, StringSplitOptions.RemoveEmptyEntries).ToList();
-
-                    for (int i = 0; i < list.Count; i++)
-                    {
-                        switch (list[i])
-                        {
-                            case "All":
-                                {
-                                    if (list.Count > i + 1 && bool.TryParse(list[i + 1], out var value))
-                                        CheckedAll.IsChecked = value;
-                                    break;
-                                }
-                            case "RTFunctions":
-                                {
-                                    if (list.Count > i + 1 && bool.TryParse(list[i + 1], out var value))
-                                        RTFunctionsEnabled.IsChecked = value;
-                                    break;
-                                }
-                            case "EditorManagement":
-                                {
-                                    if (list.Count > i + 1 && bool.TryParse(list[i + 1], out var value))
-                                        EditorManagementEnabled.IsChecked = value;
-                                    break;
-                                }
-                            case "EventsCore":
-                                {
-                                    if (list.Count > i + 1 && bool.TryParse(list[i + 1], out var value))
-                                        EventsCoreEnabled.IsChecked = value;
-                                    break;
-                                }
-                            case "CreativePlayers":
-                                {
-                                    if (list.Count > i + 1 && bool.TryParse(list[i + 1], out var value))
-                                        CreativePlayersEnabled.IsChecked = value;
-                                    break;
-                                }
-                            case "ObjectModifiers":
-                                {
-                                    if (list.Count > i + 1 && bool.TryParse(list[i + 1], out var value))
-                                        ObjectModifiersEnabled.IsChecked = value;
-                                    break;
-                                }
-                            case "ArcadiaCustoms":
-                                {
-                                    if (list.Count > i + 1 && bool.TryParse(list[i + 1], out var value))
-                                        ArcadiaCustomsEnabled.IsChecked = value;
-                                    break;
-                                }
-                            case "PageCreator":
-                                {
-                                    if (list.Count > i + 1 && bool.TryParse(list[i + 1], out var value))
-                                        PageCreatorEnabled.IsChecked = value;
-                                    break;
-                                }
-                            case "ExampleCompanion":
-                                {
-                                    if (list.Count > i + 1 && bool.TryParse(list[i + 1], out var value))
-                                        ExampleCompanionEnabled.IsChecked = value;
-                                    break;
-                                }
-                            case "ConfigurationManager":
-                                {
-                                    if (list.Count > i + 1 && bool.TryParse(list[i + 1], out var value))
-                                        ConfigurationManagerEnabled.IsChecked = value;
-                                    break;
-                                }
-                            case "UnityExplorer":
-                                {
-                                    if (list.Count > i + 1 && bool.TryParse(list[i + 1], out var value))
-                                        UnityExplorerEnabled.IsChecked = value;
-                                    break;
-                                }
-                            case "EditorOnStartup":
-                                {
-                                    if (list.Count > i + 1 && bool.TryParse(list[i + 1], out var value))
-                                        EditorOnStartupEnabled.IsChecked = value;
-                                    break;
-                                }
-                            case "Path":
-                                {
-                                    if (list.Count > i + 1)
-                                        PathField.Text = list[i + 1];
-                                    break;
-                                }
-                        }
-                    }
-                }
-            }
-
-            if (RTFile.FileExists(RTFile.ApplicationDirectory + "versions.lss"))
-            {
-                var localVersions = RTFile.ReadFromFile(RTFile.ApplicationDirectory + "versions.lss");
-
-                List<string> onlineVersions = new List<string>();
-
-                using (var client = new WebClient())
-                {
-                    var data = client.DownloadString("https://raw.githubusercontent.com/RTMecha/RTFunctions/master/mod_info.lss");
-
-                    if (!string.IsNullOrEmpty(data))
-                    {
-                        onlineVersions = data.Split(new string[] { "\n", "\r\n", "\r" }, StringSplitOptions.RemoveEmptyEntries).ToList();
-                    }
-                }
-
-                if (!string.IsNullOrEmpty(localVersions))
-                {
-                    var list = localVersions.Split(new string[] { "\n", "\r\n", "\r" }, StringSplitOptions.RemoveEmptyEntries).ToList();
-
-                    if (list.Count > 0 && onlineVersions.Count > 0)
-                    {
-                        RTFunctionsEnabled.Content = $"{list[0]} - Installed: {list[1]}" + (list[1] == onlineVersions[1] ? "" : $" | Update Available: {onlineVersions[1]}");
-                        EditorManagementEnabled.Content = $"{list[2]} - Installed: {list[3]}" + (list[3] == onlineVersions[3] ? "" : $" | Update Available: {onlineVersions[3]}");
-                        EventsCoreEnabled.Content = $"{list[4]} - Installed: {list[5]}" + (list[5] == onlineVersions[5] ? "" : $" | Update Available: {onlineVersions[5]}");
-                        CreativePlayersEnabled.Content = $"{list[6]} - Installed: {list[7]}" + (list[7] == onlineVersions[7] ? "" : $" | Update Available: {onlineVersions[7]}");
-                        ObjectModifiersEnabled.Content = $"{list[8]} - Installed: {list[9]}" + (list[9] == onlineVersions[9] ? "" : $" | Update Available: {onlineVersions[9]}");
-                        ArcadiaCustomsEnabled.Content = $"{list[10]} - Installed: {list[11]}" + (list[11] == onlineVersions[11] ? "" : $" | Update Available: {onlineVersions[11]}");
-                        PageCreatorEnabled.Content = $"{list[12]} - Installed: {list[13]}" + (list[13] == onlineVersions[13] ? "" : $" | Update Available: {onlineVersions[13]}");
-                        ExampleCompanionEnabled.Content = $"{list[14]} - Installed: {list[15]}" + (list[15] == onlineVersions[15] ? "" : $" | Update Available: {onlineVersions[15]}");
-                    }
-                }
-            }
+            await SaveSettings();
         }
 
         public CheckBox GetModToggle(int i)
