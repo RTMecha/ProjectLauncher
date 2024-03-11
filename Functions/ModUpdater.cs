@@ -94,15 +94,13 @@ namespace ProjectLauncher.Functions
             {
                 var bep = a + "BepInEx-5.4.21.zip";
 
-                var http = new HttpClient();
+                using var http = new HttpClient();
 
                 var bytes = await http.GetByteArrayAsync(BepInExURL);
 
                 await File.WriteAllBytesAsync(bep, bytes);
 
                 RTFile.ZipUtil.UnZip(bep, a);
-
-                http.Dispose();
             }
 
             // Load Versions (For version comparison, so we're not re-downloading the mods every time we launch the game)
@@ -125,7 +123,7 @@ namespace ProjectLauncher.Functions
                     }
                 }
 
-                var http = new HttpClient();
+                using var http = new HttpClient();
                 var data = await http.GetStringAsync(CurrentVersionsList);
 
                 if (!string.IsNullOrEmpty(data))
@@ -141,8 +139,6 @@ namespace ProjectLauncher.Functions
                         }
                     }
                 }
-
-                http.Dispose();
             }
 
             MainWindow.Instance.DebugLogger.Text = $"Checking dependants...";
@@ -212,14 +208,12 @@ namespace ProjectLauncher.Functions
 
                 var rt = b + "/ConfigurationManager.zip";
 
-                var http = new HttpClient();
+                using var http = new HttpClient();
                 var bytes = await http.GetByteArrayAsync("https://github.com/BepInEx/BepInEx.ConfigurationManager/releases/download/v18.2/BepInEx.ConfigurationManager.BepInEx5_v18.2.zip");
 
                 await File.WriteAllBytesAsync(rt, bytes);
 
                 RTFile.ZipUtil.UnZip(rt, rep);
-
-                http.Dispose();
             }
             else if (RTFile.DirectoryExists(b + "/ConfigurationManager") && MainWindow.Instance.ConfigurationManagerEnabled != null && MainWindow.Instance.ConfigurationManagerEnabled.IsChecked == false)
             {
@@ -246,14 +240,12 @@ namespace ProjectLauncher.Functions
 
                 var rt = b + "/UnityExplorer.zip";
 
-                var http = new HttpClient();
+                using var http = new HttpClient();
                 var bytes = await http.GetByteArrayAsync("https://github.com/sinai-dev/UnityExplorer/releases/download/4.9.0/UnityExplorer.BepInEx5.Mono.zip");
 
                 await File.WriteAllBytesAsync(rt, bytes);
 
                 RTFile.ZipUtil.UnZip(rt, rep);
-
-                http.Dispose();
             }
             else if (RTFile.FileExists(b + "/sinai-dev-UnityExplorer/UnityExplorer.BIE5.Mono.dll") && MainWindow.Instance.UnityExplorerEnabled != null && MainWindow.Instance.UnityExplorerEnabled.IsChecked == false)
             {
@@ -271,11 +263,9 @@ namespace ProjectLauncher.Functions
                 && !RTFile.FileExists(b + "/EditorOnStartup.dll"))
             {
                 var rt = b + "/EditorOnStartup.dll";
-                var http = new HttpClient();
+                using var http = new HttpClient();
                 var bytes = await http.GetByteArrayAsync("https://github.com/enchart/EditorOnStartup/releases/download/1.0.0/EditorOnStartup_1.0.0.dll");
                 await File.WriteAllBytesAsync(rt, bytes);
-
-                http.Dispose();
             }
             else if (RTFile.FileExists(b + "/EditorOnStartup.dll") && MainWindow.Instance.EditorOnStartupEnabled != null && MainWindow.Instance.EditorOnStartupEnabled.IsChecked == false)
             {
@@ -324,20 +314,31 @@ namespace ProjectLauncher.Functions
             var a = MainWindow.Instance.Path.Replace("Project Arrhythmia.exe", "");
             var b = a + BepInExPlugins;
 
+            // Download steam_api.dll
+            if (!RTFile.FileExists(a + "Project Arrhythmia_Data/Plugins/steam_api_updated.txt"))
+            {
+                using var http = new HttpClient();
+
+                //var bytes = await http.GetByteArrayAsync("https://github.com/RTMecha/RTFunctions/releases/latest/download/steam_api64.dll");
+                var bytes = await http.GetByteArrayAsync("https://cdn.discordapp.com/attachments/1184344560495775764/1213854625791221860/steam_api64.dll?ex=660037b7&is=65edc2b7&hm=36092e95c77c72780abc1872baaf3a1dcdc3a72fed2fd3f7241e8cf6d2a9fa47&");
+
+                await File.WriteAllBytesAsync(a + "Project Arrhythmia_Data/Plugins/steam_api64.dll", bytes);
+
+                await File.WriteAllTextAsync(a + "Project Arrhythmia_Data/Plugins/steam_api_updated.txt", "Yes");
+            }
+
             // Download BepInEx (Obviously will need BepInEx itself to run any mods)
             if (!Directory.Exists(a + "BepInEx"))
             {
                 var bep = a + "BepInEx-5.4.21.zip";
 
-                var http = new HttpClient();
+                using var http = new HttpClient();
 
                 var bytes = await http.GetByteArrayAsync(BepInExURL);
 
                 await File.WriteAllBytesAsync(bep, bytes);
 
                 RTFile.ZipUtil.UnZip(bep, a);
-
-                http.Dispose();
             }
 
             // Load Versions (For version comparison, so we're not re-downloading the mods every time we launch the game)
@@ -398,7 +399,7 @@ namespace ProjectLauncher.Functions
 
             Action<string, CheckBox> downloadhandler = delegate (string mod, CheckBox checkBox)
             {
-                MainWindow.Instance.CurrentInstanceProgress.Text = $"Checking {mod}...";
+                MainWindow.Instance.DebugLogger.Text = $"Checking {mod}...";
                 bool enabled = checkBox != null && checkBox.IsChecked == true;
                 bool disabled = checkBox == null || checkBox.IsChecked == false;
 
@@ -432,13 +433,11 @@ namespace ProjectLauncher.Functions
 
                 var rt = b + "/ConfigurationManager.zip";
 
-                var http = new HttpClient();
+                using var http = new HttpClient();
                 var bytes = await http.GetByteArrayAsync("https://github.com/BepInEx/BepInEx.ConfigurationManager/releases/download/v18.2/BepInEx.ConfigurationManager.BepInEx5_v18.2.zip");
 
                 await File.WriteAllBytesAsync(rt, bytes);
                 RTFile.ZipUtil.UnZip(rt, rep);
-
-                http.Dispose();
             }
             else if (RTFile.DirectoryExists(b + "/ConfigurationManager") && MainWindow.Instance.ConfigurationManagerEnabled != null && MainWindow.Instance.ConfigurationManagerEnabled.IsChecked == false)
             {
@@ -467,13 +466,11 @@ namespace ProjectLauncher.Functions
 
                 var rt = b + "/UnityExplorer.zip";
 
-                var http = new HttpClient();
+                using var http = new HttpClient();
                 var bytes = await http.GetByteArrayAsync("https://github.com/sinai-dev/UnityExplorer/releases/download/4.9.0/UnityExplorer.BepInEx5.Mono.zip");
 
                 await File.WriteAllBytesAsync(rt, bytes);
                 RTFile.ZipUtil.UnZip(rt, rep);
-
-                http.Dispose();
             }
             else if (RTFile.FileExists(b + "/sinai-dev-UnityExplorer/UnityExplorer.BIE5.Mono.dll") && MainWindow.Instance.UnityExplorerEnabled != null && MainWindow.Instance.UnityExplorerEnabled.IsChecked == false)
             {
@@ -494,7 +491,7 @@ namespace ProjectLauncher.Functions
             {
                 var rt = b + "/EditorOnStartup.dll";
 
-                var http = new HttpClient();
+                using var http = new HttpClient();
                 var bytes = await http.GetByteArrayAsync("https://github.com/enchart/EditorOnStartup/releases/download/1.0.0/EditorOnStartup_1.0.0.dll");
 
                 await File.WriteAllBytesAsync(rt, bytes);
@@ -556,14 +553,12 @@ namespace ProjectLauncher.Functions
             {
                 var bep = a + "BepInEx-5.4.21.zip";
 
-                var http = new HttpClient();
+                using var http = new HttpClient();
                 var bytes = await http.GetByteArrayAsync(BepInExURL);
 
                 await File.WriteAllBytesAsync(bep, bytes);
 
                 RTFile.ZipUtil.UnZip(bep, a);
-
-                http.Dispose();
             }
 
             // Load Versions (For version comparison, so we're not re-downloading the mods every time we launch the game)
@@ -599,25 +594,23 @@ namespace ProjectLauncher.Functions
                     }
                 }
 
-                var http = new HttpClient();
+                using var http = new HttpClient();
 
                 var data = await http.GetStringAsync(CurrentVersionsList);
 
                 if (!string.IsNullOrEmpty(data))
                 {
-                    var list = data.Split(new string[] { "\n", "\r\n", "\r" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                    var list = data.Split(new string[] { "\n", "\r\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
 
-                    for (int i = 0; i < list.Count; i++)
+                    for (int i = 0; i < list.Length; i++)
                     {
-                        if (OnlineVersions.ContainsKey(list[i]) && list.Count > i + 1)
+                        if (OnlineVersions.ContainsKey(list[i]) && list.Length > i + 1)
                         {
                             MainWindow.Instance.DebugLogger.Text = $"Setting online version {list[i + 1]}";
                             OnlineVersions[list[i]] = list[i + 1];
                         }
                     }
                 }
-
-                http.Dispose();
             }
 
             MainWindow.Instance.CurrentInstanceProgress.Text = $"Checking dependents...";
@@ -687,7 +680,7 @@ namespace ProjectLauncher.Functions
 
                 var rt = b + "/ConfigurationManager.zip";
 
-                var http = new HttpClient();
+                using var http = new HttpClient();
                 var bytes = await http.GetByteArrayAsync("https://github.com/BepInEx/BepInEx.ConfigurationManager/releases/download/v18.2/BepInEx.ConfigurationManager.BepInEx5_v18.2.zip");
                 await File.WriteAllBytesAsync(rt, bytes);
                 RTFile.ZipUtil.UnZip(rt, rep);
@@ -717,7 +710,7 @@ namespace ProjectLauncher.Functions
 
                 var rt = b + "/UnityExplorer.zip";
 
-                var http = new HttpClient();
+                using var http = new HttpClient();
                 var bytes = await http.GetByteArrayAsync("https://github.com/sinai-dev/UnityExplorer/releases/download/4.9.0/UnityExplorer.BepInEx5.Mono.zip");
                 await File.WriteAllBytesAsync(rt, bytes);
                 RTFile.ZipUtil.UnZip(rt, rep);
@@ -738,7 +731,7 @@ namespace ProjectLauncher.Functions
                 && !RTFile.FileExists(b + "/EditorOnStartup.dll"))
             {
                 var rt = b + "/EditorOnStartup.dll";
-                var http = new HttpClient();
+                using var http = new HttpClient();
                 var bytes = await http.GetByteArrayAsync("https://github.com/enchart/EditorOnStartup/releases/download/1.0.0/EditorOnStartup_1.0.0.dll");
                 await File.WriteAllBytesAsync(rt, bytes);
             }
@@ -788,20 +781,31 @@ namespace ProjectLauncher.Functions
             var a = projectArrhythmia.FolderPath;
             var b = a + BepInExPlugins;
 
+            // Download steam_api.dll
+            if (!RTFile.FileExists(a + "Project Arrhythmia_Data/Plugins/steam_api_updated.txt"))
+            {
+                using var http = new HttpClient();
+
+                //var bytes = await http.GetByteArrayAsync("https://github.com/RTMecha/RTFunctions/releases/latest/download/steam_api64.dll");
+                var bytes = await http.GetByteArrayAsync("https://cdn.discordapp.com/attachments/1184344560495775764/1213854625791221860/steam_api64.dll?ex=660037b7&is=65edc2b7&hm=36092e95c77c72780abc1872baaf3a1dcdc3a72fed2fd3f7241e8cf6d2a9fa47&");
+
+                await File.WriteAllBytesAsync(a + "Project Arrhythmia_Data/Plugins/steam_api64.dll", bytes);
+
+                await File.WriteAllTextAsync(a + "Project Arrhythmia_Data/Plugins/steam_api_updated.txt", "Yes");
+            }
+
             // Download BepInEx (Obviously will need BepInEx itself to run any mods)
             if (!Directory.Exists(a + "BepInEx"))
             {
                 var bep = a + "BepInEx-5.4.21.zip";
 
-                var http = new HttpClient();
+                using var http = new HttpClient();
 
                 var bytes = await http.GetByteArrayAsync(BepInExURL);
 
                 await File.WriteAllBytesAsync(bep, bytes);
 
                 RTFile.ZipUtil.UnZip(bep, a);
-
-                http.Dispose();
             }
 
             // Load Versions (For version comparison, so we're not re-downloading the mods every time we launch the game)
@@ -865,7 +869,7 @@ namespace ProjectLauncher.Functions
 
                 var rt = b + "/ConfigurationManager.zip";
 
-                var http = new HttpClient();
+                using var http = new HttpClient();
                 var bytes = await http.GetByteArrayAsync("https://github.com/BepInEx/BepInEx.ConfigurationManager/releases/download/v18.2/BepInEx.ConfigurationManager.BepInEx5_v18.2.zip");
                 await File.WriteAllBytesAsync(rt, bytes);
                 RTFile.ZipUtil.UnZip(rt, rep);
@@ -897,7 +901,7 @@ namespace ProjectLauncher.Functions
 
                 var rt = b + "/UnityExplorer.zip";
 
-                var http = new HttpClient();
+                using var http = new HttpClient();
                 var bytes = await http.GetByteArrayAsync("https://github.com/sinai-dev/UnityExplorer/releases/download/4.9.0/UnityExplorer.BepInEx5.Mono.zip");
                 await File.WriteAllBytesAsync(rt, bytes);
                 RTFile.ZipUtil.UnZip(rt, rep);
@@ -921,7 +925,7 @@ namespace ProjectLauncher.Functions
             {
                 var rt = b + "/EditorOnStartup.dll";
 
-                var http = new HttpClient();
+                using var http = new HttpClient();
                 var bytes = await http.GetByteArrayAsync("https://github.com/enchart/EditorOnStartup/releases/download/1.0.0/EditorOnStartup_1.0.0.dll");
                 await File.WriteAllBytesAsync(rt, bytes);
             }
@@ -970,7 +974,7 @@ namespace ProjectLauncher.Functions
 
             var rt = output + "/" + file;
 
-            var http = new HttpClient();
+            using var http = new HttpClient();
             var bytes = await http.GetByteArrayAsync(url);
             
             await File.WriteAllBytesAsync(rt, bytes);
