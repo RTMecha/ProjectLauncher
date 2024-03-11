@@ -56,8 +56,8 @@
                     <Viewbox Margin="10,166,10,188">
                         <TextBlock TextWrapping="Wrap" Text="It is recommended to make a backup copy of the game before using this launcher, in case anything goes wrong." Foreground="#E0B564" Width="433" Height="54"/>
                     </Viewbox>
-                    <Viewbox Margin="436,298,10,86">
-                        <TextBlock x:Name="DebugLogger" TextWrapping="Wrap" Text="Download progress" Foreground="#E0B564" Width="141" Height="16"/>
+                    <Viewbox Margin="10,300,10,84">
+                        <TextBlock x:Name="DebugLogger" TextWrapping="Wrap" Text="Download progress" Foreground="#E0B564" Width="282" Height="20"/>
                     </Viewbox>
                 </Grid>
             </TabItem>
@@ -65,7 +65,7 @@
                 <Grid Background="#211F1D">
                     <ListBox x:Name="SettingsList" SelectionChanged="ListBox_SelectionChanged" Background="#211F1D">
                         <Viewbox>
-                            <Button x:Name="ResetToLocal" Content="Reset to Local Settings File." Click="ResetToLocal_Click" Width="122" Background="#E0B564"/>
+                            <Button x:Name="Save" Content="Save" Click="SaveLocal_Click" Width="122" Background="#E0B564"/>
                         </Viewbox>
                         <CheckBox x:Name="CheckedAll" Content="All" Width="452" Checked="CheckedAll_Checked" Unchecked="CheckedAll_Unchecked" Foreground="#E0B564"/>
                         <CheckBox x:Name="RTFunctionsEnabled" Content="RTFunctions" Width="452" Checked="RTFunctionsEnabled_Checked" Unchecked="RTFunctionsEnabled_Unchecked" Foreground="#E0B564"/>
@@ -166,7 +166,7 @@
 
                         <ListBox x:Name="InstanceSettingsList" SelectionChanged="InstanceListBox_SelectionChanged" Background="#211F1D" Margin="0,402,0,-402">
                             <Viewbox>
-                                <Button x:Name="InstanceResetToLocal" Content="Reset to Local Settings File." Click="InstanceResetToLocal_Click" Width="122" Background="#E0B564"/>
+                                <Button x:Name="InstanceSaveLocal" Content="Save" Click="InstanceResetToLocal_Click" Width="122" Background="#E0B564"/>
                             </Viewbox>
                             <CheckBox x:Name="InstanceCheckedAll" Content="All" Width="452" Checked="InstanceCheckedAll_Checked" Unchecked="InstanceCheckedAll_Unchecked" Foreground="#E0B564"/>
                             <CheckBox x:Name="InstanceRTFunctionsEnabled" Content="RTFunctions" Width="452" Checked="InstanceRTFunctionsEnabled_Checked" Unchecked="InstanceRTFunctionsEnabled_Unchecked" Foreground="#E0B564"/>
