@@ -538,7 +538,7 @@ namespace ProjectLauncher.Functions
             if (MainWindow.Instance == null)
                 return;
 
-            MainWindow.Instance.DebugLogger.Text = $"Updating mods, please wait...";
+            MainWindow.Instance.CurrentInstanceProgress.Text = $"Updating mods, please wait...";
 
             Debug.WriteLine(projectArrhythmia.FolderPath);
 
@@ -605,7 +605,7 @@ namespace ProjectLauncher.Functions
                     {
                         if (OnlineVersions.ContainsKey(list[i]) && list.Length > i + 1)
                         {
-                            MainWindow.Instance.DebugLogger.Text = $"Setting online version {list[i + 1]}";
+                            MainWindow.Instance.CurrentInstanceProgress.Text = $"Setting online version {list[i + 1]}";
                             OnlineVersions[list[i]] = list[i + 1];
                         }
                     }
@@ -650,7 +650,7 @@ namespace ProjectLauncher.Functions
                         File.Delete($"{b}/{mod}.dll");
                     }
 
-                    DownloadFile($"https://github.com/RTMecha/{mod}/releases/latest/download/{mod}.zip", b, $"{mod}.zip");
+                    DownloadFile($"https://github.com/RTMecha/{mod}/releases/latest/download/{mod}.zip", b, $"{mod}.zip", true);
                 }
 
                 if (!RTFile.FileExists($"{b}/{mod}.dll") && RTFile.FileExists($"{b}/{mod}.disabled")
@@ -747,7 +747,7 @@ namespace ProjectLauncher.Functions
             }
 
             if (!RTFile.DirectoryExists(a + "beatmaps/prefabtypes") || !RTFile.DirectoryExists(a + "beatmaps/shapes") || !RTFile.DirectoryExists(a + "beatmaps/menus"))
-                DownloadFile("https://github.com/RTMecha/RTFunctions/releases/latest/download/Beatmaps.zip", a, "Beatmaps.zip");
+                DownloadFile("https://github.com/RTMecha/RTFunctions/releases/latest/download/Beatmaps.zip", a, "Beatmaps.zip", true);
 
             // Save Versions (For later use when the game is relaunched)
             {
