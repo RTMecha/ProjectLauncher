@@ -319,8 +319,7 @@ namespace ProjectLauncher.Functions
             {
                 using var http = new HttpClient();
 
-                //var bytes = await http.GetByteArrayAsync("https://github.com/RTMecha/RTFunctions/releases/latest/download/steam_api64.dll");
-                var bytes = await http.GetByteArrayAsync("https://cdn.discordapp.com/attachments/1184344560495775764/1213854625791221860/steam_api64.dll?ex=660037b7&is=65edc2b7&hm=36092e95c77c72780abc1872baaf3a1dcdc3a72fed2fd3f7241e8cf6d2a9fa47&");
+                var bytes = await http.GetByteArrayAsync("https://github.com/RTMecha/RTFunctions/releases/latest/download/steam_api64.dll");
 
                 await File.WriteAllBytesAsync(a + "Project Arrhythmia_Data/Plugins/steam_api64.dll", bytes);
 
@@ -786,8 +785,7 @@ namespace ProjectLauncher.Functions
             {
                 using var http = new HttpClient();
 
-                //var bytes = await http.GetByteArrayAsync("https://github.com/RTMecha/RTFunctions/releases/latest/download/steam_api64.dll");
-                var bytes = await http.GetByteArrayAsync("https://cdn.discordapp.com/attachments/1184344560495775764/1213854625791221860/steam_api64.dll?ex=660037b7&is=65edc2b7&hm=36092e95c77c72780abc1872baaf3a1dcdc3a72fed2fd3f7241e8cf6d2a9fa47&");
+                var bytes = await http.GetByteArrayAsync("https://github.com/RTMecha/RTFunctions/releases/latest/download/steam_api64.dll");
 
                 await File.WriteAllBytesAsync(a + "Project Arrhythmia_Data/Plugins/steam_api64.dll", bytes);
 
