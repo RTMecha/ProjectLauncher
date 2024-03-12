@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
     <ApplicationIcon>PA Logo S Low.ico</ApplicationIcon>
-    <Version>$(VersionPrefix)1.2.4</Version>
+    <Version>$(VersionPrefix)1.2.5</Version>
   </PropertyGroup>
 
   <ItemGroup>
