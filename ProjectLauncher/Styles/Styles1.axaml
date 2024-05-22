@@ -1,0 +1,92 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Design.PreviewWith>
+        <Border Padding="20">
+			<StackPanel>
+        <Label>Example Text</Label>
+				<Button Content="Hello world" Classes="style2"/>
+				<TextBox>hello</TextBox>
+        <DropDownButton Content="Test"/>
+			</StackPanel>
+			
+        </Border>
+    </Design.PreviewWith>
+
+    <!-- Add Styles Here -->
+	<Style Selector="Button /template/ ContentPresenter">
+		
+	</Style>
+	<Style Selector="Button.style1">
+		<Setter Property="Foreground" Value="#ffba7a" />
+		<Setter Property="FontFamily" Value="Arial Black" />
+		<Setter Property="BorderThickness" Value="0" />
+		<Setter Property="Background" Value="#383838" />
+		<Setter Property="BorderBrush" Value="#FFFFFFFF" />
+		<Setter Property="FontWeight" Value="Bold" />
+		<Setter Property="HorizontalContentAlignment" Value="Center" />
+		<Setter Property="MaxWidth" Value="400" />
+		<Setter Property="Margin" Value="0,0,0,0" />
+		<Setter Property="HorizontalAlignment" Value="Stretch"/>
+	</Style>
+	<Style Selector="Button">
+		<Setter Property="Foreground" Value="#ffba7a" />
+		<Setter Property="FontFamily" Value="Arial Black" />
+		<Setter Property="BorderThickness" Value="0,0,0,3" />
+		<Setter Property="CornerRadius" Value="7" />
+		<Setter Property="Background" Value="#383838" />
+		<Setter Property="BorderBrush" Value="#FF141414" />
+		<Setter Property="FontWeight" Value="Bold" />
+		<Setter Property="HorizontalContentAlignment" Value="Center" />
+		<Setter Property="Width" Value="200" />
+		<Setter Property="Margin" Value="0,0,0,0" />
+		<Setter Property="HorizontalAlignment" Value="Stretch"/>
+	</Style>
+
+	
+	<Style Selector="TextBox">
+		<Setter Property="Foreground" Value="#FFFFFFFF" />
+		<Setter Property="FontFamily" Value="Arial Black" />
+		<Setter Property="BorderThickness" Value="0" />
+    <Setter Property="CornerRadius" Value="7" />
+		<Setter Property="Background" Value="#FF424242" />
+		<Setter Property="BorderBrush" Value="#ff9669" />
+		<Setter Property="FontWeight" Value="Bold" />
+		<Setter Property="HorizontalContentAlignment" Value="Center" />
+		<Setter Property="MaxWidth" Value="400" />
+		<Setter Property="Margin" Value="0,0,0,0" />
+		<Setter Property="TextAlignment" Value="Center" />
+		<Setter Property="HorizontalAlignment" Value="Stretch"/>
+	</Style>
+
+  <Style Selector="Label">
+    <Setter Property="Foreground" Value="#ffba7a" />
+    <Setter Property="FontFamily" Value="Arial Black" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="CornerRadius" Value="7" />
+    <Setter Property="Background" Value="#00000000" />
+    <Setter Property="BorderBrush" Value="#ff9669" />
+    <Setter Property="FontWeight" Value="Bold" />
+    <Setter Property="HorizontalContentAlignment" Value="Left" />
+    <Setter Property="MaxWidth" Value="400" />
+    <Setter Property="Margin" Value="0,0,0,0" />
+    <Setter Property="VerticalAlignment" Value="Center" />
+    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+  </Style>
+
+  <Style Selector="DropDownButton">
+    <Setter Property="Foreground" Value="#ffba7a" />
+    <Setter Property="FontFamily" Value="Arial Black" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="CornerRadius" Value="7" />
+    <Setter Property="Background" Value="#FF424242" />
+    <Setter Property="BorderBrush" Value="#ff9669" />
+    <Setter Property="FontWeight" Value="Bold" />
+    <Setter Property="HorizontalContentAlignment" Value="Center" />
+    <Setter Property="MaxWidth" Value="400" />
+    <Setter Property="Margin" Value="0,0,0,0" />
+    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+  </Style>
+  <Style Selector="Flyout">
+    
+  </Style>
+</Styles>
