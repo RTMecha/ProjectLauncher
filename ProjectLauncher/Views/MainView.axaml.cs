@@ -29,11 +29,20 @@ namespace ProjectLauncher.Views
         public bool Rounded { get; set; } = true;
 
         //public static string InstancesFolder => Directory.GetCurrentDirectory().Replace("\\", "/") + "/instances";
-        public static string MainDirectory => "E:/Coding/ProjectArrhythmiaLauncher-master/ProjectLauncher.Desktop/bin/Debug/net6.0/";
+        public static string MainDirectory => Directory.GetCurrentDirectory().Replace("\\", "/") + "/";
+        //public static string MainDirectory => "E:/Coding/ProjectArrhythmiaLauncher-master/ProjectLauncher.Desktop/bin/Debug/net6.0/";
         public static string InstancesFolder => $"{MainDirectory}instances";
         public static string SettingsFile => $"{MainDirectory}settings.lss";
 
         public static string CurrentVersion { get; set; } = "1.0.0";
+
+        public static string Changelog =>
+            $"2.0.0 > [May 22, 2024]\n" +
+            $"- Completely reworked Project Launcher to use a different basis and to use the merged mods rather than the individual." +
+            $"2.0.1 > [May 22, 2024]\n" +
+            $"- Fixed URL for BetterLegacy versions being incorrect." +
+            $"2.0.2 > [May 22, 2024]\n" +
+            $"- Made launch and update buttons turn invisible when an instance is updating.";
 
         public MainView()
         {
@@ -74,6 +83,8 @@ namespace ProjectLauncher.Views
             AppPathBrowse.Click += AppPathBrowseClick;
             AppPathField.TextChanged += AppPathFieldChanged;
             SettingRounded.Click += SettingsRoundedClick;
+
+            LoadUpdateNotes();
         }
 
         // add async when downloading versions file.
@@ -82,7 +93,7 @@ namespace ProjectLauncher.Views
             if (Versions.Flyout is Flyout flyout && flyout.Content is ListBox list)
             {
                 var http = new HttpClient();
-                var versionString = await http.GetStringAsync("https://github.com/RTMecha/BetterLegacy/raw/1.0.0/versions.lss");
+                var versionString = await http.GetStringAsync("https://github.com/RTMecha/BetterLegacy/raw/master/versions.lss");
 
                 if (string.IsNullOrEmpty(versionString))
                     return;
@@ -105,6 +116,24 @@ namespace ProjectLauncher.Views
                         BorderThickness = new Thickness(0, 0, 0, 3),
                     });
                 }
+            }
+        }
+
+        async void LoadUpdateNotes()
+        {
+            try
+            {
+                ChangelogNotes.Content = Changelog;
+
+                var http = new HttpClient();
+                var str = await http.GetStringAsync("https://github.com/RTMecha/BetterLegacy/raw/master/updates.lss");
+
+                if (!string.IsNullOrEmpty(str))
+                    BetterLegacyNotes.Content = str;
+            }
+            catch (Exception ex)
+            {
+
             }
         }
 
@@ -396,6 +425,8 @@ namespace ProjectLauncher.Views
             {
                 try
                 {
+                    Launch.IsVisible = false;
+                    Update.IsVisible = false;
                     // Download BepInEx (Obviously will need BepInEx itself to run any mods)
                     if (!Directory.Exists(projectArrhythmia.Path + "/BepInEx"))
                     {
@@ -482,10 +513,32 @@ namespace ProjectLauncher.Views
                             await File.WriteAllTextAsync($"{projectArrhythmia.Path}/Project Arrhythmia_Data/Plugins/steam_api_updated.txt", "Yes");
                         }
                     }
+
+                    if (!Directory.Exists($"{projectArrhythmia.Path}/beatmaps/prefabtypes") || !Directory.Exists($"{projectArrhythmia.Path}/beatmaps/shapes") || !Directory.Exists($"{projectArrhythmia.Path}/beatmaps/menus"))
+                    {
+                        using var http = new HttpClient();
+
+                        var url = $"https://github.com/RTMecha/BetterLegacy/releases/download/{projectArrhythmia.Settings.CurrentVersion}/Beatmaps.zip";
+
+                        if (URLExists(url))
+                        {
+                            var bytes = await http.GetByteArrayAsync(url);
+
+                            await File.WriteAllBytesAsync($"{projectArrhythmia.Path}/Beatmaps.zip", bytes);
+
+                            UnZip($"{projectArrhythmia.Path}/Beatmaps.zip", $"{projectArrhythmia.Path}");
+
+                            File.Delete($"{projectArrhythmia.Path}/Beatmaps.zip");
+                        }
+                    }
+
+                    Launch.IsVisible = true;
+                    Update.IsVisible = true;
                 }
                 catch
                 {
-
+                    Launch.IsVisible = true;
+                    Update.IsVisible = true;
                 }
             }
 
