@@ -461,7 +461,7 @@ namespace ProjectLauncher.Views
                         File.Delete(editorOnStartupPath);
                     }
 
-                    if (!File.Exists(betterLegacyPath) && projectArrhythmia.Settings.BetterLegacy)
+                    if (projectArrhythmia.Settings.BetterLegacy)
                     {
                         using var http = new HttpClient();
 
@@ -469,6 +469,9 @@ namespace ProjectLauncher.Views
 
                         if (URLExists(url))
                         {
+                            if (File.Exists(betterLegacyPath))
+                                File.Delete(betterLegacyPath);
+
                             var bytes = await http.GetByteArrayAsync(url);
                             await File.WriteAllBytesAsync($"{pluginsPath}/BetterLegacy.zip", bytes);
 
