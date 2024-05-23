@@ -451,7 +451,7 @@ namespace ProjectLauncher.Views
                         File.Delete(editorOnStartupPath);
                     }
 
-                    if (!File.Exists(betterLegacyPath) && projectArrhythmia.Settings.BetterLegacy)
+                    if (projectArrhythmia.Settings.BetterLegacy)
                     {
                         using var http = new HttpClient();
 
@@ -536,8 +536,7 @@ namespace ProjectLauncher.Views
             {
                 try
                 {
-                    var http = new HttpClient();
-
+                    using var http = new HttpClient();
                     using var res = http.GetAsync(url);
 
                     return res.Result.StatusCode == HttpStatusCode.OK;
