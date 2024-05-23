@@ -546,8 +546,7 @@ namespace ProjectLauncher.Views
             {
                 try
                 {
-                    var http = new HttpClient();
-
+                    using var http = new HttpClient();
                     using var res = http.GetAsync(url);
 
                     return res.Result.StatusCode == HttpStatusCode.OK;
