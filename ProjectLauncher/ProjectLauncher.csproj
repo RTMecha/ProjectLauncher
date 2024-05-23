@@ -11,6 +11,14 @@
     <AvaloniaResource Include="Assets\**" />
   </ItemGroup>
 
+  
+  <ItemGroup>
+    <None Remove="Assets\add.ico" />
+    <None Remove="Assets\browse.ico" />
+    <None Remove="Assets\play.ico" />
+    <None Remove="Assets\update.ico" />
+  </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="11.0.10" />
     <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.10" />

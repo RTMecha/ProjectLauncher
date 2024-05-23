@@ -259,23 +259,13 @@ namespace ProjectLauncher.Views
 
                 if (string.IsNullOrEmpty(instance.Settings.CurrentVersion))
                     instance.Settings.CurrentVersion = CurrentVersion;
-
-                InstancesListBox.Items.Add(new ListBoxItem
+                var item = new ListBoxItem
                 {
                     DataContext = instance,
-                    Content = Path.GetFileName(directories[i]),
-                    Foreground = new SolidColorBrush(Color.Parse("#ffba7a")),
-                    FontFamily = FontFamily.Default,
-                    BorderThickness = new Thickness(0,0,0,3),
-                    CornerRadius = new CornerRadius(7),
-                    Background = new SolidColorBrush(Color.Parse("#383838")),
-                    BorderBrush = new SolidColorBrush(Color.Parse("#FF141414")),
-                    HorizontalContentAlignment = Avalonia.Layout.HorizontalAlignment.Center,
-                    FontWeight = FontWeight.Bold,
-                    Width = 600,
-                    Margin = new Thickness(0, 0, 0, 0),
-                    HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Stretch,
-                });
+                    Content = Path.GetFileName(directories[i])
+                };
+                item.Classes.Add("lbs1");
+                InstancesListBox.Items.Add(item);
             }
 
             SetLaunchButtonsActive(InstancesListBox.ItemCount > 0);

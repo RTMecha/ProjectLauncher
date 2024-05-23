@@ -10,6 +10,7 @@ namespace ProjectLauncher.Views
         {
             InitializeComponent();
             Instance = this;
+            CanResize = false;
 
         }
     }

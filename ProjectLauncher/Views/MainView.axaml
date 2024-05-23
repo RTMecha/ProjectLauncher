@@ -4,7 +4,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:ProjectLauncher.ViewModels"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="620" d:DesignHeight="480"
              Background="#FF141414"
              x:Class="ProjectLauncher.Views.MainView"
              Name="userContol"
@@ -33,35 +33,59 @@
 			</StackPanel>
 		</Panel>
 
-		<StackPanel Width="NaN" Name="StackPanelRight" Grid.Column="1" Margin="5,10,5,10" HorizontalAlignment="Stretch" Spacing="10">
+		<StackPanel Grid.Column="1" Margin="5,10,5,10" HorizontalAlignment="Left" Spacing="0" VerticalAlignment="Top">
 			<!-- Launch Window Panel -->
-			<StackPanel Name="LaunchWindow" IsVisible="True">
-        <Label Name="AppPathFieldLabel" Content="App path" Foreground="#ffba7a" HorizontalAlignment="Left"/>
-        <DockPanel>
-          <TextBox Name="AppPathField" TextAlignment="Left" Watermark="Project Arrhythmia Folder Path" Width="300"/>
-          <Button Name="AppPathBrowse" Content="Browse" HorizontalAlignment="Left" Margin="12,0,0,0"/>
-        </DockPanel>
-        <Label Name="NewInstanceNameLabel" Content="New Instance name" Foreground="#ffba7a" HorizontalAlignment="Left"/>
-        <DockPanel>
-          <TextBox Name="NewInstanceNameField" TextAlignment="Left" Watermark="Set new name..." Text="PA Legacy" Width="200"/>
-          <Button Name="CreateNewInstanceButton" Content="Create new" HorizontalAlignment="Left" Margin="12,0,0,0"/>
-        </DockPanel>
-        <Label Name="InstancesLabel" Content="Instances" Foreground="#ffba7a" HorizontalAlignment="Left"/>
-        <TextBox Name="InstancesSearchField" TextAlignment="Left" Watermark="Search instances..." HorizontalAlignment="Left" Width="400"/>
-        <ScrollViewer MaxHeight="172" Margin="5,6,5,0">
-          <ListBox Name="InstancesListBox" Background="#262524"/>
-        </ScrollViewer>
-        <DockPanel HorizontalAlignment="Center" Margin="0,15,0,0">
-          <Button Name="Launch" Content="Launch" Margin="0,0,5,0" Width="120"/>
-          <Button Name="Update" Content="Update" Margin="5,0,5,0" Width="120"/>
-          <DropDownButton Name="Versions" Content="Version: 1.0.0" Margin="5,0,5,0"/>
-        </DockPanel>
-        <DockPanel HorizontalAlignment="Center" Margin="0,8,0,0">
-          <Button Name="BetterLegacyToggle" Content="BetterLegacy" Margin="0,0,5,0" Width="170"/>
-          <Button Name="EditorOnStartupToggle" Content="Editor on Startup" Margin="5,0,5,0" Width="170"/>
-          <Button Name="UnityExplorerToggle" Content="Unity Explorer" Margin="5,0,0,0" Width="170"/>
-        </DockPanel>
+			<StackPanel Name="LaunchWindow" IsVisible="False" Width="400">
+				<ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto" Height="480">
+					<StackPanel>
+						<DockPanel HorizontalAlignment="Stretch" Margin="5,10,5,0">
+							<Button Name="Launch" Content="Launch" Margin="0,0,5,0" Width="50">
+								<ToolTip.Tip>
+									<Label Content="Start selected Project Arrhythmia instance" />
+								</ToolTip.Tip>
+								<Image Source="avares://ProjectLauncher/Assets/play.ico" />
+							</Button>
+							<Button Name="Update" Content="Update" Margin="5,0,0,0" Width="50">
+								<ToolTip.Tip>
+									<Label Content="Install selected mods to instance" />
+								</ToolTip.Tip>
+								<Image Source="avares://ProjectLauncher/Assets/update.ico" />
+							</Button>
+							<DropDownButton Name="Versions" Content="Version: 1.0.0" Margin="10,-4,15,0" Height="45"/>
+						</DockPanel>
+						<Label Name="AppPathFieldLabel" Content="App path" Foreground="#ffba7a" HorizontalAlignment="Left"/>
+						<DockPanel HorizontalAlignment="Stretch" Height="30" Margin="5,0,5,0">
+							<TextBox Name="AppPathField"  TextAlignment="Left" Watermark="Project Arrhythmia Folder Path" Width="300"/>
+							<Button Name="AppPathBrowse" Height="35" Width="35" Margin="12,2,0,0">
+								<Image Source="avares://ProjectLauncher/Assets/browse.ico"/>
+							</Button>
+						</DockPanel>
+						<Label Name="NewInstanceNameLabel" Content="New Instance name" Foreground="#ffba7a" HorizontalAlignment="Left"/>
+						<DockPanel HorizontalAlignment="Stretch" Height="30" Margin="5,0,5,0">
+							<TextBox Name="NewInstanceNameField" TextAlignment="Left" Watermark="Set new name..." Text="PA Legacy" Width="300"/>
+							<Button Name="CreateNewInstanceButton" Content="Create new" Height="35" Width="35" HorizontalAlignment="Left" Margin="12,2,0,0">
+								<Image Source="avares://ProjectLauncher/Assets/add.ico"/>
+							</Button>
+						</DockPanel>
+						<Label Name="InstancesLabel" Content="Instances" Foreground="#ffba7a" HorizontalAlignment="Left"/>
+						<TextBox Name="InstancesSearchField" TextAlignment="Left" Watermark="Search instances..." HorizontalAlignment="Left" Width="350" Margin="5,0,5,0"/>
+						<ScrollViewer MaxHeight="170" Width="350" HorizontalAlignment="Left" Margin="5,6,5,0">
+							<ListBox Name="InstancesListBox" Background="#262524"/>
+						</ScrollViewer>
+
+
+						<Panel Height="5" Margin="5,10,5,0" Background="#10FFFFFF" />
+						<Label Content="P L U G I N S" FontSize="20" HorizontalAlignment="Center" Margin="0,0,0,0" />
+						<StackPanel HorizontalAlignment="Center">
+							<Button Name="BetterLegacyToggle" Content="BetterLegacy" Margin="0,0,0,0"/>
+							<Button Name="EditorOnStartupToggle" Content="Editor on Startup" Margin="0,0,0,0"/>
+							<Button Name="UnityExplorerToggle" Content="Unity Explorer" Margin="0,0,0,0"/>
+						</StackPanel>
+					</StackPanel>
+				</ScrollViewer>
 			</StackPanel>
+			
+
 			<!-- Mods Window Panel -->
 			<StackPanel Name="ModsWindow" IsVisible="False">
 				<Label Name="SettingsPageLabel" Content="SETTINGS PAGE" Foreground="#ffba7a" HorizontalAlignment="Left" FontSize="22"/>
