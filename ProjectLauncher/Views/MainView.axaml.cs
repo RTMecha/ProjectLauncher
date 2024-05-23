@@ -469,9 +469,6 @@ namespace ProjectLauncher.Views
 
                         if (URLExists(url))
                         {
-                            if (File.Exists(betterLegacyPath))
-                                File.Delete(betterLegacyPath);
-
                             var bytes = await http.GetByteArrayAsync(url);
                             await File.WriteAllBytesAsync($"{pluginsPath}/BetterLegacy.zip", bytes);
 
