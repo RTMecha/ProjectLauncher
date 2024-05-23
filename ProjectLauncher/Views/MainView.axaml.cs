@@ -34,7 +34,7 @@ namespace ProjectLauncher.Views
         public static string InstancesFolder => $"{MainDirectory}instances";
         public static string SettingsFile => $"{MainDirectory}settings.lss";
 
-        public static string CurrentVersion { get; set; } = "1.0.0"; // BetterLegacy version
+        public static string CurrentVersion { get; set; } = "1.0.0"; // BetterLegacy version 1
 
         public static string Changelog =>
             $"2.0.0 > [May 22, 2024]\n" +
