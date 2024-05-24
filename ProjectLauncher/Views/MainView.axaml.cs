@@ -42,7 +42,10 @@ namespace ProjectLauncher.Views
             $"2.0.1 > [May 22, 2024]\n" +
             $"- Fixed URL for BetterLegacy versions being incorrect." +
             $"2.0.2 > [May 22, 2024]\n" +
-            $"- Made launch and update buttons turn invisible when an instance is updating.";
+            $"- Made launch and update buttons turn invisible when an instance is updating." +
+            $"2.1.0 > [May 24, 2024]\n" +
+            $"- Redesigned some UI elements to be easier to look at with some new icons and better layout." +
+            $"- The launcher now has an auto updater. Check it out in the settings tab.";
 
         public MainView()
         {
@@ -68,6 +71,8 @@ namespace ProjectLauncher.Views
                 Content = list,
             };
 
+            //return; //for fixing MainView.axaml issue
+
             LoadVersions();
             BetterLegacyToggle.Click += BetterLegacyToggleClick;
             EditorOnStartupToggle.Click += EditorOnStartupToggleClick;
@@ -83,6 +88,7 @@ namespace ProjectLauncher.Views
             AppPathBrowse.Click += AppPathBrowseClick;
             AppPathField.TextChanged += AppPathFieldChanged;
             SettingRounded.Click += SettingsRoundedClick;
+            SettingUpdateLauncher.Click += UpdateLauncherClick;
 
             LoadUpdateNotes();
         }
@@ -116,6 +122,8 @@ namespace ProjectLauncher.Views
                         BorderThickness = new Thickness(0, 0, 0, 3),
                     });
                 }
+
+                CurrentVersion = versions[versions.Length - 1];
             }
         }
 
@@ -294,6 +302,7 @@ namespace ProjectLauncher.Views
             AppPathField.CornerRadius = roundness;
             AppPathBrowse.CornerRadius = roundness;
             SettingRounded.CornerRadius = roundness;
+            SettingUpdateLauncher.CornerRadius = roundness;
             InstancesListBox.CornerRadius = roundness;
             InstancesSearchField.CornerRadius = roundness;
             NewInstanceNameField.CornerRadius = roundness;
@@ -339,6 +348,15 @@ namespace ProjectLauncher.Views
         }
 
         #region Senders
+
+        void UpdateLauncherClick(object? sender, RoutedEventArgs e)
+        {
+            var startInfo = new ProcessStartInfo();
+            startInfo.FileName = MainDirectory + "ProjectLauncher.Updater.exe";
+            Process.Start(startInfo);
+
+            MainWindow.Instance.Close();
+        }
 
         void AppPathFieldChanged(object? sender, TextChangedEventArgs e)
         {

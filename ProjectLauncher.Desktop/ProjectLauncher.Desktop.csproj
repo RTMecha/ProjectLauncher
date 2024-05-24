@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ProjectLauncher\ProjectLauncher.csproj" />
+    <ProjectReference Include="..\ProjectLauncher.Updater\ProjectLauncher.Updater.csproj" />
   </ItemGroup>
 
 	

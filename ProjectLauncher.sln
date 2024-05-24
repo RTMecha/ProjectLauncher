@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectLauncher", "ProjectL
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectLauncher.Desktop", "ProjectLauncher.Desktop\ProjectLauncher.Desktop.csproj", "{4689F984-1641-420D-92FC-BE8AFB06CEB5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectLauncher.Updater", "ProjectLauncher.Updater\ProjectLauncher.Updater.csproj", "{338E1F23-96C2-4CD2-9B97-8E2C8B807EAD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{4689F984-1641-420D-92FC-BE8AFB06CEB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4689F984-1641-420D-92FC-BE8AFB06CEB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4689F984-1641-420D-92FC-BE8AFB06CEB5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{338E1F23-96C2-4CD2-9B97-8E2C8B807EAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{338E1F23-96C2-4CD2-9B97-8E2C8B807EAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{338E1F23-96C2-4CD2-9B97-8E2C8B807EAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{338E1F23-96C2-4CD2-9B97-8E2C8B807EAD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
