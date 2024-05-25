@@ -4,7 +4,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:ProjectLauncher.ViewModels"
-             mc:Ignorable="d" d:DesignWidth="720" d:DesignHeight="480"
+             mc:Ignorable="d" d:DesignWidth="820" d:DesignHeight="500"
              Background="#FF141414"
              x:Class="ProjectLauncher.Views.MainView"
              Name="userContol"
@@ -12,6 +12,11 @@
 	<Design.DataContext>
 		<vm:MainViewModel />
 	</Design.DataContext>
+
+	<UserControl.Resources>
+		<CornerRadius x:Key="CornerRadius">7</CornerRadius>
+		<CornerRadius x:Key="TextBoxCornerRadius">0,0,0,0</CornerRadius>
+	</UserControl.Resources>
 
 	<UserControl.Styles>
 		<StyleInclude Source="/Styles/Styles1.axaml" />
@@ -86,13 +91,18 @@
 			</StackPanel>
 			
 
-			<!-- Mods Window Panel -->
+			<!-- Settings Window Panel -->
 			<StackPanel Name="ModsWindow" IsVisible="False">
 				<Label Name="SettingsPageLabel" Content="SETTINGS PAGE" Foreground="#ffba7a" HorizontalAlignment="Left" FontSize="22"/>
-				<Button Name="SettingRounded" Content="Rounded UI" HorizontalAlignment="Left"/>
-        <Button Name="SettingUpdateLauncher" Content="Update Launcher" HorizontalAlignment="Left"/>
+				<StackPanel Orientation="Horizontal">
+					<Button Name="SettingRounded" Content="Rounded UI" HorizontalAlignment="Left"/>
+					<Slider x:Name="RoundSlider" Minimum="0" Maximum="14" Width="200" Margin="10,0,0,0"/>
+				</StackPanel>
+
+				<Button Name="SettingUpdateLauncher" Content="Update Launcher" HorizontalAlignment="Left"/>
+				
 			</StackPanel>
-			<!-- Versions Panel -->
+			<!-- About Panel -->
 			<StackPanel Name="VersionsWindow" IsVisible="False">
 				<Label Name="AboutPageLabel" Content="ABOUT PAGE" Foreground="#ffba7a" HorizontalAlignment="Left" FontSize="22"/>
 				<Label Content="What is Project Launcher?" Foreground="#ffba7a" HorizontalAlignment="Left" Margin="0,12,0,0"/>

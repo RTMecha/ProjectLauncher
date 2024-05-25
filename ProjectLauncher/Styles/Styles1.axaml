@@ -1,19 +1,28 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<Styles.Resources>
+		<CornerRadius x:Key="CornerRadius">7</CornerRadius>
+		<CornerRadius x:Key="TextBoxCornerRadius">0,0,0,0</CornerRadius>
+	</Styles.Resources>
 	<Design.PreviewWith>
+		
 		<Border Padding="20">
 			<StackPanel>
 				<Label>Example Text</Label>
-				<Button Content="Hello world" Classes="style1"/>
-				<ListBoxItem Content="Hello world" Classes="lbs1"/>
-				<TextBox>hello</TextBox>
-				<DropDownButton Content="Test"/>
+				<Button Content="Hello world" Classes="style1 roundEdges" Margin="0,5,0,5"/>
+				<ListBoxItem Content="Hello world" Classes="lbs1 roundEdges" Margin="0,5,0,5"/>
+				<TextBox Margin="0,5,0,5" Classes="roundEdges" >hello</TextBox>
+				<DropDownButton Margin="0,5,0,5" Content="Test" Classes="roundEdges"/>
 			</StackPanel>
 
 		</Border>
 	</Design.PreviewWith>
 
+
 	<!-- Add Styles Here -->
+	
+	<!-- BUTTON STYLES -->
+	
 	<Style Selector="Button /template/ ContentPresenter">
 
 	</Style>
@@ -28,27 +37,28 @@
 		<Setter Property="MaxWidth" Value="400" />
 		<Setter Property="Margin" Value="0,0,0,0" />
 		<Setter Property="HorizontalAlignment" Value="Left"/>
+		<Setter Property="CornerRadius" Value="{DynamicResource CornerRadius}" />
 	</Style>
 	<Style Selector="Button">
 		<Setter Property="Foreground" Value="#ffba7a" />
 		<Setter Property="FontFamily" Value="Arial Black" />
 		<Setter Property="BorderThickness" Value="0,0,0,3" />
-		<Setter Property="CornerRadius" Value="7" />
+		
 		<Setter Property="Background" Value="#383838" />
 		<Setter Property="BorderBrush" Value="#FF141414" />
 		<Setter Property="FontWeight" Value="Bold" />
+		
 		<Setter Property="HorizontalContentAlignment" Value="Center" />
 		<Setter Property="Width" Value="200" />
-		<Setter Property="Margin" Value="0,0,0,0" />
-		<Setter Property="HorizontalAlignment" Value="Left"/>
+		<Setter Property="CornerRadius" Value="{DynamicResource CornerRadius}" />
 	</Style>
 
-
+	<!-- TEXT_BOX STYLES -->
+	
 	<Style Selector="TextBox">
 		<Setter Property="Foreground" Value="#FFFFFFFF" />
 		<Setter Property="FontFamily" Value="Arial Black" />
-		<Setter Property="BorderThickness" Value="10,0,0,0" />
-		<Setter Property="CornerRadius" Value="7" />
+		<Setter Property="BorderThickness" Value="0,0,0,3" />
 		<Setter Property="Background" Value="#FF424242" />
 		<Setter Property="BorderBrush" Value="#ffba7a" />
 		<Setter Property="FontWeight" Value="Bold" />
@@ -57,13 +67,15 @@
 		<Setter Property="Margin" Value="0,0,0,0" />
 		<Setter Property="TextAlignment" Value="Center" />
 		<Setter Property="HorizontalAlignment" Value="Left"/>
+		<Setter Property="CornerRadius" Value="{DynamicResource TextBoxCornerRadius}" />
 	</Style>
+
+	<!-- LIST_BOX STYLES -->
 
 	<Style Selector="ListBoxItem.lbs1">
 		<Setter Property="Foreground" Value="#ffba7a" />
 		<Setter Property="FontFamily" Value="FontFamily.Default" />
 		<Setter Property="BorderThickness" Value="5, 0, 5, 5" />
-		<Setter Property="CornerRadius" Value="0" />
 		<Setter Property="Background" Value="#383838" />
 		<Setter Property="HorizontalContentAlignment" Value="Left" />
 		<Setter Property="FontWeight" Value="Bold" />
@@ -71,8 +83,10 @@
 		<Setter Property="Margin" Value="0, 0, 0, 0" />
 		<Setter Property="FontSize" Value="12" />
 		<Setter Property="HorizontalAlignment" Value="Left" />
+		<Setter Property="CornerRadius" Value="{DynamicResource CornerRadius}" />
 	</Style>
 
+	<!-- LABEL STYLES -->
 
 	<Style Selector="Label">
 		<Setter Property="Foreground" Value="#ffba7a" />
@@ -89,12 +103,12 @@
 		<Setter Property="HorizontalAlignment" Value="Stretch"/>
 	</Style>
 
+	<!-- DROP_DOWN_BUTTON STYLES -->
 
 	<Style Selector="DropDownButton">
 		<Setter Property="Foreground" Value="#ffba7a" />
 		<Setter Property="FontFamily" Value="Arial Black" />
 		<Setter Property="BorderThickness" Value="0" />
-		<Setter Property="CornerRadius" Value="7" />
 		<Setter Property="Background" Value="#FF424242" />
 		<Setter Property="BorderBrush" Value="#ff9669" />
 		<Setter Property="FontWeight" Value="Bold" />
@@ -102,7 +116,9 @@
 		<Setter Property="MaxWidth" Value="400" />
 		<Setter Property="Margin" Value="0,0,0,0" />
 		<Setter Property="HorizontalAlignment" Value="Stretch"/>
+		<Setter Property="CornerRadius" Value="{DynamicResource CornerRadius}" />
 	</Style>
+	
 	<Style Selector="Flyout">
 
 	</Style>

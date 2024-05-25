@@ -47,6 +47,7 @@ namespace ProjectLauncher.Views
             $"- Redesigned some UI elements to be easier to look at with some new icons and better layout." +
             $"- The launcher now has an auto updater. Check it out in the settings tab.";
 
+
         public MainView()
         {
             InitializeComponent();
@@ -89,6 +90,7 @@ namespace ProjectLauncher.Views
             AppPathField.TextChanged += AppPathFieldChanged;
             SettingRounded.Click += SettingsRoundedClick;
             SettingUpdateLauncher.Click += UpdateLauncherClick;
+            RoundSlider.ValueChanged += OnSliderValueChanged;
 
             LoadUpdateNotes();
         }
@@ -294,45 +296,10 @@ namespace ProjectLauncher.Views
 
         void UpdateRoundness()
         {
-            var roundness = new CornerRadius(Rounded ? 7 : 0);
-            LaunchButton.CornerRadius = roundness;
-            ModsButton.CornerRadius = roundness;
-            VersionsButton.CornerRadius = roundness;
-            ChangelogButton.CornerRadius = roundness;
-            AppPathField.CornerRadius = roundness;
-            AppPathBrowse.CornerRadius = roundness;
-            SettingRounded.CornerRadius = roundness;
-            SettingUpdateLauncher.CornerRadius = roundness;
-            InstancesListBox.CornerRadius = roundness;
-            InstancesSearchField.CornerRadius = roundness;
-            NewInstanceNameField.CornerRadius = roundness;
-            CreateNewInstanceButton.CornerRadius = roundness;
-            Launch.CornerRadius = roundness;
-            Update.CornerRadius = roundness;
-            BetterLegacyToggle.CornerRadius = roundness;
-            EditorOnStartupToggle.CornerRadius = roundness;
-            UnityExplorerToggle.CornerRadius = roundness;
-            Versions.CornerRadius = roundness;
-
-            if (Versions.Flyout is Flyout flyout && flyout.Content is ListBox list)
-            {
-                list.CornerRadius = roundness;
-                for (int i = 0; i < list.ItemCount; i++)
-                {
-                    if (list.Items[i] is ListBoxItem item)
-                    {
-                        item.CornerRadius = roundness;
-                    }
-                }
-            }
-
-            for (int i = 0; i < InstancesListBox.ItemCount; i++)
-            {
-                if (InstancesListBox.Items[i] is ListBoxItem item)
-                {
-                    item.CornerRadius = roundness;
-                }
-            }
+            double roundessValue = Rounded ? RoundValue : 0;
+            var resources = this.Resources;
+            resources["CornerRadius"] = new CornerRadius(roundessValue);
+            resources["TextBoxCornerRadius"] = new CornerRadius(roundessValue, roundessValue, 0,0);
         }
 
         public void UpdateButtons(Button button)
@@ -617,6 +584,17 @@ namespace ProjectLauncher.Views
                 projectArrhythmia.Settings.BetterLegacy = !projectArrhythmia.Settings.BetterLegacy;
                 BetterLegacyToggle.Content = $"BetterLegacy {(projectArrhythmia.Settings.BetterLegacy ? "✓" : "✕")}";
                 projectArrhythmia.Settings.SaveSettings();
+            }
+        }
+
+        public static double RoundValue;
+        void OnSliderValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+        {
+            var slider = sender as Slider;
+            if (slider != null)
+            {
+                RoundValue = slider.Value;
+                UpdateRoundness();
             }
         }
 
