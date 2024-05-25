@@ -41,7 +41,7 @@
 		<Setter Property="CornerRadius" Value="{DynamicResource CornerRadius}" />
 	</Style>
 	<Style Selector="Button">
-		<Setter Property="Foreground" Value="#ffba7a" />
+		<Setter Property="Foreground" Value="{DynamicResource SystemColor}" />
 		<Setter Property="FontFamily" Value="Arial Black" />
 		<Setter Property="BorderThickness" Value="0,0,0,3" />
 		
@@ -54,6 +54,12 @@
 		<Setter Property="CornerRadius" Value="{DynamicResource CornerRadius}" />
 	</Style>
 
+	<Style Selector="Button.main">
+		<Setter Property="Background" Value="{DynamicResource SystemColor}" />
+		<Setter Property="Foreground" Value="#FFFFFF" />
+	</Style>
+
+
 	<!-- TEXT_BOX STYLES -->
 	
 	<Style Selector="TextBox">
@@ -61,7 +67,7 @@
 		<Setter Property="FontFamily" Value="Arial Black" />
 		<Setter Property="BorderThickness" Value="0,0,0,3" />
 		<Setter Property="Background" Value="#FF424242" />
-		<Setter Property="BorderBrush" Value="#ffba7a" />
+		<Setter Property="BorderBrush" Value="{DynamicResource SystemColor}" />
 		<Setter Property="FontWeight" Value="Bold" />
 		<Setter Property="HorizontalContentAlignment" Value="Center" />
 		<Setter Property="Width" Value="200" />
@@ -74,7 +80,7 @@
 	<!-- LIST_BOX STYLES -->
 
 	<Style Selector="ListBoxItem.lbs1">
-		<Setter Property="Foreground" Value="#ffba7a" />
+		<Setter Property="Foreground" Value="{DynamicResource SystemColor}" />
 		<Setter Property="FontFamily" Value="FontFamily.Default" />
 		<Setter Property="BorderThickness" Value="5, 0, 5, 5" />
 		<Setter Property="Background" Value="#383838" />
@@ -90,12 +96,12 @@
 	<!-- LABEL STYLES -->
 
 	<Style Selector="Label">
-		<Setter Property="Foreground" Value="#ffba7a" />
+		<Setter Property="Foreground" Value="{DynamicResource SystemColor}" />
 		<Setter Property="FontFamily" Value="Arial Black" />
 		<Setter Property="BorderThickness" Value="0" />
 		<Setter Property="CornerRadius" Value="7" />
 		<Setter Property="Background" Value="#00000000" />
-		<Setter Property="BorderBrush" Value="#ff9669" />
+		<Setter Property="BorderBrush" Value="{DynamicResource SystemColor}" />
 		<Setter Property="FontWeight" Value="Bold" />
 		<Setter Property="HorizontalContentAlignment" Value="Left" />
 		<Setter Property="MaxWidth" Value="400" />
@@ -107,11 +113,11 @@
 	<!-- DROP_DOWN_BUTTON STYLES -->
 
 	<Style Selector="DropDownButton">
-		<Setter Property="Foreground" Value="#ffba7a" />
+		<Setter Property="Foreground" Value="{DynamicResource SystemColor}" />
 		<Setter Property="FontFamily" Value="Arial Black" />
 		<Setter Property="BorderThickness" Value="0" />
 		<Setter Property="Background" Value="#FF424242" />
-		<Setter Property="BorderBrush" Value="#ff9669" />
+		<Setter Property="BorderBrush" Value="{DynamicResource SystemColor}" />
 		<Setter Property="FontWeight" Value="Bold" />
 		<Setter Property="HorizontalContentAlignment" Value="Center" />
 		<Setter Property="MaxWidth" Value="400" />

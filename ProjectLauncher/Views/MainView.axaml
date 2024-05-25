@@ -16,6 +16,7 @@
 	<UserControl.Resources>
 		<CornerRadius x:Key="CornerRadius">7</CornerRadius>
 		<CornerRadius x:Key="TextBoxCornerRadius">0,0,0,0</CornerRadius>
+		<SolidColorBrush x:Key="SystemColor" Color="#ffba7a"/>
 	</UserControl.Resources>
 
 	<UserControl.Styles>
@@ -30,10 +31,10 @@
 
 		<Panel Background="#FF1F1F1F" ZIndex="1" >
 			<StackPanel Grid.Column="0" Spacing="10" Margin="10,10,10,0" HorizontalAlignment="Stretch">
-				<Button Name="LaunchButton" Content="INSTANCES" Click="MenuButtonPressed"/>
-				<Button Name="ModsButton" Content="SETTINGS" Click="MenuButtonPressed"/>
-				<Button Name="VersionsButton" Content="ABOUT" Click="MenuButtonPressed"/>
-				<Button Name="ChangelogButton" Content="CHANGELOG" Click="MenuButtonPressed"/>
+				<Button Name="LaunchButton" Classes="main"  Content="INSTANCES" Click="MenuButtonPressed"/>
+				<Button Name="ModsButton" Classes="main" Content="SETTINGS" Click="MenuButtonPressed"/>
+				<Button Name="VersionsButton" Classes="main" Content="ABOUT" Click="MenuButtonPressed"/>
+				<Button Name="ChangelogButton" Classes="main" Content="CHANGELOG" Click="MenuButtonPressed"/>
 
 			</StackPanel>
 		</Panel>
@@ -58,21 +59,21 @@
 							</Button>
 							<DropDownButton Name="Versions" Content="Version: 1.0.0" Margin="10,-4,15,0" Height="45"/>
 						</DockPanel>
-						<Label Name="AppPathFieldLabel" Content="App path" Foreground="#ffba7a" HorizontalAlignment="Left"/>
+						<Label Name="AppPathFieldLabel" Content="App path" HorizontalAlignment="Left"/>
 						<DockPanel HorizontalAlignment="Stretch" Height="30" Margin="5,0,5,0">
 							<TextBox Name="AppPathField"  TextAlignment="Left" Watermark="Project Arrhythmia Folder Path" Width="500"/>
 							<Button Name="AppPathBrowse" Height="35" Width="35" Margin="12,2,0,0">
 								<Image Source="avares://ProjectLauncher/Assets/browse.ico"/>
 							</Button>
 						</DockPanel>
-						<Label Name="NewInstanceNameLabel" Content="New Instance name" Foreground="#ffba7a" HorizontalAlignment="Left"/>
+						<Label Name="NewInstanceNameLabel" Content="New Instance name" HorizontalAlignment="Left"/>
 						<DockPanel HorizontalAlignment="Stretch" Height="30" Margin="5,0,5,0">
 							<TextBox Name="NewInstanceNameField" TextAlignment="Left" Watermark="Set new name..." Text="PA Legacy" Width="500"/>
 							<Button Name="CreateNewInstanceButton" Content="Create new" Height="35" Width="35" HorizontalAlignment="Left" Margin="12,2,0,0">
 								<Image Source="avares://ProjectLauncher/Assets/add.ico"/>
 							</Button>
 						</DockPanel>
-						<Label Name="InstancesLabel" Content="Instances" Foreground="#ffba7a" HorizontalAlignment="Left"/>
+						<Label Name="InstancesLabel" Content="Instances" HorizontalAlignment="Left"/>
 						<TextBox Name="InstancesSearchField" TextAlignment="Left" Watermark="Search instances..." HorizontalAlignment="Left" Width="550" Margin="5,0,5,0"/>
 						<ScrollViewer MaxHeight="170" Width="550" HorizontalAlignment="Left" Margin="5,6,5,0">
 							<ListBox Name="InstancesListBox" Background="#262524"/>
@@ -92,35 +93,40 @@
 			
 
 			<!-- Settings Window Panel -->
-			<StackPanel Name="ModsWindow" IsVisible="False">
-				<Label Name="SettingsPageLabel" Content="SETTINGS PAGE" Foreground="#ffba7a" HorizontalAlignment="Left" FontSize="22"/>
+			<StackPanel Name="ModsWindow" IsVisible="False" Width="600">
+				<Label Name="SettingsPageLabel" Content="SETTINGS PAGE"  HorizontalAlignment="Left" FontSize="22"/>
 				<StackPanel Orientation="Horizontal">
 					<Button Name="SettingRounded" Content="Rounded UI" HorizontalAlignment="Left"/>
 					<Slider x:Name="RoundSlider" Minimum="0" Maximum="14" Width="200" Margin="10,0,0,0"/>
 				</StackPanel>
 
+				<StackPanel Orientation="Horizontal">
+					<Button Name="SettingHue" Content="Hue" HorizontalAlignment="Left"/>
+					<Slider x:Name="HueSlider" Minimum="0" Maximum="1" Width="200" Margin="10,0,0,0"/>
+				</StackPanel>
+				<Panel Background="#10FFFFFF" HorizontalAlignment="Stretch" Height="5" Margin="10,0,10,10" />
 				<Button Name="SettingUpdateLauncher" Content="Update Launcher" HorizontalAlignment="Left"/>
 				
 			</StackPanel>
 			<!-- About Panel -->
 			<StackPanel Name="VersionsWindow" IsVisible="False">
-				<Label Name="AboutPageLabel" Content="ABOUT PAGE" Foreground="#ffba7a" HorizontalAlignment="Left" FontSize="22"/>
-				<Label Content="What is Project Launcher?" Foreground="#ffba7a" HorizontalAlignment="Left" Margin="0,12,0,0"/>
-				<Label Content="{Binding AboutProjectLauncherInfo}" Foreground="#ffba7a" HorizontalAlignment="Left"/>
+				<Label Name="AboutPageLabel" Content="ABOUT PAGE" HorizontalAlignment="Left" FontSize="22"/>
+				<Label Content="What is Project Launcher?" HorizontalAlignment="Left" Margin="0,12,0,0"/>
+				<Label Content="{Binding AboutProjectLauncherInfo}" HorizontalAlignment="Left"/>
 			</StackPanel>
 			<!-- Changelog Window -->
 			<StackPanel Name="ChangelogWindow" IsVisible="False" HorizontalAlignment="Stretch">
-				<Label Name="ChangelogLabel" Content="CHANGELOG PAGE" Foreground="#ffba7a" HorizontalAlignment="Left" FontSize="22"/>
-				<Label Name="ChangelogNotesLabel" Content="Launcher notes" Foreground="#ffba7a" HorizontalAlignment="Left"/>
+				<Label Name="ChangelogLabel" Content="CHANGELOG PAGE" HorizontalAlignment="Left" FontSize="22"/>
+				<Label Name="ChangelogNotesLabel" Content="Launcher notes" HorizontalAlignment="Left"/>
 				<ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto" Height="200">
-					<Label Content="Updates" Foreground="#ffba7a" HorizontalAlignment="Left" FontSize="11" MaxWidth="600" Height="200">
+					<Label Content="Updates" HorizontalAlignment="Left" FontSize="11" MaxWidth="600" Height="200">
 						<TextBlock Name="ChangelogNotes" TextWrapping="Wrap" />
 					</Label>
 				</ScrollViewer>
 				<Panel Background="#10FFFFFF" HorizontalAlignment="Stretch" Height="5" Margin="10,0,10,0" />
-				<Label Name="BetterLegacyNotesLabel" Content="BetterLegacy notes" Foreground="#ffba7a" HorizontalAlignment="Left"/>
+				<Label Name="BetterLegacyNotesLabel" Content="BetterLegacy notes" HorizontalAlignment="Left"/>
 				<ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto" Height="200">
-					<Label Content="Updates" Foreground="#ffba7a" HorizontalAlignment="Left" FontSize="11" MaxWidth="600">
+					<Label Content="Updates" HorizontalAlignment="Left" FontSize="11" MaxWidth="600">
 						<TextBlock Name="BetterLegacyNotes" TextWrapping="Wrap" />
 					</Label>
 				</ScrollViewer>
