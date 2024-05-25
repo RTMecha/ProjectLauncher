@@ -17,6 +17,7 @@ using SimpleJSON;
 using System.Threading.Tasks;
 using System.Net.Http;
 using System.Net;
+using Avalonia.Markup.Xaml;
 
 namespace ProjectLauncher.Views
 {
@@ -133,13 +134,14 @@ namespace ProjectLauncher.Views
         {
             try
             {
-                ChangelogNotes.Content = Changelog;
+                ChangelogNotes.Text = Changelog;
 
                 var http = new HttpClient();
                 var str = await http.GetStringAsync("https://github.com/RTMecha/BetterLegacy/raw/master/updates.lss");
 
                 if (!string.IsNullOrEmpty(str))
-                    BetterLegacyNotes.Content = str;
+                    BetterLegacyNotes.Text = str;
+
             }
             catch (Exception ex)
             {
@@ -740,4 +742,5 @@ namespace ProjectLauncher.Views
         public bool UnityExplorer { get; set; } = false;
         public string CurrentVersion { get; set; } = string.Empty;
     }
+
 }

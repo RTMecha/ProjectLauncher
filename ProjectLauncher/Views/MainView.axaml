@@ -109,16 +109,21 @@
 				<Label Content="{Binding AboutProjectLauncherInfo}" Foreground="#ffba7a" HorizontalAlignment="Left"/>
 			</StackPanel>
 			<!-- Changelog Window -->
-			<StackPanel Name="ChangelogWindow" IsVisible="False">
-        <Label Name="ChangelogLabel" Content="CHANGELOG PAGE" Foreground="#ffba7a" HorizontalAlignment="Left" FontSize="22"/>
-        <Label Name="ChangelogNotesLabel" Content="Launcher notes" Foreground="#ffba7a" HorizontalAlignment="Left"/>
-        <ScrollViewer>
-          <Label Name="ChangelogNotes" Content="Updates" Foreground="#ffba7a" HorizontalAlignment="Left" FontSize="11" MaxWidth="2000"/>
-        </ScrollViewer>
-        <Label Name="BetterLegacyNotesLabel" Content="BetterLegacy notes" Foreground="#ffba7a" HorizontalAlignment="Left"/>
-        <ScrollViewer>
-          <Label Name="BetterLegacyNotes" Content="Updates" Foreground="#ffba7a" HorizontalAlignment="Left" FontSize="11" MaxWidth="2000"/>
-        </ScrollViewer>
+			<StackPanel Name="ChangelogWindow" IsVisible="False" HorizontalAlignment="Stretch">
+				<Label Name="ChangelogLabel" Content="CHANGELOG PAGE" Foreground="#ffba7a" HorizontalAlignment="Left" FontSize="22"/>
+				<Label Name="ChangelogNotesLabel" Content="Launcher notes" Foreground="#ffba7a" HorizontalAlignment="Left"/>
+				<ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto" Height="200">
+					<Label Content="Updates" Foreground="#ffba7a" HorizontalAlignment="Left" FontSize="11" MaxWidth="600" Height="200">
+						<TextBlock Name="ChangelogNotes" TextWrapping="Wrap" />
+					</Label>
+				</ScrollViewer>
+				<Panel Background="#10FFFFFF" HorizontalAlignment="Stretch" Height="5" Margin="10,0,10,0" />
+				<Label Name="BetterLegacyNotesLabel" Content="BetterLegacy notes" Foreground="#ffba7a" HorizontalAlignment="Left"/>
+				<ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto" Height="200">
+					<Label Content="Updates" Foreground="#ffba7a" HorizontalAlignment="Left" FontSize="11" MaxWidth="600">
+						<TextBlock Name="BetterLegacyNotes" TextWrapping="Wrap" />
+					</Label>
+				</ScrollViewer>
 			</StackPanel>
 
 		</StackPanel>
