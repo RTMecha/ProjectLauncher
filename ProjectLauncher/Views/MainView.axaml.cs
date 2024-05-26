@@ -42,13 +42,15 @@ namespace ProjectLauncher.Views
         public static string Changelog =>
             $"2.0.0 > [May 22, 2024]\n" +
             $"- Completely reworked Project Launcher to use a different basis and to use the merged mods rather than the individual." +
-            $"2.0.1 > [May 22, 2024]\n" +
+            $"\n2.0.1 > [May 22, 2024]\n" +
             $"- Fixed URL for BetterLegacy versions being incorrect." +
             $"2.0.2 > [May 22, 2024]\n" +
             $"- Made launch and update buttons turn invisible when an instance is updating." +
-            $"2.1.0 > [May 24, 2024]\n" +
+            $"\n2.1.0 > [May 24, 2024]\n" +
             $"- Redesigned some UI elements to be easier to look at with some new icons and better layout." +
-            $"- The launcher now has an auto updater. Check it out in the settings tab.";
+            $"- The launcher now has an auto updater. Check it out in the settings tab." +
+            $"\n2.1.1 > [May 25, 2024]\n" +
+            $"- Updated some roundness and added a roundness slider.";
 
 
         public MainView()
@@ -166,10 +168,11 @@ namespace ProjectLauncher.Views
                 var jn = JSON.Parse(json);
                 Rounded = jn["ui"]["rounded"].AsBool;
 
+                if (!string.IsNullOrEmpty(jn["ui"]["roundness"]))
+                    RoundSlider.Value = jn["ui"]["roundness"].AsDouble;
+
                 if (!string.IsNullOrEmpty(jn["instances"]["app_path"]))
-                {
                     AppPathField.Text = jn["instances"]["app_path"];
-                }
             }
 
             SettingRounded.Content = $"Rounded UI   {(Rounded ? "✓" : "✕")}";
@@ -186,6 +189,7 @@ namespace ProjectLauncher.Views
             var settingsPath = SettingsFile;
             var jn = JSON.Parse("{}");
             jn["ui"]["rounded"] = Rounded.ToString();
+            jn["ui"]["roundness"] = RoundSlider.Value.ToString();
             if (AppPathField != null && !string.IsNullOrEmpty(AppPathField.Text))
                 jn["instances"]["app_path"] = AppPathField.Text;
 
@@ -558,7 +562,6 @@ namespace ProjectLauncher.Views
         {
             if (sender is ListBox list && list.SelectedItem is ListBoxItem item && item.Content is string version)
             {
-                Debug.WriteLine($"Changed version to {version}");
                 Versions.Content = $"Version: {version}";
                 Versions.Flyout?.Hide();
 
@@ -570,6 +573,7 @@ namespace ProjectLauncher.Views
 
                 if (InstancesListBox.SelectedItem is ListBoxItem instance && instance.DataContext is ProjectArrhythmia projectArrhythmia && projectArrhythmia.Settings != null)
                 {
+                    Debug.WriteLine($"Changed version to {version}");
                     projectArrhythmia.Settings.CurrentVersion = version;
                     projectArrhythmia.Settings.SaveSettings();
                 }
@@ -609,11 +613,13 @@ namespace ProjectLauncher.Views
         public static double RoundValue;
         void RoundSliderValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            var slider = sender as Slider;
-            if (slider != null)
+            if (sender is Slider slider)
             {
                 RoundValue = slider.Value;
                 UpdateRoundness();
+
+                if (!savingSettings)
+                    SaveSettings();
             }
         }
 
@@ -696,9 +702,9 @@ namespace ProjectLauncher.Views
                 if (projectArrhythmia.Settings == null)
                     return;
 
+                Debug.WriteLine($"BetterLegacy Version: {projectArrhythmia.Settings.CurrentVersion}");
                 if (Versions.Flyout is Flyout flyout && flyout.Content is ListBox versionList && versionList.Items.Any(x => x is ListBoxItem version && version.Content is string str && str == projectArrhythmia.Settings.CurrentVersion))
                 {
-                    Debug.WriteLine($"Update settings");
                     shouldSaveVersions = false;
                     versionList.SelectedItem = versionList.Items.First(x => x is ListBoxItem version && version.Content is string str && str == projectArrhythmia.Settings.CurrentVersion);
                     shouldSaveVersions = true;
