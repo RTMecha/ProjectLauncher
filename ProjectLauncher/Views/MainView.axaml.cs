@@ -169,16 +169,27 @@ namespace ProjectLauncher.Views
                 Rounded = jn["ui"]["rounded"].AsBool;
 
                 if (!string.IsNullOrEmpty(jn["ui"]["roundness"]))
-                    RoundSlider.Value = jn["ui"]["roundness"].AsDouble;
+                    RoundSlider.Value = Convert.ToDouble(jn["ui"]["roundness"].Value);
 
                 if (!string.IsNullOrEmpty(jn["instances"]["app_path"]))
                     AppPathField.Text = jn["instances"]["app_path"];
+
+                if (!string.IsNullOrEmpty(jn["hsv"]["hue"]))
+                    HueSlider.Value = Convert.ToDouble(jn["hsv"]["hue"].Value);
+
+
+                if (!string.IsNullOrEmpty(jn["hsv"]["saturation"]))
+                    SaturationSlider.Value = Convert.ToDouble(jn["hsv"]["saturation"].Value);
+
+                if (!string.IsNullOrEmpty(jn["hsv"]["value"]))
+                    ValueSlider.Value = Convert.ToDouble(jn["hsv"]["value"].Value);
+
+                ColorsUpdate();
             }
 
             SettingRounded.Content = $"Rounded UI   {(Rounded ? "✓" : "✕")}";
 
             UpdateRoundness();
-
             SaveSettings();
         }
 
@@ -190,10 +201,13 @@ namespace ProjectLauncher.Views
             var jn = JSON.Parse("{}");
             jn["ui"]["rounded"] = Rounded.ToString();
             jn["ui"]["roundness"] = RoundSlider.Value.ToString();
+            jn["hsv"]["hue"] = HueSlider.Value.ToString();
+            jn["hsv"]["saturation"] = SaturationSlider.Value.ToString();
+            jn["hsv"]["value"] = ValueSlider.Value.ToString();
             if (AppPathField != null && !string.IsNullOrEmpty(AppPathField.Text))
                 jn["instances"]["app_path"] = AppPathField.Text;
 
-            await File.WriteAllTextAsync(settingsPath, jn.ToString(3));
+            await File.WriteAllTextAsync(settingsPath, jn.ToString(6));
             savingSettings = false;
         }
 
@@ -314,15 +328,6 @@ namespace ProjectLauncher.Views
             var resources = this.Resources;
             resources["CornerRadius"] = new CornerRadius(roundessValue);
             resources["TextBoxCornerRadius"] = new CornerRadius(roundessValue, roundessValue, 0,0);
-        }
-
-        void UpdateColors()
-        {
-            //var resources = this.Resources;
-            //var color = FromHsv(HueValue, 1, 1);
-            //resources["SystemColor"] = new SolidColorBrush(color);
-
-            
         }
 
         public void UpdateButtons(Button button)
@@ -623,7 +628,7 @@ namespace ProjectLauncher.Views
             }
         }
 
-        private double hsvHhue;
+        private double hsvHue;
         private double hsvSaturation;
         private double hsvValue;
         void HSVdataUpdate(object sender, RangeBaseValueChangedEventArgs e)
@@ -631,11 +636,12 @@ namespace ProjectLauncher.Views
             var slider = sender as Slider;
             if (slider != null)
             {
-                if (slider.Name == "HueSlider") hsvHhue = slider.Value;
+                if (slider.Name == "HueSlider") hsvHue = slider.Value;
                 if (slider.Name == "SaturationSlider") hsvSaturation = slider.Value;
                 if (slider.Name == "ValueSlider") hsvValue = slider.Value;
             }
             ColorsUpdate();
+            SaveSettings();
         }
 
         void ResetToDefaultThemeButtonPresed(object sender, EventArgs e)
@@ -650,7 +656,10 @@ namespace ProjectLauncher.Views
 
         void ColorsUpdate()
         {
-            var color = FromHsv(hsvHhue, hsvSaturation, hsvValue);
+            hsvHue = HueSlider.Value;
+            hsvSaturation = SaturationSlider.Value;
+            hsvValue = ValueSlider.Value;
+            var color = FromHsv(hsvHue, hsvSaturation, hsvValue);
 
             var resources = this.Resources;
             resources["SystemColor"] = new SolidColorBrush(color);
