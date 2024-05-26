@@ -3,7 +3,7 @@
 	<Styles.Resources>
 		<CornerRadius x:Key="CornerRadius">12</CornerRadius>
 		<CornerRadius x:Key="TextBoxCornerRadius">12,12,0,0</CornerRadius>
-		<SolidColorBrush x:Key="SystemColor" Color="#ffba7a"/>
+		<SolidColorBrush x:Key="SystemColor" Color="#FFFFAD5C"/>
 	</Styles.Resources>
 	<Design.PreviewWith>
 		

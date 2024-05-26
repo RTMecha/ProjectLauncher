@@ -16,7 +16,7 @@
 	<UserControl.Resources>
 		<CornerRadius x:Key="CornerRadius">7</CornerRadius>
 		<CornerRadius x:Key="TextBoxCornerRadius">0,0,0,0</CornerRadius>
-		<SolidColorBrush x:Key="SystemColor" Color="#ffba7a"/>
+		<SolidColorBrush x:Key="SystemColor" Color="#FFFFBA7A"/>
 	</UserControl.Resources>
 
 	<UserControl.Styles>
@@ -93,18 +93,29 @@
 			
 
 			<!-- Settings Window Panel -->
-			<StackPanel Name="ModsWindow" IsVisible="False" Width="600">
+			<StackPanel Name="ModsWindow" IsVisible="False" Width="600" Margin="5,0,0,0">
 				<Label Name="SettingsPageLabel" Content="SETTINGS PAGE"  HorizontalAlignment="Left" FontSize="22"/>
 				<StackPanel Orientation="Horizontal">
 					<Button Name="SettingRounded" Content="Rounded UI" HorizontalAlignment="Left"/>
 					<Slider x:Name="RoundSlider" Minimum="0" Maximum="14" Width="200" Margin="10,0,0,0"/>
 				</StackPanel>
-
+				<Panel Background="#10FFFFFF" HorizontalAlignment="Stretch" Height="5" />
+				<Label Content="HSV settings" HorizontalAlignment="Left" FontSize="22" />
 				<StackPanel Orientation="Horizontal">
-					<Button Name="SettingHue" Content="Hue" HorizontalAlignment="Left"/>
+					<Label Content="Hue" Background="#FF1F1F1F" Width="100" HorizontalContentAlignment="Center" />
 					<Slider x:Name="HueSlider" Minimum="0" Maximum="1" Width="200" Margin="10,0,0,0"/>
 				</StackPanel>
-				<Panel Background="#10FFFFFF" HorizontalAlignment="Stretch" Height="5" Margin="10,0,10,10" />
+				<StackPanel Orientation="Horizontal">
+					<Label Content="Saturation" Background="#FF1F1F1F" Width="100" HorizontalContentAlignment="Center" />
+					<Slider x:Name="SaturationSlider" Minimum="0" Maximum="1" Width="200" Margin="10,0,0,0"/>
+				</StackPanel>
+				<StackPanel Orientation="Horizontal">
+					<Label Content="Value" Background="#FF1F1F1F" Width="100" HorizontalContentAlignment="Center"/>
+					<Slider x:Name="ValueSlider" Minimum="0" Maximum="1" Width="200" Margin="10,0,0,0"/>
+				</StackPanel>
+				<Button Name="ResetToDefaultThemeButton" Content="Reset to default" HorizontalAlignment="Left"/>
+				
+				<Panel Background="#10FFFFFF" HorizontalAlignment="Stretch" Height="5" Margin="10,10,10,10" />
 				<Button Name="SettingUpdateLauncher" Content="Update Launcher" HorizontalAlignment="Left"/>
 				
 			</StackPanel>

@@ -20,6 +20,7 @@ using System.Net;
 using Avalonia.Markup.Xaml;
 
 
+
 namespace ProjectLauncher.Views
 {
 
@@ -29,7 +30,6 @@ namespace ProjectLauncher.Views
 
         public List<PageManager> pages = new List<PageManager>();
         public bool Rounded { get; set; } = true;
-        public bool IsHueEnabled { get; set; } = true;
 
         //public static string InstancesFolder => Directory.GetCurrentDirectory().Replace("\\", "/") + "/instances";
         public static string MainDirectory => Directory.GetCurrentDirectory().Replace("\\", "/") + "/";
@@ -93,10 +93,13 @@ namespace ProjectLauncher.Views
             AppPathBrowse.Click += AppPathBrowseClick;
             AppPathField.TextChanged += AppPathFieldChanged;
             SettingRounded.Click += SettingsRoundedClick;
-            SettingHue.Click += SettingsHueClick;
             SettingUpdateLauncher.Click += UpdateLauncherClick;
             RoundSlider.ValueChanged += RoundSliderValueChanged;
-            HueSlider.ValueChanged += HueSliderValueChanged;
+
+            HueSlider.ValueChanged += HSVdataUpdate;
+            SaturationSlider.ValueChanged += HSVdataUpdate;
+            ValueSlider.ValueChanged += HSVdataUpdate;
+            ResetToDefaultThemeButton.Click += ResetToDefaultThemeButtonPresed;
 
             LoadUpdateNotes();
         }
@@ -170,7 +173,6 @@ namespace ProjectLauncher.Views
             }
 
             SettingRounded.Content = $"Rounded UI   {(Rounded ? "✓" : "✕")}";
-            SettingHue.Content = $"Hue   {(IsHueEnabled ? "✓" : "✕")}";
 
             UpdateRoundness();
 
@@ -312,9 +314,9 @@ namespace ProjectLauncher.Views
 
         void UpdateColors()
         {
-            var resources = this.Resources;
-            var color = FromHsv(HueValue, 1, 1);
-            resources["SystemColor"] = new SolidColorBrush(color);
+            //var resources = this.Resources;
+            //var color = FromHsv(HueValue, 1, 1);
+            //resources["SystemColor"] = new SolidColorBrush(color);
 
             
         }
@@ -328,9 +330,6 @@ namespace ProjectLauncher.Views
 
                 if (selected) page.PageButton.Classes.Set("main", true);
                 else page.PageButton.Classes.Set("main", false);
-
-                //page.PageButton.Background = new SolidColorBrush(Color.Parse(selected ? "#FFFF550D" : "#FF383838"));
-                //page.PageButton.Foreground = new SolidColorBrush(Color.Parse(selected ? "#FFFFFF" : "#FFFFBA7A"));
             }
         }
 
@@ -618,16 +617,41 @@ namespace ProjectLauncher.Views
             }
         }
 
-        public static double HueValue;
-        void HueSliderValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+        private double hsvHhue;
+        private double hsvSaturation;
+        private double hsvValue;
+        void HSVdataUpdate(object sender, RangeBaseValueChangedEventArgs e)
         {
             var slider = sender as Slider;
             if (slider != null)
             {
-                HueValue = slider.Value;
-                UpdateColors();
+                if (slider.Name == "HueSlider") hsvHhue = slider.Value;
+                if (slider.Name == "SaturationSlider") hsvSaturation = slider.Value;
+                if (slider.Name == "ValueSlider") hsvValue = slider.Value;
             }
+            ColorsUpdate();
         }
+
+        void ResetToDefaultThemeButtonPresed(object sender, EventArgs e)
+        {
+            var color = Color.FromRgb(255, 140, 0);
+            var resources = this.Resources;
+            resources["SystemColor"] = new SolidColorBrush(color);
+            HueSlider.Value = 33 / 400.0;
+            SaturationSlider.Value = 64 / 100.0;
+            ValueSlider.Value = 1;
+        }
+
+        void ColorsUpdate()
+        {
+            var color = FromHsv(hsvHhue, hsvSaturation, hsvValue);
+
+            var resources = this.Resources;
+            resources["SystemColor"] = new SolidColorBrush(color);
+        }
+        //255 186 122
+        //29 52 100
+        //FFFFAD5C
 
         public static Color FromHsv(double h, double S, double V)
         {
@@ -659,6 +683,8 @@ namespace ProjectLauncher.Views
             }
             return Color.FromArgb(255, (byte)r, (byte)g, (byte)b);
         }
+
+
 
         void InstancesListBoxSelectionChanged(object? sender, SelectionChangedEventArgs e)
         {
@@ -702,14 +728,7 @@ namespace ProjectLauncher.Views
             SaveSettings();
         }
 
-        public void SettingsHueClick(object? sender, EventArgs e)
-        {
-            IsHueEnabled = !IsHueEnabled;
-            SettingHue.Content = $"Hue   {(IsHueEnabled ? "✓" : "✕")}";
 
-            UpdateColors();
-            SaveSettings();
-        }
 
         #endregion
 
