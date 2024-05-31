@@ -50,7 +50,10 @@ namespace ProjectLauncher.Views
             $"- Redesigned some UI elements to be easier to look at with some new icons and better layout." +
             $"- The launcher now has an auto updater. Check it out in the settings tab." +
             $"\n2.1.1 > [May 25, 2024]\n" +
-            $"- Updated some roundness and added a roundness slider.";
+            $"- Updated some roundness and added a roundness slider." +
+            $"\n2.1.2 > [May 26, 2024]\n" +
+            $"- Added interface color adjustment in the Settings." +
+            $"- Fixed the problem of incorrect rounded strength data load";
 
 
         public MainView()
@@ -641,7 +644,9 @@ namespace ProjectLauncher.Views
                 if (slider.Name == "ValueSlider") hsvValue = slider.Value;
             }
             ColorsUpdate();
-            SaveSettings();
+            if(!savingSettings) SaveSettings();
+
+
         }
 
         void ResetToDefaultThemeButtonPresed(object sender, EventArgs e)
