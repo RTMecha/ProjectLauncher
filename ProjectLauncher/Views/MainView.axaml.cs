@@ -53,8 +53,8 @@ namespace ProjectLauncher.Views
             $"- Updated some roundness and added a roundness slider.\n" +
             $"2.1.2 > [May 26, 2024]\n" +
             $"- Added interface color adjustment in the Settings.\n" +
-            $"- Fixed the problem of incorrect rounded strength data load" +
-            $"2.1.2 > [June 9, 2024]\n" +
+            $"- Fixed the problem of incorrect rounded strength data load\n" +
+            $"2.1.3 > [June 9, 2024]\n" +
             $"- The update window has been improved.\n";
 
 
