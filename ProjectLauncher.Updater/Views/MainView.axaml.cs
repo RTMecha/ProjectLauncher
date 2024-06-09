@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace ProjectLauncher.Updater.Views
 {
@@ -30,11 +31,29 @@ namespace ProjectLauncher.Updater.Views
                 }
 
                 using var http = new HttpClient();
-                var bytes = await http.GetByteArrayAsync("https://github.com/RTMecha/ProjectLauncher/releases/latest/download/ProjectLauncher.zip");
-                await File.WriteAllBytesAsync(MainDirectory + "ProjectLauncher.zip", bytes);
 
+                // Getting file size
+                var headRequest = new HttpRequestMessage(HttpMethod.Head, "https://github.com/RTMecha/ProjectLauncher/releases/latest/download/ProjectLauncher.zip");
+                var headResponse = await http.SendAsync(headRequest);
+                var contentLength = headResponse.Content.Headers.ContentLength;
+
+                // Start ProgressBarUpdater
+                ProgressBarUpdater(contentLength.Value);
+
+                // Getting file data
+                var response = await http.GetAsync("https://github.com/RTMecha/ProjectLauncher/releases/latest/download/ProjectLauncher.zip", HttpCompletionOption.ResponseHeadersRead);
+                using var fileStream = File.Create(MainDirectory + "ProjectLauncher.zip");
+                using var stream = await response.Content.ReadAsStreamAsync();
+                byte[] buffer = new byte[8192];
+                int bytesRead;
+                while ((bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length)) > 0)
+                {
+                    await fileStream.WriteAsync(buffer, 0, bytesRead);
+                }
+                fileStream.Close();
+                labelProgressBar.Content = "UnZip process...";
                 UnZip(MainDirectory + "ProjectLauncher.zip", Directory.GetCurrentDirectory().Replace("\\", "/"));
-
+                labelProgressBar.Content = "Done!";
                 Relaunch();
             }
             catch (Exception ex)
@@ -51,6 +70,38 @@ namespace ProjectLauncher.Updater.Views
                 }
             }
         }
+
+        int CalculateProgress(long totalBytes, long bytesDownloaded)
+        {
+            return (int)((bytesDownloaded * 100) / totalBytes);
+        }
+
+        async void ProgressBarUpdater(long totalBytes)
+        {
+            while (true)
+            {
+                var fileInfo = new FileInfo(MainDirectory + "ProjectLauncher.zip");
+                if (fileInfo.Exists)
+                {
+                    progressBar.Value = CalculateProgress(totalBytes, fileInfo.Length);
+                    labelProgressBar.Content = FormatProgress(totalBytes, fileInfo.Length);
+                }
+                await Task.Delay(2000);
+            }
+        }
+
+        string FormatBytes(long bytes)
+        {
+            double megabytes = (double)bytes / (1024 * 1024);
+            return $"{megabytes:F1} MB";
+        }
+
+        string FormatProgress(long totalBytes, long bytesDownloaded)
+        {
+            return $"{FormatBytes(bytesDownloaded)} / {FormatBytes(totalBytes)}";
+        }
+
+
 
         void Relaunch()
         {

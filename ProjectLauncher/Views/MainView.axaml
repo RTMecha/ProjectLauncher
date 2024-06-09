@@ -64,6 +64,9 @@
 							<TextBox Name="AppPathField"  TextAlignment="Left" Watermark="Project Arrhythmia Folder Path" Width="500"/>
 							<Button Name="AppPathBrowse" Height="35" Width="35" Margin="12,2,0,0">
 								<Image Source="avares://ProjectLauncher/Assets/browse.ico"/>
+								<ToolTip.Tip>
+									<Label Content="Set a path to the Project Arrhythmia .exe file" />
+								</ToolTip.Tip>
 							</Button>
 						</DockPanel>
 						<Label Name="NewInstanceNameLabel" Content="New Instance name" HorizontalAlignment="Left"/>
@@ -71,6 +74,9 @@
 							<TextBox Name="NewInstanceNameField" TextAlignment="Left" Watermark="Set new name..." Text="PA Legacy" Width="500"/>
 							<Button Name="CreateNewInstanceButton" Content="Create new" Height="35" Width="35" HorizontalAlignment="Left" Margin="12,2,0,0">
 								<Image Source="avares://ProjectLauncher/Assets/add.ico"/>
+								<ToolTip.Tip>
+									<Label Content="Create a new instance" />
+								</ToolTip.Tip>
 							</Button>
 						</DockPanel>
 						<Label Name="InstancesLabel" Content="Instances" HorizontalAlignment="Left"/>
@@ -130,14 +136,14 @@
 				<Label Name="ChangelogLabel" Content="CHANGELOG PAGE" HorizontalAlignment="Left" FontSize="22"/>
 				<Label Name="ChangelogNotesLabel" Content="Launcher notes" HorizontalAlignment="Left"/>
 				<ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto" Height="200">
-					<Label Content="Updates" HorizontalAlignment="Left" FontSize="11" MaxWidth="600" Height="200">
+					<Label Content="Updates" HorizontalAlignment="Left" FontSize="11" MaxWidth="600">
 						<TextBlock Name="ChangelogNotes" TextWrapping="Wrap" />
 					</Label>
 				</ScrollViewer>
 				<Panel Background="#10FFFFFF" HorizontalAlignment="Stretch" Height="5" Margin="10,0,10,0" />
 				<Label Name="BetterLegacyNotesLabel" Content="BetterLegacy notes" HorizontalAlignment="Left"/>
 				<ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto" Height="200">
-					<Label Content="Updates" HorizontalAlignment="Left" FontSize="11" MaxWidth="600">
+					<Label Content="Updates" HorizontalAlignment="Left" FontSize="11" MaxWidth="1200">
 						<TextBlock Name="BetterLegacyNotes" TextWrapping="Wrap" />
 					</Label>
 				</ScrollViewer>

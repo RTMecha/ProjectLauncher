@@ -41,19 +41,21 @@ namespace ProjectLauncher.Views
 
         public static string Changelog =>
             $"2.0.0 > [May 22, 2024]\n" +
-            $"- Completely reworked Project Launcher to use a different basis and to use the merged mods rather than the individual." +
-            $"\n2.0.1 > [May 22, 2024]\n" +
-            $"- Fixed URL for BetterLegacy versions being incorrect." +
+            $"- Completely reworked Project Launcher to use a different basis and to use the merged mods rather than the individual.\n" +
+            $"2.0.1 > [May 22, 2024]\n" +
+            $"- Fixed URL for BetterLegacy versions being incorrect.\n" +
             $"2.0.2 > [May 22, 2024]\n" +
-            $"- Made launch and update buttons turn invisible when an instance is updating." +
-            $"\n2.1.0 > [May 24, 2024]\n" +
-            $"- Redesigned some UI elements to be easier to look at with some new icons and better layout." +
-            $"- The launcher now has an auto updater. Check it out in the settings tab." +
-            $"\n2.1.1 > [May 25, 2024]\n" +
-            $"- Updated some roundness and added a roundness slider." +
-            $"\n2.1.2 > [May 26, 2024]\n" +
-            $"- Added interface color adjustment in the Settings." +
-            $"- Fixed the problem of incorrect rounded strength data load";
+            $"- Made launch and update buttons turn invisible when an instance is updating.\n" +
+            $"2.1.0 > [May 24, 2024]\n" +
+            $"- Redesigned some UI elements to be easier to look at with some new icons and better layout.\n" +
+            $"- The launcher now has an auto updater. Check it out in the settings tab.\n" +
+            $"2.1.1 > [May 25, 2024]\n" +
+            $"- Updated some roundness and added a roundness slider.\n" +
+            $"2.1.2 > [May 26, 2024]\n" +
+            $"- Added interface color adjustment in the Settings.\n" +
+            $"- Fixed the problem of incorrect rounded strength data load" +
+            $"2.1.2 > [June 9, 2024]\n" +
+            $"- The update window has been improved.\n";
 
 
         public MainView()
@@ -186,6 +188,14 @@ namespace ProjectLauncher.Views
 
                 if (!string.IsNullOrEmpty(jn["hsv"]["value"]))
                     ValueSlider.Value = Convert.ToDouble(jn["hsv"]["value"].Value);
+
+                if (!string.IsNullOrEmpty(jn["hsv"]["hue"]) && !string.IsNullOrEmpty(jn["hsv"]["saturation"]) && !string.IsNullOrEmpty(jn["hsv"]["value"]))
+                {
+                    if(jn["hsv"]["hue"].Value == "0" && jn["hsv"]["saturation"].Value == "0" && jn["hsv"]["value"].Value == "0")
+                    {
+                        ResetToDefaultTheme();
+                    }
+                }
 
                 ColorsUpdate();
             }
@@ -650,6 +660,11 @@ namespace ProjectLauncher.Views
         }
 
         void ResetToDefaultThemeButtonPresed(object sender, EventArgs e)
+        {
+            ResetToDefaultTheme();
+        }
+
+        void ResetToDefaultTheme()
         {
             var color = Color.FromRgb(255, 140, 0);
             var resources = this.Resources;
