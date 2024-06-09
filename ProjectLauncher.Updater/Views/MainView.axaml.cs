@@ -26,7 +26,7 @@ namespace ProjectLauncher.Updater.Views
             {
                 if (!runUpdate)
                 {
-                    Relaunch();
+                    MainWindow.Instance.Close();
                     return;
                 }
 
@@ -51,10 +51,13 @@ namespace ProjectLauncher.Updater.Views
                     await fileStream.WriteAsync(buffer, 0, bytesRead);
                 }
                 fileStream.Close();
-                labelProgressBar.Content = "UnZip process...";
-                UnZip(MainDirectory + "ProjectLauncher.zip", Directory.GetCurrentDirectory().Replace("\\", "/"));
-                labelProgressBar.Content = "Done!";
-                Relaunch();
+
+                var startInfo = new ProcessStartInfo();
+                startInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                startInfo.FileName = MainDirectory + "ProjectLauncher.Unzip.exe";
+                Process.Start(startInfo);
+
+                MainWindow.Instance.Close();
             }
             catch (Exception ex)
             {
@@ -102,7 +105,8 @@ namespace ProjectLauncher.Updater.Views
         }
 
 
-
+        // Probably don't need anymore
+        /*
         void Relaunch()
         {
             var startInfo = new ProcessStartInfo();
@@ -112,6 +116,8 @@ namespace ProjectLauncher.Updater.Views
             MainWindow.Instance.Close();
         }
 
+        
+        
         public static void UnZip(string path, string output)
         {
             using var archive = ZipFile.Open(path, ZipArchiveMode.Update);
@@ -138,6 +144,7 @@ namespace ProjectLauncher.Updater.Views
                 }
             }
         }
+        */
 
     }
 }

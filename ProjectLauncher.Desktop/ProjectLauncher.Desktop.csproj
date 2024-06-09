@@ -17,6 +17,7 @@
   <ItemGroup>
     <ProjectReference Include="..\ProjectLauncher\ProjectLauncher.csproj" />
     <ProjectReference Include="..\ProjectLauncher.Updater\ProjectLauncher.Updater.csproj" />
+	  <ProjectReference Include="..\ProjectLauncher.Unzip\ProjectLauncher.Unzip.csproj" />
   </ItemGroup>
 
 	

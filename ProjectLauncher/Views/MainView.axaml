@@ -31,10 +31,34 @@
 
 		<Panel Background="#FF1F1F1F" ZIndex="1" >
 			<StackPanel Grid.Column="0" Spacing="10" Margin="10,10,10,0" HorizontalAlignment="Stretch">
-				<Button Name="LaunchButton" Classes="main"  Content="INSTANCES" Click="MenuButtonPressed"/>
-				<Button Name="ModsButton" Classes="main" Content="SETTINGS" Click="MenuButtonPressed"/>
-				<Button Name="VersionsButton" Classes="main" Content="ABOUT" Click="MenuButtonPressed"/>
-				<Button Name="ChangelogButton" Classes="main" Content="CHANGELOG" Click="MenuButtonPressed"/>
+				<Button Name="LaunchButton" Classes="main" Click="MenuButtonPressed">
+					<TextBlock Text="INSTANCES">
+						<TextBlock.Effect>
+							<DropShadowEffect BlurRadius="3" Opacity="0.5" OffsetX="0" OffsetY="0"/>
+						</TextBlock.Effect>
+					</TextBlock>
+				</Button>
+				<Button Name="ModsButton" Classes="main" Click="MenuButtonPressed">
+					<TextBlock Text="SETTINGS">
+						<TextBlock.Effect>
+							<DropShadowEffect BlurRadius="3" Opacity="0.5" OffsetX="0" OffsetY="0"/>
+						</TextBlock.Effect>
+					</TextBlock>
+				</Button>
+				<Button Name="VersionsButton" Classes="main" Click="MenuButtonPressed">
+					<TextBlock Text="ABOUT">
+						<TextBlock.Effect>
+							<DropShadowEffect BlurRadius="3" Opacity="0.5" OffsetX="0" OffsetY="0"/>
+						</TextBlock.Effect>
+					</TextBlock>
+				</Button>
+				<Button Name="ChangelogButton" Classes="main" Click="MenuButtonPressed">
+					<TextBlock Text="CHANGELOG">
+						<TextBlock.Effect>
+							<DropShadowEffect BlurRadius="3" Opacity="0.5" OffsetX="0" OffsetY="0"/>
+						</TextBlock.Effect>
+					</TextBlock>
+				</Button>
 
 			</StackPanel>
 		</Panel>

@@ -55,7 +55,10 @@ namespace ProjectLauncher.Views
             $"- Added interface color adjustment in the Settings.\n" +
             $"- Fixed the problem of incorrect rounded strength data load\n" +
             $"2.1.3 > [June 9, 2024]\n" +
-            $"- The update window has been improved.\n";
+            $"- The update window has been improved.\n" +
+            $"2.1.4 > [June 9, 2024]\n" +
+            $"- Fixed the problem that Updater program isn't updating.\n" +
+            $"- Added a light shadow for text on buttons in the left panel.\n";
 
 
         public MainView()

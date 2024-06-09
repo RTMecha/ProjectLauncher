@@ -45,6 +45,7 @@
 		<Setter Property="FontFamily" Value="Arial Black" />
 		<Setter Property="BorderThickness" Value="0,0,0,3" />
 		
+		
 		<Setter Property="Background" Value="#383838" />
 		<Setter Property="BorderBrush" Value="#FF141414" />
 		<Setter Property="FontWeight" Value="Bold" />
