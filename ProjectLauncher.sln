@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectLauncher.Desktop", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectLauncher.Updater", "ProjectLauncher.Updater\ProjectLauncher.Updater.csproj", "{338E1F23-96C2-4CD2-9B97-8E2C8B807EAD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectLauncher.Unzip", "ProjectLauncher.Unzip\ProjectLauncher.Unzip.csproj", "{4560C200-0210-4E43-921F-0B7AD8B6B249}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectLauncher.Unzip", "ProjectLauncher.Unzip\ProjectLauncher.Unzip.csproj", "{4560C200-0210-4E43-921F-0B7AD8B6B249}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Элементы решения", "Элементы решения", "{1AB0D5A0-36E1-4197-9293-D6D89614CDC6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -58,7 +58,9 @@ namespace ProjectLauncher.Views
             $"- The update window has been improved.\n" +
             $"2.1.4 > [June 9, 2024]\n" +
             $"- Fixed the problem that Updater program isn't updating.\n" +
-            $"- Added a light shadow for text on buttons in the left panel.\n";
+            $"- Added a light shadow for text on buttons in the left panel.\n" +
+            $"2.1.5 > [June 9, 2024]\n" +
+            $"- Fully fixed a problems with launcher updating.\n";
 
 
         public MainView()
@@ -110,8 +112,29 @@ namespace ProjectLauncher.Views
             SaturationSlider.ValueChanged += HSVdataUpdate;
             ValueSlider.ValueChanged += HSVdataUpdate;
             ResetToDefaultThemeButton.Click += ResetToDefaultThemeButtonPresed;
+            this.Loaded += OnLoaded;
 
             LoadUpdateNotes();
+
+            
+        }
+
+        private async void OnLoaded(object sender, RoutedEventArgs e)
+        {
+            bool isFileExist = File.Exists(MainDirectory + "FirstStartFile");
+            bool isZipExist = File.Exists(MainDirectory + "ProjectLauncher.zip");
+
+            if (!isFileExist && isZipExist)
+            {
+                File.Create(MainDirectory + "FirstStartFile");
+
+                var startInfoNnZip = new ProcessStartInfo();
+                startInfoNnZip.FileName = MainDirectory + "ProjectLauncher.Unzip.exe";
+                Process.Start(startInfoNnZip);
+
+                MainWindow.Instance.Close();
+            }
+
         }
 
         // add async when downloading versions file.
