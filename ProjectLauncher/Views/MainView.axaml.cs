@@ -54,13 +54,16 @@ namespace ProjectLauncher.Views
             $"2.1.2 > [May 26, 2024]\n" +
             $"- Added interface color adjustment in the Settings.\n" +
             $"- Fixed the problem of incorrect rounded strength data load\n" +
-            $"2.1.3 > [June 9, 2024]\n" +
+            $"2.1.3 > [Jun 9, 2024]\n" +
             $"- The update window has been improved.\n" +
-            $"2.1.4 > [June 9, 2024]\n" +
-            $"- Fixed the problem that Updater program isn't updating.\n" +
+            $"2.1.4 > [Jun 9, 2024]\n" +
+            $"- Fixed updater program not updating itself.\n" +
             $"- Added a light shadow for text on buttons in the left panel.\n" +
-            $"2.1.5 > [June 9, 2024]\n" +
-            $"- Fully fixed a problems with launcher updating.\n";
+            $"2.1.5 > [Jun 26, 2024]\n" +
+            $"- Fully fixed launcher not updating properly.\n" +
+            $"- Tried adding a progress bar to instance updater with no success atm.\n" +
+            $"- Fixed some grammar and added some tooltips.\n" +
+            $"- Fixed version dropdown value not displaying the correct version on app startup some times.\n";
 
 
         public MainView()
@@ -69,6 +72,11 @@ namespace ProjectLauncher.Views
             DataContextChanged += MainView_DataContextChanged;
             Instance = this;
 
+            Load();
+        }
+
+        async void Load()
+        {
             pages.Add(new PageManager(LaunchButton, LaunchWindow));
             pages.Add(new PageManager(ModsButton, ModsWindow));
             pages.Add(new PageManager(VersionsButton, VersionsWindow));
@@ -90,13 +98,13 @@ namespace ProjectLauncher.Views
 
             //return; //for fixing MainView.axaml issue
 
-            LoadVersions();
+            await LoadVersions();
             BetterLegacyToggle.Click += BetterLegacyToggleClick;
             EditorOnStartupToggle.Click += EditorOnStartupToggleClick;
             UnityExplorerToggle.Click += UnityExplorerToggleClick;
             InstancesListBox.SelectionChanged += InstancesListBoxSelectionChanged;
             LoadInstances();
-            LoadSettings();
+            await LoadSettings();
 
             Launch.Click += LaunchClick;
             Update.Click += UpdateClick;
@@ -112,14 +120,12 @@ namespace ProjectLauncher.Views
             SaturationSlider.ValueChanged += HSVdataUpdate;
             ValueSlider.ValueChanged += HSVdataUpdate;
             ResetToDefaultThemeButton.Click += ResetToDefaultThemeButtonPresed;
-            this.Loaded += OnLoaded;
+            Loaded += OnLoaded;
 
             LoadUpdateNotes();
-
-            
         }
 
-        private async void OnLoaded(object sender, RoutedEventArgs e)
+        void OnLoaded(object sender, RoutedEventArgs e)
         {
             bool isFileExist = File.Exists(MainDirectory + "FirstStartFile");
             bool isZipExist = File.Exists(MainDirectory + "ProjectLauncher.zip");
@@ -138,7 +144,7 @@ namespace ProjectLauncher.Views
         }
 
         // add async when downloading versions file.
-        async void LoadVersions()
+        async Task LoadVersions()
         {
             if (Versions.Flyout is Flyout flyout && flyout.Content is ListBox list)
             {
@@ -190,7 +196,7 @@ namespace ProjectLauncher.Views
             }
         }
 
-        async void LoadSettings()
+        async Task LoadSettings()
         {
             var settingsPath = SettingsFile;
             if (File.Exists(settingsPath))
@@ -207,7 +213,6 @@ namespace ProjectLauncher.Views
 
                 if (!string.IsNullOrEmpty(jn["hsv"]["hue"]))
                     HueSlider.Value = Convert.ToDouble(jn["hsv"]["hue"].Value);
-
 
                 if (!string.IsNullOrEmpty(jn["hsv"]["saturation"]))
                     SaturationSlider.Value = Convert.ToDouble(jn["hsv"]["saturation"].Value);
@@ -353,12 +358,13 @@ namespace ProjectLauncher.Views
 
         void SetLaunchButtonsActive(bool active)
         {
-            Launch.IsVisible = active;
-            Update.IsVisible = active;
-            Versions.IsVisible = active;
+            FunctionButtons.IsVisible = active;
             BetterLegacyToggle.IsVisible = active;
             EditorOnStartupToggle.IsVisible = active;
             UnityExplorerToggle.IsVisible = active;
+
+            ProgressBar.IsVisible = !active;
+            LabelProgressBar.IsVisible = !active;
         }
 
         void UpdateRoundness()
@@ -467,22 +473,34 @@ namespace ProjectLauncher.Views
             {
                 try
                 {
-                    Launch.IsVisible = false;
-                    Update.IsVisible = false;
+                    SetLaunchButtonsActive(false);
+                    using var http = new HttpClient();
+
                     // Download BepInEx (Obviously will need BepInEx itself to run any mods)
                     if (!Directory.Exists(projectArrhythmia.Path + "/BepInEx"))
                     {
-                        var bep = projectArrhythmia.Path + "/BepInEx-5.4.21.zip";
+                        var bepZipOutput = projectArrhythmia.Path + "/BepInEx-5.4.21.zip";
 
-                        using var http = new HttpClient();
+                        var headRequest = new HttpRequestMessage(HttpMethod.Head, BepInExURL);
+                        var headResponse = await http.SendAsync(headRequest);
+                        var contentLength = headResponse.Content.Headers.ContentLength;
+                        ProgressBarUpdater(bepZipOutput, "BepInEx", contentLength.Value);
 
-                        var bytes = await http.GetByteArrayAsync(BepInExURL);
+                        // Getting file data
+                        var response = await http.GetAsync(BepInExURL, HttpCompletionOption.ResponseHeadersRead);
+                        using var fileStream = File.Create(bepZipOutput);
+                        using var stream = await response.Content.ReadAsStreamAsync();
+                        byte[] buffer = new byte[8192];
+                        int bytesRead;
+                        while ((bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length)) > 0)
+                        {
+                            await fileStream.WriteAsync(buffer, 0, bytesRead);
+                        }
+                        fileStream.Close();
 
-                        await File.WriteAllBytesAsync(bep, bytes);
+                        UnZip(bepZipOutput, projectArrhythmia.Path + "/");
 
-                        UnZip(bep, projectArrhythmia.Path + "/");
-
-                        File.Delete(bep);
+                        File.Delete(bepZipOutput);
                     }
 
                     var pluginsPath = $"{projectArrhythmia.Path}/BepInEx/plugins";
@@ -494,7 +512,6 @@ namespace ProjectLauncher.Views
 
                     if (!File.Exists(editorOnStartupPath) && projectArrhythmia.Settings.EditorOnStartup)
                     {
-                        using var http = new HttpClient();
                         var bytes = await http.GetByteArrayAsync("https://github.com/enchart/EditorOnStartup/releases/download/1.0.0/EditorOnStartup_1.0.0.dll");
                         await File.WriteAllBytesAsync(editorOnStartupPath, bytes);
                     }
@@ -505,8 +522,6 @@ namespace ProjectLauncher.Views
 
                     if (projectArrhythmia.Settings.BetterLegacy)
                     {
-                        using var http = new HttpClient();
-
                         var url = $"https://github.com/RTMecha/BetterLegacy/releases/download/{projectArrhythmia.Settings.CurrentVersion}/BetterLegacy.zip";
 
                         if (URLExists(url))
@@ -526,7 +541,6 @@ namespace ProjectLauncher.Views
 
                     if (!Directory.Exists($"{pluginsPath}/sinai-dev-UnityExplorer") && projectArrhythmia.Settings.UnityExplorer)
                     {
-                        using var http = new HttpClient();
                         var bytes = await http.GetByteArrayAsync("https://github.com/sinai-dev/UnityExplorer/releases/download/4.9.0/UnityExplorer.BepInEx5.Mono.zip");
                         await File.WriteAllBytesAsync($"{pluginsPath}/UnityExplorer.zip", bytes);
 
@@ -542,8 +556,6 @@ namespace ProjectLauncher.Views
                     // Download steam_api.dll
                     if (!File.Exists($"{projectArrhythmia.Path}/Project Arrhythmia_Data/Plugins/steam_api_updated.txt"))
                     {
-                        using var http = new HttpClient();
-
                         var url = $"https://github.com/RTMecha/BetterLegacy/releases/download/{projectArrhythmia.Settings.CurrentVersion}/steam_api64.dll";
 
                         if (URLExists(url))
@@ -558,8 +570,6 @@ namespace ProjectLauncher.Views
 
                     if (!Directory.Exists($"{projectArrhythmia.Path}/beatmaps/prefabtypes") || !Directory.Exists($"{projectArrhythmia.Path}/beatmaps/shapes") || !Directory.Exists($"{projectArrhythmia.Path}/beatmaps/menus"))
                     {
-                        using var http = new HttpClient();
-
                         var url = $"https://github.com/RTMecha/BetterLegacy/releases/download/{projectArrhythmia.Settings.CurrentVersion}/Beatmaps.zip";
 
                         if (URLExists(url))
@@ -574,13 +584,11 @@ namespace ProjectLauncher.Views
                         }
                     }
 
-                    Launch.IsVisible = true;
-                    Update.IsVisible = true;
+                    SetLaunchButtonsActive(true);
                 }
                 catch
                 {
-                    Launch.IsVisible = true;
-                    Update.IsVisible = true;
+                    SetLaunchButtonsActive(true);
                 }
             }
 
@@ -815,6 +823,36 @@ namespace ProjectLauncher.Views
                 if (fullName.Contains('.'))
                     entry.ExtractToFile(output + "/" + fullName, true);
             }
+        }
+
+        int CalculateProgress(long totalBytes, long bytesDownloaded)
+        {
+            return (int)((bytesDownloaded * 100) / totalBytes);
+        }
+
+        async void ProgressBarUpdater(string path, string name, long totalBytes)
+        {
+            while (true)
+            {
+                var fileInfo = new FileInfo(path);
+                if (fileInfo.Exists)
+                {
+                    ProgressBar.Value = CalculateProgress(totalBytes, fileInfo.Length);
+                    LabelProgressBar.Content = $"Downloading {name}" + FormatProgress(totalBytes, fileInfo.Length);
+                }
+                await Task.Delay(2000);
+            }
+        }
+
+        string FormatBytes(long bytes)
+        {
+            double megabytes = (double)bytes / (1024 * 1024);
+            return $"{megabytes:F1} MB";
+        }
+
+        string FormatProgress(long totalBytes, long bytesDownloaded)
+        {
+            return $"{FormatBytes(bytesDownloaded)} / {FormatBytes(totalBytes)}";
         }
 
         #endregion

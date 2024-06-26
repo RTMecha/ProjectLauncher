@@ -68,10 +68,10 @@
 			<StackPanel Name="LaunchWindow" IsVisible="False" Width="600">
 				<ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto" Height="480">
 					<StackPanel>
-						<DockPanel HorizontalAlignment="Stretch" Margin="5,10,5,0">
+						<DockPanel Name="FunctionButtons" HorizontalAlignment="Stretch" Margin="5,10,5,0">
 							<Button Name="Launch" Content="Launch" Margin="0,0,5,0" Width="50">
 								<ToolTip.Tip>
-									<Label Content="Start selected Project Arrhythmia instance" />
+									<Label Content="Start selected Project Arrhythmia instance." />
 								</ToolTip.Tip>
 								<Image Source="avares://ProjectLauncher/Assets/play.ico" />
 							</Button>
@@ -83,23 +83,31 @@
 							</Button>
 							<DropDownButton Name="Versions" Content="Version: 1.0.0" Margin="10,-4,15,0" Height="45"/>
 						</DockPanel>
+
+            <ProgressBar Name="ProgressBar" Value="0" Height="20" Margin="10,10,10,0" Foreground="#FFFFAD5C"/>
+            <Label Name="LabelProgressBar" Foreground="#ffba7a" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="15" Margin="0,5,0,0"/>
+            
 						<Label Name="AppPathFieldLabel" Content="App path" HorizontalAlignment="Left"/>
 						<DockPanel HorizontalAlignment="Stretch" Height="30" Margin="5,0,5,0">
 							<TextBox Name="AppPathField"  TextAlignment="Left" Watermark="Project Arrhythmia Folder Path" Width="500"/>
 							<Button Name="AppPathBrowse" Height="35" Width="35" Margin="12,2,0,0">
 								<Image Source="avares://ProjectLauncher/Assets/browse.ico"/>
 								<ToolTip.Tip>
-									<Label Content="Set a path to the Project Arrhythmia .exe file" />
+									<Label Content="Set a path to the Project Arrhythmia .exe file." />
 								</ToolTip.Tip>
 							</Button>
 						</DockPanel>
 						<Label Name="NewInstanceNameLabel" Content="New Instance name" HorizontalAlignment="Left"/>
 						<DockPanel HorizontalAlignment="Stretch" Height="30" Margin="5,0,5,0">
-							<TextBox Name="NewInstanceNameField" TextAlignment="Left" Watermark="Set new name..." Text="PA Legacy" Width="500"/>
+              <TextBox Name="NewInstanceNameField" TextAlignment="Left" Watermark="Set new name..." Text="PA Legacy" Width="500">
+                <ToolTip.Tip>
+                  <Label Content="Set the name of a new instance." />
+                </ToolTip.Tip>
+              </TextBox>
 							<Button Name="CreateNewInstanceButton" Content="Create new" Height="35" Width="35" HorizontalAlignment="Left" Margin="12,2,0,0">
 								<Image Source="avares://ProjectLauncher/Assets/add.ico"/>
 								<ToolTip.Tip>
-									<Label Content="Create a new instance" />
+									<Label Content="Create a new instance." />
 								</ToolTip.Tip>
 							</Button>
 						</DockPanel>
@@ -113,9 +121,21 @@
 						<Panel Height="5" Margin="5,10,5,0" Background="#10FFFFFF" />
 						<Label Content="P L U G I N S" FontSize="20" HorizontalAlignment="Center" Margin="0,0,0,0" />
 						<StackPanel HorizontalAlignment="Center">
-							<Button Name="BetterLegacyToggle" Content="BetterLegacy" Margin="0,0,0,0"/>
-							<Button Name="EditorOnStartupToggle" Content="Editor on Startup" Margin="0,0,0,0"/>
-							<Button Name="UnityExplorerToggle" Content="Unity Explorer" Margin="0,0,0,0"/>
+              <Button Name="BetterLegacyToggle" Content="BetterLegacy" Margin="0,0,0,0">
+                <ToolTip.Tip>
+                  <Label Content="Main Legacy mod." />
+                </ToolTip.Tip>
+              </Button>
+              <Button Name="EditorOnStartupToggle" Content="Editor on Startup" Margin="0,0,0,0">
+                <ToolTip.Tip>
+                  <Label Content="Starts the application in the editor." />
+                </ToolTip.Tip>
+              </Button>
+              <Button Name="UnityExplorerToggle" Content="Unity Explorer" Margin="0,0,0,0">
+                <ToolTip.Tip>
+                  <Label Content="Debugging tool for Unity." />
+                </ToolTip.Tip>
+              </Button>
 						</StackPanel>
 					</StackPanel>
 				</ScrollViewer>
