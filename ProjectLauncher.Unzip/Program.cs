@@ -4,12 +4,13 @@ using System.Diagnostics;
 
 class Program
 {
-    public static string MainDirectory => Directory.GetCurrentDirectory().Replace("\\", "/") + "/";
+    public static string MainDirectory => Directory.GetCurrentDirectory().Replace("\\", "/").Replace("UnZIP/", "");
 
     static void Main()
     {
         Console.WriteLine("UnZip installed file...");
-        UnZip(MainDirectory + "ProjectLauncher.zip", Directory.GetCurrentDirectory().Replace("\\", "/"));
+        UnZip(MainDirectory + "/ProjectLauncher.zip", MainDirectory);
+        File.Delete(MainDirectory + "/ProjectLauncher.zip");
         Relaunch();
     }
 
@@ -43,7 +44,7 @@ class Program
     static void Relaunch()
     {
         var startInfo = new ProcessStartInfo();
-        startInfo.FileName = MainDirectory + "ProjectLauncher.Desktop.exe";
+        startInfo.FileName = MainDirectory + "/ProjectLauncher.Desktop.exe";
         Process.Start(startInfo);
 
         Environment.Exit(0);

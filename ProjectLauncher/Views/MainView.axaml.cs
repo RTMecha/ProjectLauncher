@@ -63,7 +63,9 @@ namespace ProjectLauncher.Views
             $"- Fully fixed launcher not updating properly.\n" +
             $"- Tried adding a progress bar to instance updater with no success atm.\n" +
             $"- Fixed some grammar and added some tooltips.\n" +
-            $"- Fixed version dropdown value not displaying the correct version on app startup some times.\n";
+            $"- Fixed version dropdown value not displaying the correct version on app startup some times.\n" +
+            $"2.1.6 > [Jun 26, 2024]\n" +
+            $"- Quick unzip hotfix.";
 
 
         public MainView()
@@ -127,20 +129,21 @@ namespace ProjectLauncher.Views
 
         void OnLoaded(object sender, RoutedEventArgs e)
         {
-            bool isFileExist = File.Exists(MainDirectory + "FirstStartFile");
-            bool isZipExist = File.Exists(MainDirectory + "ProjectLauncher.zip");
+            if (!File.Exists(MainDirectory + "ProjectLauncher.zip"))
+                return;
 
-            if (!isFileExist && isZipExist)
-            {
-                File.Create(MainDirectory + "FirstStartFile");
+            if (!Directory.Exists(MainDirectory + "UnZIP"))
+                Directory.CreateDirectory(MainDirectory + "UnZIP");
 
-                var startInfoNnZip = new ProcessStartInfo();
-                startInfoNnZip.FileName = MainDirectory + "ProjectLauncher.Unzip.exe";
-                Process.Start(startInfoNnZip);
+            var unzip = MainDirectory + "UnZIP/ProjectLauncher.Unzip.exe";
 
-                MainWindow.Instance.Close();
-            }
+            File.Move(MainDirectory + "ProjectLauncher.Unzip.exe", unzip, File.Exists(unzip));
 
+            var startInfoNnZip = new ProcessStartInfo();
+            startInfoNnZip.FileName = unzip;
+            Process.Start(startInfoNnZip);
+
+            MainWindow.Instance.Close();
         }
 
         // add async when downloading versions file.
@@ -207,6 +210,7 @@ namespace ProjectLauncher.Views
 
                 if (!string.IsNullOrEmpty(jn["ui"]["roundness"]))
                     RoundSlider.Value = Convert.ToDouble(jn["ui"]["roundness"].Value);
+                RoundValue = RoundSlider.Value;
 
                 if (!string.IsNullOrEmpty(jn["instances"]["app_path"]))
                     AppPathField.Text = jn["instances"]["app_path"];
