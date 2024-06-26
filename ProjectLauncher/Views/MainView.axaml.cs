@@ -65,7 +65,9 @@ namespace ProjectLauncher.Views
             $"- Fixed some grammar and added some tooltips.\n" +
             $"- Fixed version dropdown value not displaying the correct version on app startup some times.\n" +
             $"2.1.6 > [Jun 26, 2024]\n" +
-            $"- Quick unzip hotfix.";
+            $"- Quick unzip hotfix." +
+            $"2.1.7 > [Jun 26, 2024]\n" +
+            $"- another hotfix holy crap.";
 
 
         public MainView()

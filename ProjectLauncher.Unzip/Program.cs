@@ -4,7 +4,7 @@ using System.Diagnostics;
 
 class Program
 {
-    public static string MainDirectory => Directory.GetCurrentDirectory().Replace("\\", "/").Replace("UnZIP/", "");
+    public static string MainDirectory => Directory.GetCurrentDirectory().Replace("\\", "/").Replace("/UnZIP", "");
 
     static void Main()
     {
