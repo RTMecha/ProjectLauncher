@@ -69,7 +69,10 @@ namespace ProjectLauncher.Views
             $"2.1.7 > [Jun 26, 2024]\n" +
             $"- another hotfix holy crap.\n" +
             $"2.1.8 > [Jun 26, 2024]\n" +
-            $"- it's yet another hotfix\n";
+            $"- it's yet another hotfix\n" +
+            $"2.1.9 > [Jun 27, 2024]\n" +
+            $"- Got progress bar for updating instances to work.\n" +
+            $"- Launcher no longer checks for shapes folder in the beatmaps folder when trying to update the default beatmaps files.";
 
 
         public MainView()
@@ -485,7 +488,7 @@ namespace ProjectLauncher.Views
                         var headRequest = new HttpRequestMessage(HttpMethod.Head, BepInExURL);
                         var headResponse = await http.SendAsync(headRequest);
                         var contentLength = headResponse.Content.Headers.ContentLength;
-                        ProgressBarUpdater(bepZipOutput, "BepInEx", contentLength.Value);
+                        ProgressBarUpdater(bepZipOutput, "Downloading BepInEx", contentLength.Value);
 
                         // Getting file data
                         var response = await http.GetAsync(BepInExURL, HttpCompletionOption.ResponseHeadersRead);
@@ -527,8 +530,22 @@ namespace ProjectLauncher.Views
 
                         if (URLExists(url))
                         {
-                            var bytes = await http.GetByteArrayAsync(url);
-                            await File.WriteAllBytesAsync($"{pluginsPath}/BetterLegacy.zip", bytes);
+                            var headRequest = new HttpRequestMessage(HttpMethod.Head, url);
+                            var headResponse = await http.SendAsync(headRequest);
+                            var contentLength = headResponse.Content.Headers.ContentLength;
+                            ProgressBarUpdater($"{pluginsPath}/BetterLegacy.zip", "Downloading BetterLegacy", contentLength.Value);
+
+                            // Getting file data
+                            var response = await http.GetAsync(url, HttpCompletionOption.ResponseHeadersRead);
+                            using var fileStream = File.Create($"{pluginsPath}/BetterLegacy.zip");
+                            using var stream = await response.Content.ReadAsStreamAsync();
+                            byte[] buffer = new byte[8192];
+                            int bytesRead;
+                            while ((bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length)) > 0)
+                            {
+                                await fileStream.WriteAsync(buffer, 0, bytesRead);
+                            }
+                            fileStream.Close();
 
                             UnZip($"{pluginsPath}/BetterLegacy.zip", pluginsPath);
 
@@ -542,8 +559,23 @@ namespace ProjectLauncher.Views
 
                     if (!Directory.Exists($"{pluginsPath}/sinai-dev-UnityExplorer") && projectArrhythmia.Settings.UnityExplorer)
                     {
-                        var bytes = await http.GetByteArrayAsync("https://github.com/sinai-dev/UnityExplorer/releases/download/4.9.0/UnityExplorer.BepInEx5.Mono.zip");
-                        await File.WriteAllBytesAsync($"{pluginsPath}/UnityExplorer.zip", bytes);
+                        var url = "https://github.com/sinai-dev/UnityExplorer/releases/download/4.9.0/UnityExplorer.BepInEx5.Mono.zip";
+                        var headRequest = new HttpRequestMessage(HttpMethod.Head, url);
+                        var headResponse = await http.SendAsync(headRequest);
+                        var contentLength = headResponse.Content.Headers.ContentLength;
+                        ProgressBarUpdater($"{pluginsPath}/UnityExplorer.zip", "Downloading UnityExplorer", contentLength.Value);
+
+                        // Getting file data
+                        var response = await http.GetAsync(url, HttpCompletionOption.ResponseHeadersRead);
+                        using var fileStream = File.Create($"{pluginsPath}/UnityExplorer.zip");
+                        using var stream = await response.Content.ReadAsStreamAsync();
+                        byte[] buffer = new byte[8192];
+                        int bytesRead;
+                        while ((bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length)) > 0)
+                        {
+                            await fileStream.WriteAsync(buffer, 0, bytesRead);
+                        }
+                        fileStream.Close();
 
                         UnZip($"{pluginsPath}/UnityExplorer.zip", pluginsPath.Replace("/plugins", ""));
 
@@ -561,23 +593,49 @@ namespace ProjectLauncher.Views
 
                         if (URLExists(url))
                         {
-                            var bytes = await http.GetByteArrayAsync(url);
+                            var headRequest = new HttpRequestMessage(HttpMethod.Head, url);
+                            var headResponse = await http.SendAsync(headRequest);
+                            var contentLength = headResponse.Content.Headers.ContentLength;
+                            ProgressBarUpdater($"{projectArrhythmia.Path}/Project Arrhythmia_Data/Plugins/steam_api64.dll", "Updating steam_api64.dll", contentLength.Value);
 
-                            await File.WriteAllBytesAsync($"{projectArrhythmia.Path}/Project Arrhythmia_Data/Plugins/steam_api64.dll", bytes);
+                            // Getting file data
+                            var response = await http.GetAsync(url, HttpCompletionOption.ResponseHeadersRead);
+                            using var fileStream = File.Create($"{projectArrhythmia.Path}/Project Arrhythmia_Data/Plugins/steam_api64.dll");
+                            using var stream = await response.Content.ReadAsStreamAsync();
+                            byte[] buffer = new byte[8192];
+                            int bytesRead;
+                            while ((bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length)) > 0)
+                            {
+                                await fileStream.WriteAsync(buffer, 0, bytesRead);
+                            }
+                            fileStream.Close();
 
                             await File.WriteAllTextAsync($"{projectArrhythmia.Path}/Project Arrhythmia_Data/Plugins/steam_api_updated.txt", "Yes");
                         }
                     }
 
-                    if (!Directory.Exists($"{projectArrhythmia.Path}/beatmaps/prefabtypes") || !Directory.Exists($"{projectArrhythmia.Path}/beatmaps/shapes") || !Directory.Exists($"{projectArrhythmia.Path}/beatmaps/menus"))
+                    if (!Directory.Exists($"{projectArrhythmia.Path}/beatmaps/prefabtypes") || !Directory.Exists($"{projectArrhythmia.Path}/beatmaps/menus"))
                     {
                         var url = $"https://github.com/RTMecha/BetterLegacy/releases/download/{projectArrhythmia.Settings.CurrentVersion}/Beatmaps.zip";
 
                         if (URLExists(url))
                         {
-                            var bytes = await http.GetByteArrayAsync(url);
+                            var headRequest = new HttpRequestMessage(HttpMethod.Head, url);
+                            var headResponse = await http.SendAsync(headRequest);
+                            var contentLength = headResponse.Content.Headers.ContentLength;
+                            ProgressBarUpdater($"{projectArrhythmia.Path}/Beatmaps.zip", "Downloading Beatmaps.zip", contentLength.Value);
 
-                            await File.WriteAllBytesAsync($"{projectArrhythmia.Path}/Beatmaps.zip", bytes);
+                            // Getting file data
+                            var response = await http.GetAsync(url, HttpCompletionOption.ResponseHeadersRead);
+                            using var fileStream = File.Create($"{projectArrhythmia.Path}/Beatmaps.zip");
+                            using var stream = await response.Content.ReadAsStreamAsync();
+                            byte[] buffer = new byte[8192];
+                            int bytesRead;
+                            while ((bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length)) > 0)
+                            {
+                                await fileStream.WriteAsync(buffer, 0, bytesRead);
+                            }
+                            fileStream.Close();
 
                             UnZip($"{projectArrhythmia.Path}/Beatmaps.zip", $"{projectArrhythmia.Path}");
 
@@ -839,7 +897,7 @@ namespace ProjectLauncher.Views
                 if (fileInfo.Exists)
                 {
                     ProgressBar.Value = CalculateProgress(totalBytes, fileInfo.Length);
-                    LabelProgressBar.Content = $"Downloading {name}" + FormatProgress(totalBytes, fileInfo.Length);
+                    LabelProgressBar.Content = $"{name} " + FormatProgress(totalBytes, fileInfo.Length);
                 }
                 await Task.Delay(2000);
             }
