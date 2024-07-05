@@ -1,6 +1,6 @@
 Manage multiple instances of Project Arrhythmia (Legacy branch) with Project Launcher!
 
-## Installation
+## Installation and BetterLegacy setup
 If you would rather install manually, follow the BetterLegacy guide instead. If not, then follow this one. (Install guide based on [Catalyst](https://github.com/Reimnop/Catalyst) guide)
 1. Verify you are on the Legacy branch.
 	- ℹ️ _As BetterLegacy is obviously made for the **Legacy** branch, it will not work on any other._
