@@ -16,5 +16,4 @@ If you would rather install manually, follow the [BetterLegacy guide](https://gi
 1. Create a new instance
 	- ℹ️ _You can name it whatever you want, just don't include symbols that don't work with folder directories and don't include a + sign._
 1. Select the mods you want to use, change the version, update and then launch.
-	- ℹ️ _You can name it whatever you want, just don't include symbols that don't work with folder directories and don't include a + sign._
 1. You just installed BetterLegacy and you can now keep track of updates, awesome! Hope you have fun with the mods, whatever you end up doing. If something breaks or you have a general suggestion for the mod, feel free to open an [issue](https://github.com/RTMecha/BetterLegacy/issues) or make a [pull request](https://github.com/RTMecha/BetterLegacy/pulls) if you want to help with modding.
