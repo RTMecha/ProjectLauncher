@@ -21,6 +21,7 @@ using Avalonia.Markup.Xaml;
 
 
 
+
 namespace ProjectLauncher.Views
 {
 
@@ -32,10 +33,10 @@ namespace ProjectLauncher.Views
         public bool Rounded { get; set; } = true;
 
         //public static string InstancesFolder => Directory.GetCurrentDirectory().Replace("\\", "/") + "/instances";
-        public static string MainDirectory => Directory.GetCurrentDirectory().Replace("\\", "/") + "/";
+        public static string MainDirectory;
         //public static string MainDirectory => "E:/Coding/ProjectArrhythmiaLauncher-master/ProjectLauncher.Desktop/bin/Debug/net6.0/";
-        public static string InstancesFolder => $"{MainDirectory}instances";
-        public static string SettingsFile => $"{MainDirectory}settings.lss";
+        public static string InstancesFolder;
+        public static string SettingsFile;
 
         public static string CurrentVersion { get; set; } = "1.0.0"; // BetterLegacy version 1
 
@@ -81,11 +82,24 @@ namespace ProjectLauncher.Views
             DataContextChanged += MainView_DataContextChanged;
             Instance = this;
 
+            DefineFilesPath();
             Load();
+        }
+
+        private void DefineFilesPath()
+        {
+            if (Design.IsDesignMode) MainDirectory = Directory.GetCurrentDirectory().Replace("\\", "/") + "/" + "ProjectLauncher.Desktop/bin/Debug/net6.0/";
+            else MainDirectory = Directory.GetCurrentDirectory().Replace("\\", "/") + "/";
+
+            InstancesFolder = $"{MainDirectory}instances";
+            SettingsFile = $"{MainDirectory}settings.lss";
         }
 
         async void Load()
         {
+            
+            
+
             pages.Add(new PageManager(LaunchButton, LaunchWindow));
             pages.Add(new PageManager(ModsButton, ModsWindow));
             pages.Add(new PageManager(VersionsButton, VersionsWindow));
@@ -132,6 +146,8 @@ namespace ProjectLauncher.Views
             Loaded += OnLoaded;
 
             LoadUpdateNotes();
+
+
         }
 
         void OnLoaded(object sender, RoutedEventArgs e)
@@ -158,6 +174,7 @@ namespace ProjectLauncher.Views
                     return;
 
                 var versions = versionString.Split(',');
+                versions.Reverse();
 
                 list.Items.Clear();
                 for (int i = 0; i < versions.Length; i++)
