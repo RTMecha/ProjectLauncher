@@ -60,6 +60,8 @@
 		<Setter Property="Background" Value="{DynamicResource SystemColor}" />
 		<Setter Property="Foreground" Value="#FFFFFF" />
 	</Style>
+	
+
 
 
 	<!-- TEXT_BOX STYLES -->
