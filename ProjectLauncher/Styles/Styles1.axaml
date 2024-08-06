@@ -8,11 +8,12 @@
 	<Design.PreviewWith>
 		
 		<Border Padding="20">
-			<StackPanel>
-				<Label>Example Text</Label>
+			<StackPanel Background="Bisque">
+				
+				<Label Classes="default">Example Text</Label>
 				<Button Content="Hello world" Classes="style1 roundEdges" Margin="0,5,0,5"/>
 				<ListBoxItem Content="Hello world" Classes="lbs1 roundEdges" Margin="0,5,0,5"/>
-				<TextBox Margin="0,5,0,5" Classes="roundEdges" >hello</TextBox>
+				<TextBox Margin="0,5,0,5" Classes="roundEdges, default" >hello</TextBox>
 				<DropDownButton Margin="0,5,0,5" Content="Test" Classes="roundEdges"/>
 			</StackPanel>
 
@@ -78,6 +79,12 @@
 		<Setter Property="CornerRadius" Value="{DynamicResource TextBoxCornerRadius}" />
 	</Style>
 
+	<!-- TEXT_BLOCK STYLES -->
+
+	<Style Selector="TextBlock.default">
+		<Setter Property="Foreground" Value="White" />
+	</Style>
+
 	<!-- LIST_BOX STYLES -->
 
 	<Style Selector="ListBoxItem.lbs1">
@@ -94,6 +101,16 @@
 		<Setter Property="CornerRadius" Value="{DynamicResource CornerRadius}" />
 	</Style>
 
+	<Style Selector="ListBoxItem.droppedList">
+		<Setter Property="Foreground" Value="{DynamicResource SystemColor}" />
+		<Setter Property="FontFamily" Value="FontFamily.Default" />
+		<Setter Property="HorizontalContentAlignment" Value="Left" />
+		<Setter Property="FontWeight" Value="Bold" />
+		<Setter Property="FontSize" Value="12" />
+		<Setter Property="HorizontalAlignment" Value="Stretch" />
+		<Setter Property="Background" Value="Transparent" />
+	</Style>
+
 	<!-- LABEL STYLES -->
 
 	<Style Selector="Label">
@@ -103,6 +120,21 @@
 		<Setter Property="CornerRadius" Value="7" />
 		<Setter Property="Background" Value="#00000000" />
 		<Setter Property="BorderBrush" Value="{DynamicResource SystemColor}" />
+		<Setter Property="FontWeight" Value="Bold" />
+		<Setter Property="HorizontalContentAlignment" Value="Left" />
+		<Setter Property="MaxWidth" Value="400" />
+		<Setter Property="Margin" Value="0,0,0,0" />
+		<Setter Property="VerticalAlignment" Value="Center" />
+		<Setter Property="HorizontalAlignment" Value="Stretch"/>
+	</Style>
+
+	<Style Selector="Label.default">
+		<Setter Property="Foreground" Value="White" />
+		<Setter Property="FontFamily" Value="Arial Black" />
+		<Setter Property="BorderThickness" Value="0" />
+		<Setter Property="CornerRadius" Value="7" />
+		<Setter Property="Background" Value="#00000000" />
+		<Setter Property="BorderBrush" Value="White" />
 		<Setter Property="FontWeight" Value="Bold" />
 		<Setter Property="HorizontalContentAlignment" Value="Left" />
 		<Setter Property="MaxWidth" Value="400" />

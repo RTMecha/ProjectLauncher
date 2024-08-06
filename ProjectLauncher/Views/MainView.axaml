@@ -23,7 +23,7 @@
 		<StyleInclude Source="/Styles/Styles1.axaml" />
 	</UserControl.Styles>
 
-	<Grid Grid.Row="1" Margin="0,0,0,50">
+	<Grid Grid.Row="1" Margin="0,0,0,0">
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="215" />
 			<ColumnDefinition Width="*" />
@@ -63,12 +63,12 @@
 			</StackPanel>
 		</Panel>
 
-		<StackPanel Grid.Column="1" Margin="5,10,5,10" HorizontalAlignment="Left" Spacing="0" VerticalAlignment="Top">
+		<StackPanel Grid.Column="1" HorizontalAlignment="Left" Spacing="0" VerticalAlignment="Top">
 			<!-- Launch Window Panel -->
-			<StackPanel Name="LaunchWindow" IsVisible="False" Width="600">
+			<StackPanel Name="LaunchWindow" IsVisible="False" Width="600"  Margin="5,10,5,10">
 				<ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto" Height="480">
 					<StackPanel>
-						<DockPanel Name="FunctionButtons" HorizontalAlignment="Stretch" Margin="5,10,5,0">
+						<DockPanel Name="FunctionButtons" HorizontalAlignment="Stretch" Margin="5,10,0,0">
 							<Button Name="Launch" Content="Launch" Margin="0,0,5,0" Width="50">
 								<ToolTip.Tip>
 									<Label Content="Start selected Project Arrhythmia instance." />
@@ -81,7 +81,7 @@
 								</ToolTip.Tip>
 								<Image Source="avares://ProjectLauncher/Assets/update.ico" />
 							</Button>
-							<DropDownButton Name="Versions" Content="Version: 1.0.0" Margin="10,-4,15,0" Height="45"/>
+							<DropDownButton Name="Versions" Content="Version: 1.0.0" Margin="0,-4,55,0" Height="45" />
 						</DockPanel>
 
             <ProgressBar Name="ProgressBar" Value="0" Height="20" Margin="10,10,10,0" Foreground="#FFFFAD5C"/>
@@ -149,7 +149,7 @@
 					<Button Name="SettingRounded" Content="Rounded UI" HorizontalAlignment="Left"/>
 					<Slider x:Name="RoundSlider" Minimum="0" Maximum="14" Width="200" Margin="10,0,0,0"/>
 				</StackPanel>
-				<Panel Background="#10FFFFFF" HorizontalAlignment="Stretch" Height="5" />
+				<Panel Background="#10FFFFFF" HorizontalAlignment="Stretch" Height="5" Margin="10,10,10,10" />
 				<Label Content="HSV settings" HorizontalAlignment="Left" FontSize="22" />
 				<StackPanel Orientation="Horizontal">
 					<Label Content="Hue" Background="#FF1F1F1F" Width="100" HorizontalContentAlignment="Center" />
@@ -177,22 +177,24 @@
 			</StackPanel>
 			<!-- Changelog Window -->
 			<StackPanel Name="ChangelogWindow" IsVisible="False" HorizontalAlignment="Stretch">
-				<Label Name="ChangelogLabel" Content="CHANGELOG PAGE" HorizontalAlignment="Left" FontSize="22"/>
-				<Label Name="ChangelogNotesLabel" Content="Launcher notes" HorizontalAlignment="Left"/>
+				
+				<Panel Background="#10FFFFFF">
+					<Label Name="ChangelogLabel" Content="CHANGELOG PAGE" HorizontalAlignment="Left" FontSize="22"/>
+				</Panel>
+				<Label Name="ChangelogNotesLabel" Content="Launcher notes"  HorizontalAlignment="Left"/>
 				<ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto" Height="200">
 					<Label Content="Updates" HorizontalAlignment="Left" FontSize="11" MaxWidth="600">
-						<TextBlock Name="ChangelogNotes" TextWrapping="Wrap" />
+						<TextBlock Name="ChangelogNotes" Classes="default" TextWrapping="Wrap" Opacity="95"/>
 					</Label>
 				</ScrollViewer>
-				<Panel Background="#10FFFFFF" HorizontalAlignment="Stretch" Height="5" Margin="10,0,10,0" />
 				<Label Name="BetterLegacyNotesLabel" Content="BetterLegacy notes" HorizontalAlignment="Left"/>
+				
 				<ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto" Height="200">
 					<Label Content="Updates" HorizontalAlignment="Left" FontSize="11" MaxWidth="1200">
-						<TextBlock Name="BetterLegacyNotes" TextWrapping="Wrap" />
+						<TextBlock Name="BetterLegacyNotes" Classes="default" TextWrapping="Wrap" Opacity="95"/>
 					</Label>
 				</ScrollViewer>
 			</StackPanel>
-
 		</StackPanel>
 	</Grid>
 </UserControl>

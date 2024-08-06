@@ -41,39 +41,42 @@ namespace ProjectLauncher.Views
         public static string CurrentVersion { get; set; } = "1.0.0"; // BetterLegacy version 1
 
         public static string Changelog =>
-            $"2.0.0 > [May 22, 2024]\n" +
-            $"- Completely reworked Project Launcher to use a different basis and to use the merged mods rather than the individual.\n" +
-            $"2.0.1 > [May 22, 2024]\n" +
-            $"- Fixed URL for BetterLegacy versions being incorrect.\n" +
-            $"2.0.2 > [May 22, 2024]\n" +
-            $"- Made launch and update buttons turn invisible when an instance is updating.\n" +
-            $"2.1.0 > [May 24, 2024]\n" +
-            $"- Redesigned some UI elements to be easier to look at with some new icons and better layout.\n" +
-            $"- The launcher now has an auto updater. Check it out in the settings tab.\n" +
-            $"2.1.1 > [May 25, 2024]\n" +
-            $"- Updated some roundness and added a roundness slider.\n" +
-            $"2.1.2 > [May 26, 2024]\n" +
-            $"- Added interface color adjustment in the Settings.\n" +
-            $"- Fixed the problem of incorrect rounded strength data load\n" +
-            $"2.1.3 > [Jun 9, 2024]\n" +
-            $"- The update window has been improved.\n" +
-            $"2.1.4 > [Jun 9, 2024]\n" +
-            $"- Fixed updater program not updating itself.\n" +
-            $"- Added a light shadow for text on buttons in the left panel.\n" +
+            $"2.1.10 > [Jun 27, 2024]\n" +
+            $"- Some visual improvements\n" +
+            $"- ProjectLauncher changelog was inversed. Now the newest description in the top\n" +
+            $"2.1.9 > [Jun 27, 2024]\n" +
+            $"- Got progress bar for updating instances to work.\n" +
+            $"- Launcher no longer checks for shapes folder in the beatmaps folder when trying to update the default beatmaps files.\n" +
+            $"2.1.8 > [Jun 26, 2024]\n" +
+            $"- it's yet another hotfix\n" +
+            $"2.1.7 > [Jun 26, 2024]\n" +
+            $"- another hotfix holy crap.\n" +
+            $"2.1.6 > [Jun 26, 2024]\n" +
+            $"- Quick unzip hotfix.\n" +
             $"2.1.5 > [Jun 26, 2024]\n" +
             $"- Fully fixed launcher not updating properly.\n" +
             $"- Tried adding a progress bar to instance updater with no success atm.\n" +
             $"- Fixed some grammar and added some tooltips.\n" +
             $"- Fixed version dropdown value not displaying the correct version on app startup some times.\n" +
-            $"2.1.6 > [Jun 26, 2024]\n" +
-            $"- Quick unzip hotfix.\n" +
-            $"2.1.7 > [Jun 26, 2024]\n" +
-            $"- another hotfix holy crap.\n" +
-            $"2.1.8 > [Jun 26, 2024]\n" +
-            $"- it's yet another hotfix\n" +
-            $"2.1.9 > [Jun 27, 2024]\n" +
-            $"- Got progress bar for updating instances to work.\n" +
-            $"- Launcher no longer checks for shapes folder in the beatmaps folder when trying to update the default beatmaps files.";
+            $"2.1.4 > [Jun 9, 2024]\n" +
+            $"- Fixed updater program not updating itself.\n" +
+            $"- Added a light shadow for text on buttons in the left panel.\n" +
+            $"2.1.3 > [Jun 9, 2024]\n" +
+            $"- The update window has been improved.\n" +
+            $"2.1.2 > [May 26, 2024]\n" +
+            $"- Added interface color adjustment in the Settings.\n" +
+            $"- Fixed the problem of incorrect rounded strength data load\n" +
+            $"2.1.1 > [May 25, 2024]\n" +
+            $"- Updated some roundness and added a roundness slider.\n" +
+            $"2.1.0 > [May 24, 2024]\n" +
+            $"- Redesigned some UI elements to be easier to look at with some new icons and better layout.\n" +
+            $"- The launcher now has an auto updater. Check it out in the settings tab.\n" +
+            $"2.0.2 > [May 22, 2024]\n" +
+            $"- Made launch and update buttons turn invisible when an instance is updating.\n" +
+            $"2.0.1 > [May 22, 2024]\n" +
+            $"- Fixed URL for BetterLegacy versions being incorrect.\n" +
+            $"2.0.0 > [May 22, 2024]\n" +
+            $"- Completely reworked Project Launcher to use a different basis and to use the merged mods rather than the individual.\n";
 
 
         public MainView()
@@ -88,8 +91,10 @@ namespace ProjectLauncher.Views
 
         private void DefineFilesPath()
         {
+            
             if (Design.IsDesignMode) MainDirectory = Directory.GetCurrentDirectory().Replace("\\", "/") + "/" + "ProjectLauncher.Desktop/bin/Debug/net6.0/";
             else MainDirectory = Directory.GetCurrentDirectory().Replace("\\", "/") + "/";
+           
 
             InstancesFolder = $"{MainDirectory}instances";
             SettingsFile = $"{MainDirectory}settings.lss";
@@ -173,27 +178,27 @@ namespace ProjectLauncher.Views
                 if (string.IsNullOrEmpty(versionString))
                     return;
 
-                var versions = versionString.Split(',');
+                var versions = versionString.Split(',').ToList();
                 versions.Reverse();
 
                 list.Items.Clear();
-                for (int i = 0; i < versions.Length; i++)
+                for (int i = 0; i < versions.Count; i++)
                 {
                     var version = versions[i];
 
-                    list.Items.Add(new ListBoxItem
+                    var element = new ListBoxItem
                     {
                         Content = version,
-                        Background = new SolidColorBrush(Color.Parse("#FF424242")),
-                        Foreground = new SolidColorBrush(Color.Parse("#ffba7a")),
-                        BorderBrush = new SolidColorBrush(Color.Parse("#FF141414")),
+                        MaxWidth = 500,
                         FontWeight = FontWeight.Bold,
                         FontFamily = FontFamily.Default,
-                        BorderThickness = new Thickness(0, 0, 0, 3),
-                    });
+                        //BorderThickness = new Thickness(0, 0, 0, 3),
+                    };
+                    element.Classes.Set("droppedList", true);
+                    list.Items.Add(element);
                 }
 
-                CurrentVersion = versions[versions.Length - 1];
+                CurrentVersion = versions[versions.Count - 1];
             }
         }
 
@@ -206,8 +211,8 @@ namespace ProjectLauncher.Views
                 var http = new HttpClient();
                 var str = await http.GetStringAsync("https://github.com/RTMecha/BetterLegacy/raw/master/updates.lss");
 
-                if (!string.IsNullOrEmpty(str))
-                    BetterLegacyNotes.Text = str;
+                if (!string.IsNullOrEmpty(str)) BetterLegacyNotes.Text = str;
+
 
             }
             catch (Exception ex)

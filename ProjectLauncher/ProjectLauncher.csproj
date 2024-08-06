@@ -16,6 +16,7 @@
     <None Remove="Assets\add.ico" />
     <None Remove="Assets\browse.ico" />
     <None Remove="Assets\play.ico" />
+    <None Remove="Assets\TextData.json" />
     <None Remove="Assets\update.ico" />
   </ItemGroup>
 
