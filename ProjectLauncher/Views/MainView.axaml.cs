@@ -42,8 +42,8 @@ namespace ProjectLauncher.Views
 
         public static string Changelog =>
             $"2.1.10 > [Jun 27, 2024]\n" +
-            $"- Some visual improvements\n" +
-            $"- ProjectLauncher changelog was inversed. Now the newest description in the top\n" +
+            $"- Added icons to the tabs on the side.\n" +
+            $"- Inversed the ProjectLauncher changelogs so now the latest updates show at the top.\n" +
             $"2.1.9 > [Jun 27, 2024]\n" +
             $"- Got progress bar for updating instances to work.\n" +
             $"- Launcher no longer checks for shapes folder in the beatmaps folder when trying to update the default beatmaps files.\n" +
