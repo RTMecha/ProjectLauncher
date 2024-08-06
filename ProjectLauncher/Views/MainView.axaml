@@ -32,32 +32,47 @@
 		<Panel Background="#FF1F1F1F" ZIndex="1" >
 			<StackPanel Grid.Column="0" Spacing="10" Margin="10,10,10,0" HorizontalAlignment="Stretch">
 				<Button Name="LaunchButton" Classes="main" Click="MenuButtonPressed">
-					<TextBlock Text="INSTANCES">
-						<TextBlock.Effect>
-							<DropShadowEffect BlurRadius="3" Opacity="0.5" OffsetX="0" OffsetY="0"/>
-						</TextBlock.Effect>
-					</TextBlock>
+					<Panel>
+						<Image Source="avares://ProjectLauncher/Assets/instances.ico" Height="30" Margin="0,0,150,0"/>
+						<TextBlock Text="INSTANCES" HorizontalAlignment="Center" VerticalAlignment="Center">
+							<TextBlock.Effect>
+								<DropShadowEffect BlurRadius="3" Opacity="0.5" OffsetX="0" OffsetY="0"/>
+							</TextBlock.Effect>
+						</TextBlock>
+					</Panel>
 				</Button>
 				<Button Name="ModsButton" Classes="main" Click="MenuButtonPressed">
-					<TextBlock Text="SETTINGS">
-						<TextBlock.Effect>
-							<DropShadowEffect BlurRadius="3" Opacity="0.5" OffsetX="0" OffsetY="0"/>
-						</TextBlock.Effect>
-					</TextBlock>
+					<Panel>
+						<Image Source="avares://ProjectLauncher/Assets/editor_gui_preferences-white.ico" Height="30" Margin="0,0,150,0"/>
+						<TextBlock Text="SETTINGS" HorizontalAlignment="Center" VerticalAlignment="Center">
+							<TextBlock.Effect>
+								<DropShadowEffect BlurRadius="3" Opacity="0.5" OffsetX="0" OffsetY="0"/>
+							</TextBlock.Effect>
+						</TextBlock>
+					</Panel>
+					
 				</Button>
 				<Button Name="VersionsButton" Classes="main" Click="MenuButtonPressed">
-					<TextBlock Text="ABOUT">
-						<TextBlock.Effect>
-							<DropShadowEffect BlurRadius="3" Opacity="0.5" OffsetX="0" OffsetY="0"/>
-						</TextBlock.Effect>
-					</TextBlock>
+					<Panel>
+						<Image Source="avares://ProjectLauncher/Assets/editor_gui_question.ico" Height="30" Margin="0,0,150,0"/>
+						<TextBlock Text="ABOUT" HorizontalAlignment="Center" VerticalAlignment="Center">
+							<TextBlock.Effect>
+								<DropShadowEffect BlurRadius="3" Opacity="0.5" OffsetX="0" OffsetY="0"/>
+							</TextBlock.Effect>
+						</TextBlock>
+					</Panel>
+					
 				</Button>
 				<Button Name="ChangelogButton" Classes="main" Click="MenuButtonPressed">
-					<TextBlock Text="CHANGELOG">
-						<TextBlock.Effect>
-							<DropShadowEffect BlurRadius="3" Opacity="0.5" OffsetX="0" OffsetY="0"/>
-						</TextBlock.Effect>
-					</TextBlock>
+					<Panel>
+						<Image Source="avares://ProjectLauncher/Assets/editor_gui_planner.ico" Height="30" Margin="0,0,150,0"/>
+						<TextBlock Text="CHANGELOG" HorizontalAlignment="Center" VerticalAlignment="Center">
+							<TextBlock.Effect>
+								<DropShadowEffect BlurRadius="3" Opacity="0.5" OffsetX="0" OffsetY="0"/>
+							</TextBlock.Effect>
+						</TextBlock>
+					</Panel>
+					
 				</Button>
 
 			</StackPanel>
