@@ -41,6 +41,8 @@ namespace ProjectLauncher.Views
         public static string CurrentVersion { get; set; } = "1.0.0"; // BetterLegacy version 1
 
         public static string Changelog =>
+            $"2.1.11 > [Aug 12, 2024]\n" +
+            $"- Make launcher ignore Prefab Types path since it is no longer included in the Beatmaps.zip file\n" +
             $"2.1.10 > [Jun 27, 2024]\n" +
             $"- Added icons to the tabs on the side.\n" +
             $"- Inversed the ProjectLauncher changelogs so now the latest updates show at the top.\n" +
@@ -102,9 +104,6 @@ namespace ProjectLauncher.Views
 
         async void Load()
         {
-            
-            
-
             pages.Add(new PageManager(LaunchButton, LaunchWindow));
             pages.Add(new PageManager(ModsButton, ModsWindow));
             pages.Add(new PageManager(VersionsButton, VersionsWindow));
@@ -151,8 +150,6 @@ namespace ProjectLauncher.Views
             Loaded += OnLoaded;
 
             LoadUpdateNotes();
-
-
         }
 
         void OnLoaded(object sender, RoutedEventArgs e)
@@ -636,7 +633,7 @@ namespace ProjectLauncher.Views
                         }
                     }
 
-                    if (!Directory.Exists($"{projectArrhythmia.Path}/beatmaps/prefabtypes") || !Directory.Exists($"{projectArrhythmia.Path}/beatmaps/menus"))
+                    if (!Directory.Exists($"{projectArrhythmia.Path}/beatmaps/menus"))
                     {
                         var url = $"https://github.com/RTMecha/BetterLegacy/releases/download/{projectArrhythmia.Settings.CurrentVersion}/Beatmaps.zip";
 
