@@ -41,6 +41,8 @@ namespace ProjectLauncher.Views
         public static string CurrentVersion { get; set; } = "1.0.0"; // BetterLegacy version 1
 
         public static string Changelog =>
+            $"2.1.12 > [Mar 08, 2025]\n" +
+            $"- Tabs have been moved from the left side to the top of the window\n" +
             $"2.1.11 > [Aug 12, 2024]\n" +
             $"- Make launcher ignore Prefab Types path since it is no longer included in the Beatmaps.zip file\n" +
             $"2.1.10 > [Jun 27, 2024]\n" +
@@ -134,7 +136,7 @@ namespace ProjectLauncher.Views
             await LoadSettings();
 
             Launch.Click += LaunchClick;
-            Update.Click += UpdateClick;
+            //Update.Click += UpdateClick;
             InstancesSearchField.TextChanged += InstancesSearchChanged;
             CreateNewInstanceButton.Click += CreateNewInstanceClicked;
             AppPathBrowse.Click += AppPathBrowseClick;
