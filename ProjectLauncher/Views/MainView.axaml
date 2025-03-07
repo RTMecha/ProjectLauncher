@@ -185,7 +185,7 @@
 			
 
 			<!-- Settings Window Panel -->
-			<StackPanel Name="ModsWindow" IsVisible="False" Width="600" Margin="5,0,0,0">
+			<StackPanel Name="ModsWindow" IsVisible="False" Width="500" Margin="5,0,0,0">
 				<Label Name="SettingsPageLabel" Content="SETTINGS PAGE"  HorizontalAlignment="Left" FontSize="22"/>
 				<StackPanel Orientation="Horizontal">
 					<Button Name="SettingRounded" Content="Rounded UI" HorizontalAlignment="Left"/>
