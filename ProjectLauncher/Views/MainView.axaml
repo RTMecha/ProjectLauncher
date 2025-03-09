@@ -3,8 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+						 xmlns:md="https://github.com/whistyun/Markdown.Avalonia"
+						 xmlns:mde="https://github.com/whistyun/Markdown.Avalonia.SyntaxHigh"
              xmlns:vm="clr-namespace:ProjectLauncher.ViewModels"
-             mc:Ignorable="d" d:DesignWidth="565" d:DesignHeight="500"
+             mc:Ignorable="d" d:DesignWidth="820" d:DesignHeight="500"
              Background="#FF141414"
              x:Class="ProjectLauncher.Views.MainView"
              Name="userContol"
@@ -31,7 +33,7 @@
 
 		<Panel Background="#FF1F1F1F" ZIndex="1" >
 			<StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="15" Margin="10,2,10,2" HorizontalAlignment="Center">
-				<Button Name="LaunchButton" Width="120" Click="MenuButtonPressed">
+				<Button Name="LaunchButton" Width="150" Click="MenuButtonPressed">
 					<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
 						<Image Source="avares://ProjectLauncher/Assets/instances.ico" HorizontalAlignment="Left" Height="15" Margin="0,0,0,0">
 							<Image.Effect>
@@ -45,7 +47,7 @@
 						</TextBlock>
 					</StackPanel>
 				</Button>
-				<Button Name="ModsButton" Width="120" Click="MenuButtonPressed">
+				<Button Name="ModsButton" Width="140" Click="MenuButtonPressed">
 					<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
 						<Image Source="avares://ProjectLauncher/Assets/editor_gui_preferences-white.ico" HorizontalAlignment="Center" Height="15" Margin="0,0,0,0">
 							<Image.Effect>
@@ -60,7 +62,7 @@
 					</StackPanel>
 				</Button>
 
-				<Button Name="VersionsButton" Width="120" Click="MenuButtonPressed">
+				<Button Name="VersionsButton" Width="140" Click="MenuButtonPressed">
 					<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
 						<Image Source="avares://ProjectLauncher/Assets/editor_gui_question.ico" HorizontalAlignment="Center" Height="15" Margin="0,0,0,0">
 							<Image.Effect>
@@ -75,7 +77,7 @@
 					</StackPanel>
 				</Button>
 				
-					<Button Name="ChangelogButton" Width="120" Click="MenuButtonPressed">
+					<Button Name="ChangelogButton" Width="140" Click="MenuButtonPressed">
 					<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
 						<Image Source="avares://ProjectLauncher/Assets/editor_gui_planner.ico" HorizontalAlignment="Center" Height="15" Margin="0,0,0,0">
 							<Image.Effect>
@@ -89,6 +91,21 @@
 						</TextBlock>
 					</StackPanel>
 				</Button>
+        
+					<Button Name="NewsButton" Width="140" Click="MenuButtonPressed">
+					<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+						<Image Source="avares://ProjectLauncher/Assets/editor_gui_planner.ico" HorizontalAlignment="Center" Height="15" Margin="0,0,0,0">
+							<Image.Effect>
+								<DropShadowEffect Opacity="0.3" OffsetX="-1" OffsetY="1"></DropShadowEffect>
+							</Image.Effect>
+						</Image>
+						<TextBlock Text="NEWS" FontSize="12" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Center">
+							<TextBlock.Effect>
+								<DropShadowEffect BlurRadius="1" Opacity="0.3" OffsetX="1" OffsetY="1"/>
+							</TextBlock.Effect>
+						</TextBlock>
+					</StackPanel>
+				</Button>
 			</StackPanel>
 		</Panel>
 
@@ -96,90 +113,120 @@
 			<!-- Launch Window Panel -->
 			<StackPanel Name="LaunchWindow" IsVisible="False"   Margin="5,10,5,10">
 				<ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto" Height="480">
-					<StackPanel>
-						<DockPanel Name="FunctionButtons" Margin="5,0,0,0" HorizontalAlignment="Left">
-							<Button Name="Launch" Content="Launch" Margin="0,0,0,0" Width="120" Height="50">
-								<ToolTip.Tip >
-									<Label Content="Start selected Project Arrhythmia instance." />
-								</ToolTip.Tip>
-								<StackPanel Orientation="Horizontal">
-									<Image Source="avares://ProjectLauncher/Assets/play.ico" />
-									<Label>PLAY</Label>
-								</StackPanel>
-							</Button>
-							
-
-							<Button Name="Update" Content="Update" Margin="10,0,0,0" Width="50">
-								<ToolTip.Tip>
-									<Label Content="Install selected mods to instance" />
-								</ToolTip.Tip>
-								<Image Source="avares://ProjectLauncher/Assets/update.ico" />
-							</Button>
-							
-							<DropDownButton Name="Versions" Content="Version: 1.0.0" Margin="10,-3,0,0" Width="355" Height="47">
-								<ToolTip.Tip>
-									<Label Content="Select BetterLegacy version (use install button to install selected version)" />
-								</ToolTip.Tip>
-							</DropDownButton>
-						</DockPanel>
-
-            <ProgressBar Name="ProgressBar" Value="0" Height="20" Margin="10,10,10,0" Foreground="#FFFFAD5C"/>
-            <Label Name="LabelProgressBar" Foreground="#ffba7a" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="15" Margin="0,5,0,0"/>
-            
-						<Label Name="AppPathFieldLabel" Content="App path" HorizontalAlignment="Left"/>
-						<DockPanel HorizontalAlignment="Stretch" Height="30" Margin="5,0,5,0">
-							<TextBox Name="AppPathField"  TextAlignment="Left" Watermark="Project Arrhythmia Folder Path" Width="500"/>
-							<Button Name="AppPathBrowse" Height="35" Width="35" Margin="12,2,0,0">
-								<StackPanel Orientation="Horizontal">
-									<Image Source="avares://ProjectLauncher/Assets/browse.ico"/>
-								</StackPanel>
-								
-								<ToolTip.Tip>
-									<Label Content="Set a path to the Project Arrhythmia .exe file." />
-								</ToolTip.Tip>
-							</Button>
-						</DockPanel>
-						<Label Name="NewInstanceNameLabel" Content="New Instance name" HorizontalAlignment="Left"/>
-						<DockPanel HorizontalAlignment="Stretch" Height="30" Margin="5,0,5,0">
-              <TextBox Name="NewInstanceNameField" TextAlignment="Left" Watermark="Instance name" Width="500">
-                <ToolTip.Tip>
-                  <Label Content="Set the name of a new instance."/>
-                </ToolTip.Tip>
-              </TextBox>
-							<Button Name="CreateNewInstanceButton" Content="Create new" Height="35" Width="35" HorizontalAlignment="Left" Margin="12,2,0,0">
-								<Image Source="avares://ProjectLauncher/Assets/add.ico"/>
-								<ToolTip.Tip>
-									<Label Content="Create a new instance." />
-								</ToolTip.Tip>
-							</Button>
-						</DockPanel>
-						<Label Name="InstancesLabel" Content="Instances" HorizontalAlignment="Left"/>
-						<TextBox Name="InstancesSearchField" TextAlignment="Left" Watermark="Search instances..." HorizontalAlignment="Left" Width="550" Margin="5,0,5,0"/>
-						<ScrollViewer MaxHeight="170" Width="550" HorizontalAlignment="Left" Margin="5,6,5,0">
-							<ListBox Name="InstancesListBox" Background="#262524"/>
-						</ScrollViewer>
+          <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <StackPanel>
+              <DockPanel Name="FunctionButtons" Margin="5,0,0,0" HorizontalAlignment="Left">
+                <Button Name="Launch" Content="Launch" Margin="0,0,0,0" Width="120" Height="50">
+                  <ToolTip.Tip >
+                    <Label Content="Start selected Project Arrhythmia instance." />
+                  </ToolTip.Tip>
+                  <StackPanel Orientation="Horizontal">
+                    <Image Source="avares://ProjectLauncher/Assets/play.ico" />
+                    <Label>PLAY</Label>
+                  </StackPanel>
+                </Button>
 
 
-						<Panel Height="5" Margin="5,10,5,0" Background="#10FFFFFF" />
-						<Label Content="P L U G I N S" FontSize="20" HorizontalAlignment="Center" Margin="0,0,0,0" />
-						<StackPanel HorizontalAlignment="Center">
-              <Button Name="BetterLegacyToggle" Content="BetterLegacy" Margin="0,0,0,0">
-                <ToolTip.Tip>
-                  <Label Content="Main Legacy mod." />
+                <Button Name="Update" Content="Update" Margin="10,0,0,0" Width="50">
+                  <ToolTip.Tip>
+                    <Label Content="Install selected mods to instance" />
+                  </ToolTip.Tip>
+                  <Image Source="avares://ProjectLauncher/Assets/update.ico" />
+                </Button>
+
+                <DropDownButton Name="Versions" Content="Version: 1.0.0" Margin="10,-3,0,0" Width="355" Height="47">
+                  <ToolTip.Tip>
+                    <Label Content="Select BetterLegacy version (use install button to start installing selected version)" />
+                  </ToolTip.Tip>
+                </DropDownButton>
+              </DockPanel>
+
+              <ProgressBar Name="ProgressBar" Value="0" Height="20" Margin="5,10,5,0" Foreground="#FFFFAD5C"/>
+              <Label Name="LabelProgressBar" Foreground="#ffba7a" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="15" Margin="0,5,0,0"/>
+
+              <Label Name="AppPathFieldLabel" Content="App path" HorizontalAlignment="Left"/>
+              <DockPanel HorizontalAlignment="Stretch" Height="30" Margin="5,0,5,0">
+                <TextBox Name="AppPathField"  TextAlignment="Left" Watermark="Project Arrhythmia Folder Path" Width="500">
+                  <ToolTip.Tip>
+                    <Label Content="Path to the Project Arrhythmia folder to copy when creating a new instance.." />
+                  </ToolTip.Tip>
+                </TextBox>
+                <Button Name="AppPathBrowse" Height="35" Width="35" Margin="12,2,0,0">
+                  <StackPanel Orientation="Horizontal">
+                    <Image Source="avares://ProjectLauncher/Assets/browse.ico"/>
+                  </StackPanel>
+
+                  <ToolTip.Tip>
+                    <Label Content="Set a path to the Project Arrhythmia .exe file." />
+                  </ToolTip.Tip>
+                </Button>
+              </DockPanel>
+              <Label Name="NewInstanceNameLabel" Content="New Instance name" HorizontalAlignment="Left"/>
+              <DockPanel HorizontalAlignment="Stretch" Height="30" Margin="5,0,5,0">
+                <TextBox Name="NewInstanceNameField" TextAlignment="Left" Watermark="Instance name" Width="500">
+                  <ToolTip.Tip>
+                    <Label Content="Set the name of a new instance."/>
+                  </ToolTip.Tip>
+                </TextBox>
+                <Button Name="CreateNewInstanceButton" Content="Create new" Height="35" Width="35" HorizontalAlignment="Left" Margin="12,2,0,0">
+                  <Image Source="avares://ProjectLauncher/Assets/add.ico"/>
+                  <ToolTip.Tip>
+                    <Label Content="Create a new instance." />
+                  </ToolTip.Tip>
+                </Button>
+              </DockPanel>
+              <Label Name="InstancesLabel" Content="Instances" HorizontalAlignment="Left"/>
+              <TextBox Name="InstancesSearchField" TextAlignment="Left" Watermark="Search instances..." HorizontalAlignment="Left" Width="550" Margin="5,0,5,0"/>
+              <ScrollViewer MaxHeight="170" Width="550" HorizontalAlignment="Left" Margin="5,6,5,0">
+                <ListBox Name="InstancesListBox" Background="#262524"/>
+              </ScrollViewer>
+
+
+              <Panel Width="500" Height="5" Margin="5,10,5,0" Background="#10FFFFFF" />
+              <Label Content="P L U G I N S" FontSize="20" HorizontalAlignment="Center" Margin="0,0,0,0" />
+              <StackPanel HorizontalAlignment="Center">
+                <Button Name="BetterLegacyToggle" Content="BetterLegacy" Margin="0,0,0,0">
+                  <ToolTip.Tip>
+                    <Label Content="Main Legacy mod." />
+                  </ToolTip.Tip>
+                </Button>
+                <Button Name="EditorOnStartupToggle" Content="Editor on Startup" Margin="0,0,0,0">
+                  <ToolTip.Tip>
+                    <Label Content="Starts the application in the editor." />
+                  </ToolTip.Tip>
+                </Button>
+                <Button Name="UnityExplorerToggle" Content="Unity Explorer" Margin="0,0,0,0">
+                  <ToolTip.Tip>
+                    <Label Content="Debugging tool for Unity." />
+                  </ToolTip.Tip>
+                </Button>
+              </StackPanel>
+            </StackPanel>
+            <Panel Width="2" Height="460" Margin="5,5,5,5" Background="#10FFFFFF" />
+            <StackPanel>
+              <Button Name="OpenInstanceFolder" Content="Open Folder" Width="226" Margin="5,0,5,0" HorizontalAlignment="Center">
+                <ToolTip.Tip >
+                  <Label Content="Opens the selected instance folder." />
                 </ToolTip.Tip>
               </Button>
-              <Button Name="EditorOnStartupToggle" Content="Editor on Startup" Margin="0,0,0,0">
-                <ToolTip.Tip>
-                  <Label Content="Starts the application in the editor." />
+              <Button Name="ZipInstance" Content="ZIP Instance" Width="226" Margin="5,5,5,5" HorizontalAlignment="Center">
+                <ToolTip.Tip >
+                  <Label Content="Compresses the selected instance folder to a .zip file." />
                 </ToolTip.Tip>
               </Button>
-              <Button Name="UnityExplorerToggle" Content="Unity Explorer" Margin="0,0,0,0">
-                <ToolTip.Tip>
-                  <Label Content="Debugging tool for Unity." />
+              <Panel Width="226" Height="5" Margin="5,5,5,5" Background="#10FFFFFF" />
+              <Button Name="CopyBeatmapsFolder" Content="Copy Beatmaps Folder" Width="226" Margin="5,5,5,0" HorizontalAlignment="Center">
+                <ToolTip.Tip >
+                  <Label Content="Copies the selected instance beatamps folder." />
                 </ToolTip.Tip>
               </Button>
-						</StackPanel>
-					</StackPanel>
+              <Button Name="PasteBeatmapsFolder" Content="Paste Beatmaps Folder" Width="226" Margin="5,5,5,0" HorizontalAlignment="Center">
+                <ToolTip.Tip >
+                  <Label Content="Pastes the selected instance beatamps folder." />
+                </ToolTip.Tip>
+              </Button>
+            </StackPanel>
+          </StackPanel>
 				</ScrollViewer>
 			</StackPanel>
 			
@@ -229,8 +276,8 @@
 						<TextBlock Name="ChangelogNotes" Classes="default" TextWrapping="Wrap" Opacity="95"/>
 					</Label>
 				</ScrollViewer>
+        
 				<Label Name="BetterLegacyNotesLabel" Content="BetterLegacy notes" HorizontalAlignment="Left"/>
-				
 				<ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto" Height="200">
 					<Label Content="Updates" HorizontalAlignment="Left" FontSize="11" MaxWidth="1200">
 						<TextBlock Name="BetterLegacyNotes" Classes="default" TextWrapping="Wrap" Opacity="95"/>

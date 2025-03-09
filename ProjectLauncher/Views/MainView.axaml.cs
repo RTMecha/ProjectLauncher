@@ -18,6 +18,7 @@ using System.Threading.Tasks;
 using System.Net.Http;
 using System.Net;
 using Avalonia.Markup.Xaml;
+using System.ComponentModel;
 
 
 
@@ -141,6 +142,10 @@ namespace ProjectLauncher.Views
             CreateNewInstanceButton.Click += CreateNewInstanceClicked;
             AppPathBrowse.Click += AppPathBrowseClick;
             AppPathField.TextChanged += AppPathFieldChanged;
+
+            OpenInstanceFolder.Click += OpenInstanceFolderClick;
+            ZipInstance.Click += ZipInstanceClick;
+
             SettingRounded.Click += SettingsRoundedClick;
             SettingUpdateLauncher.Click += UpdateLauncherClick;
             RoundSlider.ValueChanged += RoundSliderValueChanged;
@@ -413,6 +418,51 @@ namespace ProjectLauncher.Views
         }
 
         #region Senders
+
+        public bool zipping;
+
+        void ZipInstanceClick(object? sender, RoutedEventArgs e)
+        {
+            if (zipping)
+                return;
+
+            if (InstancesListBox.SelectedItem is ListBoxItem item && item.DataContext is ProjectArrhythmia projectArrhythmia)
+            {
+                string path = projectArrhythmia.Path.Replace("/", "\\");
+
+                Task.Run(() =>
+                {
+                    if (zipping)
+                        return;
+
+                    zipping = true;
+
+                    if (File.Exists(path + ".zip"))
+                        File.Delete(path + ".zip");
+
+                    ZipFile.CreateFromDirectory(path, path + ".zip");
+
+                    zipping = false;
+                });
+            }
+        }
+
+        void OpenInstanceFolderClick(object? sender, RoutedEventArgs e)
+        {
+            if (InstancesListBox.SelectedItem is ListBoxItem item && item.DataContext is ProjectArrhythmia projectArrhythmia)
+            {
+                string path = projectArrhythmia.Path.Replace("/", "\\");
+
+                try
+                {
+                    Process.Start("explorer.exe", (Directory.Exists(path) ? "/root," : "/select,") + path);
+                }
+                catch (Win32Exception ex)
+                {
+                    ex.HelpLink = "";
+                }
+            }
+        }
 
         void UpdateLauncherClick(object? sender, RoutedEventArgs e)
         {
