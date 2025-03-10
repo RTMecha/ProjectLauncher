@@ -1,0 +1,26 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:ProjectLauncher.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="350"
+             Background="#FF141414"
+             x:Class="ProjectLauncher.Views.WarningView"
+             x:DataType="vm:WarningViewModel">
+  <Design.DataContext>
+    <vm:WarningViewModel />
+  </Design.DataContext>
+  <Grid Grid.Row="2" Margin="0,0,0,0">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="*" />
+      <RowDefinition Height="32" />
+    </Grid.RowDefinitions>
+    <Panel>
+      <Label Content="{Binding WarningMessage}" FontSize="22" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    </Panel>
+    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+      <Button Name="ConfirmButton" Content="Confirm" Width="120" Height="44" FontSize="24" Margin="0,0,30,0"/>
+      <Button Name="CancelButton" Content="Cancel" Width="120" Height="44" FontSize="24" Margin="30,0,0,0"/>
+    </StackPanel>
+  </Grid>
+</UserControl>
