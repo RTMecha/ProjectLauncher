@@ -20,8 +20,9 @@ using System.Net;
 using Avalonia.Markup.Xaml;
 using System.ComponentModel;
 
-
-
+using ProjectLauncher.Data;
+using ProjectLauncher.Managers;
+using Avalonia.Platform;
 
 namespace ProjectLauncher.Views
 {
@@ -30,59 +31,23 @@ namespace ProjectLauncher.Views
     {
         public static MainView Instance { get; set; }
 
-        public List<PageManager> pages = new List<PageManager>();
-        public bool Rounded { get; set; } = true;
+        public List<LauncherTab> pages = new List<LauncherTab>();
+
+        public LauncherSettings settings = new LauncherSettings();
+
+        double hsvHue;
+        double hsvSaturation;
+        double hsvValue;
 
         //public static string InstancesFolder => Directory.GetCurrentDirectory().Replace("\\", "/") + "/instances";
-        public static string MainDirectory;
+        public static string MainDirectory { get; set; }
         //public static string MainDirectory => "E:/Coding/ProjectArrhythmiaLauncher-master/ProjectLauncher.Desktop/bin/Debug/net6.0/";
-        public static string InstancesFolder;
-        public static string SettingsFile;
+        public static string InstancesFolder { get; set; }
+        public static string SettingsFile { get; set; }
 
         public static string CurrentVersion { get; set; } = "1.0.0"; // BetterLegacy version 1
 
-        public static string Changelog =>
-            $"2.1.12 > [Mar 08, 2025]\n" +
-            $"- Tabs have been moved from the left side to the top of the window\n" +
-            $"2.1.11 > [Aug 12, 2024]\n" +
-            $"- Make launcher ignore Prefab Types path since it is no longer included in the Beatmaps.zip file\n" +
-            $"2.1.10 > [Jun 27, 2024]\n" +
-            $"- Added icons to the tabs on the side.\n" +
-            $"- Inversed the ProjectLauncher changelogs so now the latest updates show at the top.\n" +
-            $"2.1.9 > [Jun 27, 2024]\n" +
-            $"- Got progress bar for updating instances to work.\n" +
-            $"- Launcher no longer checks for shapes folder in the beatmaps folder when trying to update the default beatmaps files.\n" +
-            $"2.1.8 > [Jun 26, 2024]\n" +
-            $"- it's yet another hotfix\n" +
-            $"2.1.7 > [Jun 26, 2024]\n" +
-            $"- another hotfix holy crap.\n" +
-            $"2.1.6 > [Jun 26, 2024]\n" +
-            $"- Quick unzip hotfix.\n" +
-            $"2.1.5 > [Jun 26, 2024]\n" +
-            $"- Fully fixed launcher not updating properly.\n" +
-            $"- Tried adding a progress bar to instance updater with no success atm.\n" +
-            $"- Fixed some grammar and added some tooltips.\n" +
-            $"- Fixed version dropdown value not displaying the correct version on app startup some times.\n" +
-            $"2.1.4 > [Jun 9, 2024]\n" +
-            $"- Fixed updater program not updating itself.\n" +
-            $"- Added a light shadow for text on buttons in the left panel.\n" +
-            $"2.1.3 > [Jun 9, 2024]\n" +
-            $"- The update window has been improved.\n" +
-            $"2.1.2 > [May 26, 2024]\n" +
-            $"- Added interface color adjustment in the Settings.\n" +
-            $"- Fixed the problem of incorrect rounded strength data load\n" +
-            $"2.1.1 > [May 25, 2024]\n" +
-            $"- Updated some roundness and added a roundness slider.\n" +
-            $"2.1.0 > [May 24, 2024]\n" +
-            $"- Redesigned some UI elements to be easier to look at with some new icons and better layout.\n" +
-            $"- The launcher now has an auto updater. Check it out in the settings tab.\n" +
-            $"2.0.2 > [May 22, 2024]\n" +
-            $"- Made launch and update buttons turn invisible when an instance is updating.\n" +
-            $"2.0.1 > [May 22, 2024]\n" +
-            $"- Fixed URL for BetterLegacy versions being incorrect.\n" +
-            $"2.0.0 > [May 22, 2024]\n" +
-            $"- Completely reworked Project Launcher to use a different basis and to use the merged mods rather than the individual.\n";
-
+        public static string Changelog { get; set; }
 
         public MainView()
         {
@@ -94,7 +59,7 @@ namespace ProjectLauncher.Views
             Load();
         }
 
-        private void DefineFilesPath()
+        void DefineFilesPath()
         {
             
             if (Design.IsDesignMode) MainDirectory = Directory.GetCurrentDirectory().Replace("\\", "/") + "/" + "ProjectLauncher.Desktop/bin/Debug/net6.0/";
@@ -107,12 +72,17 @@ namespace ProjectLauncher.Views
 
         async void Load()
         {
-            pages.Add(new PageManager(LaunchButton, LaunchWindow));
-            pages.Add(new PageManager(ModsButton, ModsWindow));
-            pages.Add(new PageManager(VersionsButton, VersionsWindow));
-            pages.Add(new PageManager(ChangelogButton, ChangelogWindow));
+            pages.Add(new LauncherTab(LaunchButton, LaunchWindow));
+            pages.Add(new LauncherTab(SettingsButton, SettingsWindow));
+            pages.Add(new LauncherTab(ChangelogButton, ChangelogWindow));
+            pages.Add(new LauncherTab(NewsButton, NewsWindow));
+            pages.Add(new LauncherTab(AboutButton, AboutWindow));
             UpdateButtons(LaunchButton);
 
+            using var stream = AssetLoader.Open(new Uri("avares://ProjectLauncher/Assets/changelog.txt"));
+            using var streamReader = new StreamReader(stream);
+
+            Changelog = await streamReader.ReadToEndAsync();
 
             var list = new ListBox();
             list.Background = new SolidColorBrush(Color.Parse("#FF141414"));
@@ -137,14 +107,16 @@ namespace ProjectLauncher.Views
             await LoadSettings();
 
             Launch.Click += LaunchClick;
-            //Update.Click += UpdateClick;
+            Update.Click += UpdateClick;
+
             InstancesSearchField.TextChanged += InstancesSearchChanged;
             CreateNewInstanceButton.Click += CreateNewInstanceClicked;
             AppPathBrowse.Click += AppPathBrowseClick;
             AppPathField.TextChanged += AppPathFieldChanged;
 
-            OpenInstanceFolder.Click += OpenInstanceFolderClick;
-            ZipInstance.Click += ZipInstanceClick;
+            OpenInstanceFolderButton.Click += OpenInstanceFolderClick;
+            ZipInstanceButton.Click += ZipInstanceClick;
+            PasteBeatmapsFolderButton.Click += PasteBeatmapsFolder;
 
             SettingRounded.Click += SettingsRoundedClick;
             SettingUpdateLauncher.Click += UpdateLauncherClick;
@@ -154,6 +126,7 @@ namespace ProjectLauncher.Views
             SaturationSlider.ValueChanged += HSVdataUpdate;
             ValueSlider.ValueChanged += HSVdataUpdate;
             ResetToDefaultThemeButton.Click += ResetToDefaultThemeButtonPresed;
+
             Loaded += OnLoaded;
 
             LoadUpdateNotes();
@@ -232,11 +205,11 @@ namespace ProjectLauncher.Views
             {
                 var json = await File.ReadAllTextAsync(settingsPath);
                 var jn = JSON.Parse(json);
-                Rounded = jn["ui"]["rounded"].AsBool;
+                settings.Rounded = jn["ui"]["rounded"].AsBool;
 
                 if (!string.IsNullOrEmpty(jn["ui"]["roundness"]))
                     RoundSlider.Value = Convert.ToDouble(jn["ui"]["roundness"].Value);
-                RoundValue = RoundSlider.Value;
+                settings.Roundness = RoundSlider.Value;
 
                 if (!string.IsNullOrEmpty(jn["instances"]["app_path"]))
                     AppPathField.Text = jn["instances"]["app_path"];
@@ -261,7 +234,7 @@ namespace ProjectLauncher.Views
                 ColorsUpdate();
             }
 
-            SettingRounded.Content = $"Rounded UI   {(Rounded ? "✓" : "✕")}";
+            SettingRounded.Content = $"Rounded UI   {(settings.Rounded ? "✓" : "✕")}";
 
             UpdateRoundness();
             SaveSettings();
@@ -273,7 +246,7 @@ namespace ProjectLauncher.Views
             savingSettings = true;
             var settingsPath = SettingsFile;
             var jn = JSON.Parse("{}");
-            jn["ui"]["rounded"] = Rounded.ToString();
+            jn["ui"]["rounded"] = settings.Rounded.ToString();
             jn["ui"]["roundness"] = RoundSlider.Value.ToString();
             jn["hsv"]["hue"] = HueSlider.Value.ToString();
             jn["hsv"]["saturation"] = SaturationSlider.Value.ToString();
@@ -399,8 +372,8 @@ namespace ProjectLauncher.Views
 
         void UpdateRoundness()
         {
-            double roundessValue = Rounded ? RoundValue : 0;
-            var resources = this.Resources;
+            double roundessValue = settings.Rounded ? settings.Roundness : 0;
+            var resources = Resources;
             resources["CornerRadius"] = new CornerRadius(roundessValue);
             resources["TextBoxCornerRadius"] = new CornerRadius(roundessValue, roundessValue, 0,0);
         }
@@ -418,6 +391,32 @@ namespace ProjectLauncher.Views
         }
 
         #region Senders
+
+        void PasteBeatmapsFolder(object sender, RoutedEventArgs e)
+        {
+            var warningWindow = new WarningWindow()
+            {
+                DataContext = new WarningViewModel()
+                {
+                    WarningMessage = "Are you sure you want to paste?",
+                    Confirm = () =>
+                    {
+                        Debug.WriteLine("Test");
+                        WarningWindow.Instance?.Close();
+                    },
+                }
+            };
+            warningWindow.Show(MainWindow.Instance);
+        }
+
+        void OpenModSettingsWindow(object sender, RoutedEventArgs e)
+        {
+            var modSettingsWindow = new ModSettingsWindow()
+            {
+                DataContext = new ModSettingsViewModel(),
+            };
+            modSettingsWindow.Show(MainWindow.Instance);
+        }
 
         public bool zipping;
 
@@ -792,12 +791,11 @@ namespace ProjectLauncher.Views
             }
         }
 
-        public static double RoundValue;
         void RoundSliderValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
             if (sender is Slider slider)
             {
-                RoundValue = slider.Value;
+                settings.Roundness = slider.Value;
                 UpdateRoundness();
 
                 if (!savingSettings)
@@ -805,9 +803,6 @@ namespace ProjectLauncher.Views
             }
         }
 
-        private double hsvHue;
-        private double hsvSaturation;
-        private double hsvValue;
         void HSVdataUpdate(object sender, RangeBaseValueChangedEventArgs e)
         {
             var slider = sender as Slider;
@@ -843,47 +838,14 @@ namespace ProjectLauncher.Views
             hsvHue = HueSlider.Value;
             hsvSaturation = SaturationSlider.Value;
             hsvValue = ValueSlider.Value;
-            var color = FromHsv(hsvHue, hsvSaturation, hsvValue);
+            var color = LauncherHelper.FromHsv(hsvHue, hsvSaturation, hsvValue);
 
-            var resources = this.Resources;
+            var resources = Resources;
             resources["SystemColor"] = new SolidColorBrush(color);
         }
         //255 186 122
         //29 52 100
         //FFFFAD5C
-
-        public static Color FromHsv(double h, double S, double V)
-        {
-            int r, g, b;
-            if (S == 0)
-            {
-                r = g = b = (int)(V * 255.0f + 0.5f);
-            }
-            else
-            {
-                double var_H = h * 6;
-                if (var_H == 6) var_H = 0;
-                int var_i = (int)var_H;
-                double var_1 = V * (1 - S);
-                double var_2 = V * (1 - S * (var_H - var_i));
-                double var_3 = V * (1 - S * (1 - (var_H - var_i)));
-
-                double var_r, var_g, var_b;
-                if (var_i == 0) { var_r = V; var_g = var_3; var_b = var_1; }
-                else if (var_i == 1) { var_r = var_2; var_g = V; var_b = var_1; }
-                else if (var_i == 2) { var_r = var_1; var_g = V; var_b = var_3; }
-                else if (var_i == 3) { var_r = var_1; var_g = var_2; var_b = V; }
-                else if (var_i == 4) { var_r = var_3; var_g = var_1; var_b = V; }
-                else { var_r = V; var_g = var_1; var_b = var_2; }
-
-                r = (int)(var_r * 255.0f + 0.5f);
-                g = (int)(var_g * 255.0f + 0.5f);
-                b = (int)(var_b * 255.0f + 0.5f);
-            }
-            return Color.FromArgb(255, (byte)r, (byte)g, (byte)b);
-        }
-
-
 
         void InstancesListBoxSelectionChanged(object? sender, SelectionChangedEventArgs e)
         {
@@ -921,13 +883,11 @@ namespace ProjectLauncher.Views
 
         public void SettingsRoundedClick(object? sender, EventArgs e)
         {
-            Rounded = !Rounded;
-            SettingRounded.Content = $"Rounded UI   {(Rounded ? "✓" : "✕")}";
+            settings.Rounded = !settings.Rounded;
+            SettingRounded.Content = $"Rounded UI   {(settings.Rounded ? "✓" : "✕")}";
             UpdateRoundness();
             SaveSettings();
         }
-
-
 
         #endregion
 
@@ -987,77 +947,4 @@ namespace ProjectLauncher.Views
 
         #endregion
     }
-
-
-    public class PageManager
-    {
-        public PageManager(Button button, StackPanel page)
-        {
-            PageButton = button;
-            Page = page;
-        }
-        public Button PageButton { get; private set; }
-        public StackPanel Page { get; private set; }
-    }
-
-    public class ProjectArrhythmia
-    {
-        public string Path { get; set; } = string.Empty;
-
-        public InstanceSettings? Settings { get; set; }
-
-        public override string ToString() => System.IO.Path.GetFileName(Path);
-    }
-
-    public class InstanceSettings
-    {
-        public InstanceSettings(string path)
-        {
-            Path = path + "/settings/launcher_settings.lss";
-        }
-
-        public async Task LoadSettings()
-        {
-            if (!File.Exists(Path))
-                return;
-
-            var json = await File.ReadAllTextAsync(Path);
-            var jn = JSON.Parse(json);
-
-            if (!string.IsNullOrEmpty(jn["better_legacy"]))
-                BetterLegacy = jn["better_legacy"].AsBool;
-
-            if (!string.IsNullOrEmpty(jn["editor_on_startup"]))
-                EditorOnStartup = jn["editor_on_startup"].AsBool;
-
-            if (!string.IsNullOrEmpty(jn["unity_explorer"]))
-                UnityExplorer = jn["unity_explorer"].AsBool;
-
-            if (!string.IsNullOrEmpty(jn["version"]))
-                CurrentVersion = jn["version"];
-        }
-
-        public async void SaveSettings()
-        {
-            var jn = JSON.Parse("{}");
-
-            if (!BetterLegacy)
-                jn["better_legacy"] = BetterLegacy.ToString();
-            if (EditorOnStartup)
-                jn["editor_on_startup"] = EditorOnStartup.ToString();
-            if (UnityExplorer)
-                jn["unity_explorer"] = UnityExplorer.ToString();
-
-            jn["version"] = CurrentVersion;
-
-            await File.WriteAllTextAsync(Path, jn.ToString(3));
-        }
-
-        public string Path { get; set; } = string.Empty;
-        public bool BetterLegacy { get; set; } = true;
-        public bool EditorOnStartup { get; set; } = false;
-        public bool UnityExplorer { get; set; } = false;
-        public string CurrentVersion { get; set; } = string.Empty;
-    }
-
 }

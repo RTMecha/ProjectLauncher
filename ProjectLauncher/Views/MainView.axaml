@@ -27,12 +27,12 @@
 
 	<Grid Grid.Row="2" Margin="0,0,0,0">
 		<Grid.RowDefinitions>
-			<RowDefinition Height="30" />
+			<RowDefinition Height="32" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 
 		<Panel Background="#FF1F1F1F" ZIndex="1" >
-			<StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="15" Margin="10,2,10,2" HorizontalAlignment="Center">
+			<StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="15" Margin="10,4,10,0" HorizontalAlignment="Center">
 				<Button Name="LaunchButton" Width="150" Click="MenuButtonPressed">
 					<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
 						<Image Source="avares://ProjectLauncher/Assets/instances.ico" HorizontalAlignment="Left" Height="15" Margin="0,0,0,0">
@@ -47,7 +47,8 @@
 						</TextBlock>
 					</StackPanel>
 				</Button>
-				<Button Name="ModsButton" Width="140" Click="MenuButtonPressed">
+        
+				<Button Name="SettingsButton" Width="140" Click="MenuButtonPressed">
 					<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
 						<Image Source="avares://ProjectLauncher/Assets/editor_gui_preferences-white.ico" HorizontalAlignment="Center" Height="15" Margin="0,0,0,0">
 							<Image.Effect>
@@ -61,56 +62,56 @@
 						</TextBlock>
 					</StackPanel>
 				</Button>
-
-				<Button Name="VersionsButton" Width="140" Click="MenuButtonPressed">
-					<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-						<Image Source="avares://ProjectLauncher/Assets/editor_gui_question.ico" HorizontalAlignment="Center" Height="15" Margin="0,0,0,0">
-							<Image.Effect>
-								<DropShadowEffect Opacity="0.3" OffsetX="-1" OffsetY="1"></DropShadowEffect>
-							</Image.Effect>
-						</Image>
-						<TextBlock Text="ABOUT" FontSize="12" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Center">
-							<TextBlock.Effect>
-								<DropShadowEffect BlurRadius="1" Opacity="0.3" OffsetX="1" OffsetY="1"/>
-							</TextBlock.Effect>
-						</TextBlock>
-					</StackPanel>
-				</Button>
-				
-					<Button Name="ChangelogButton" Width="140" Click="MenuButtonPressed">
-					<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-						<Image Source="avares://ProjectLauncher/Assets/editor_gui_planner.ico" HorizontalAlignment="Center" Height="15" Margin="0,0,0,0">
-							<Image.Effect>
-								<DropShadowEffect Opacity="0.3" OffsetX="-1" OffsetY="1"></DropShadowEffect>
-							</Image.Effect>
-						</Image>
-						<TextBlock Text="CHANGELOG" FontSize="12" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Center">
-							<TextBlock.Effect>
-								<DropShadowEffect BlurRadius="1" Opacity="0.3" OffsetX="1" OffsetY="1"/>
-							</TextBlock.Effect>
-						</TextBlock>
-					</StackPanel>
-				</Button>
+	
+				<Button Name="ChangelogButton" Width="140" Click="MenuButtonPressed">
+				<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+					<Image Source="avares://ProjectLauncher/Assets/editor_gui_planner.ico" HorizontalAlignment="Center" Height="15" Margin="0,0,0,0">
+						<Image.Effect>
+							<DropShadowEffect Opacity="0.3" OffsetX="-1" OffsetY="1"></DropShadowEffect>
+						</Image.Effect>
+					</Image>
+					<TextBlock Text="CHANGELOG" FontSize="12" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Center">
+						<TextBlock.Effect>
+							<DropShadowEffect BlurRadius="1" Opacity="0.3" OffsetX="1" OffsetY="1"/>
+						</TextBlock.Effect>
+					</TextBlock>
+				</StackPanel>
+			</Button>
         
-					<Button Name="NewsButton" Width="140" Click="MenuButtonPressed">
-					<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-						<Image Source="avares://ProjectLauncher/Assets/editor_gui_planner.ico" HorizontalAlignment="Center" Height="15" Margin="0,0,0,0">
-							<Image.Effect>
-								<DropShadowEffect Opacity="0.3" OffsetX="-1" OffsetY="1"></DropShadowEffect>
-							</Image.Effect>
-						</Image>
-						<TextBlock Text="NEWS" FontSize="12" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Center">
-							<TextBlock.Effect>
-								<DropShadowEffect BlurRadius="1" Opacity="0.3" OffsetX="1" OffsetY="1"/>
-							</TextBlock.Effect>
-						</TextBlock>
-					</StackPanel>
-				</Button>
+				<Button Name="NewsButton" Width="140" Click="MenuButtonPressed">
+				<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+					<Image Source="avares://ProjectLauncher/Assets/editor_gui_planner.ico" HorizontalAlignment="Center" Height="15" Margin="0,0,0,0">
+						<Image.Effect>
+							<DropShadowEffect Opacity="0.3" OffsetX="-1" OffsetY="1"></DropShadowEffect>
+						</Image.Effect>
+					</Image>
+					<TextBlock Text="NEWS" FontSize="12" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Center">
+						<TextBlock.Effect>
+							<DropShadowEffect BlurRadius="1" Opacity="0.3" OffsetX="1" OffsetY="1"/>
+						</TextBlock.Effect>
+					</TextBlock>
+				</StackPanel>
+			</Button>
+
+        <Button Name="AboutButton" Width="140" Click="MenuButtonPressed">
+          <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <Image Source="avares://ProjectLauncher/Assets/editor_gui_question.ico" HorizontalAlignment="Center" Height="15" Margin="0,0,0,0">
+              <Image.Effect>
+                <DropShadowEffect Opacity="0.3" OffsetX="-1" OffsetY="1"></DropShadowEffect>
+              </Image.Effect>
+            </Image>
+            <TextBlock Text="ABOUT" FontSize="12" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Center">
+              <TextBlock.Effect>
+                <DropShadowEffect BlurRadius="1" Opacity="0.3" OffsetX="1" OffsetY="1"/>
+              </TextBlock.Effect>
+            </TextBlock>
+          </StackPanel>
+        </Button>
 			</StackPanel>
 		</Panel>
 
-		<StackPanel Grid.Row="1" HorizontalAlignment="Left" Spacing="0" VerticalAlignment="Top">
-			<!-- Launch Window Panel -->
+		<StackPanel Grid.Row="1" HorizontalAlignment="Left" Spacing="0" Margin="0,2,0,0" VerticalAlignment="Top">
+			<!-- Instances Tab -->
 			<StackPanel Name="LaunchWindow" IsVisible="False"   Margin="5,10,5,10">
 				<ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto" Height="480">
           <StackPanel Grid.Row="0" Orientation="Horizontal">
@@ -204,23 +205,23 @@
             </StackPanel>
             <Panel Width="2" Height="460" Margin="5,5,5,5" Background="#10FFFFFF" />
             <StackPanel>
-              <Button Name="OpenInstanceFolder" Content="Open Folder" Width="226" Margin="5,0,5,0" HorizontalAlignment="Center">
+              <Button Name="OpenInstanceFolderButton" Content="Open Folder" Width="226" Margin="5,0,5,0" HorizontalAlignment="Center">
                 <ToolTip.Tip >
                   <Label Content="Opens the selected instance folder." />
                 </ToolTip.Tip>
               </Button>
-              <Button Name="ZipInstance" Content="ZIP Instance" Width="226" Margin="5,5,5,5" HorizontalAlignment="Center">
+              <Button Name="ZipInstanceButton" Content="ZIP Instance" Width="226" Margin="5,5,5,5" HorizontalAlignment="Center">
                 <ToolTip.Tip >
                   <Label Content="Compresses the selected instance folder to a .zip file." />
                 </ToolTip.Tip>
               </Button>
               <Panel Width="226" Height="5" Margin="5,5,5,5" Background="#10FFFFFF" />
-              <Button Name="CopyBeatmapsFolder" Content="Copy Beatmaps Folder" Width="226" Margin="5,5,5,0" HorizontalAlignment="Center">
+              <Button Name="CopyBeatmapsFolderButton" Content="Copy Beatmaps Folder" Width="226" Margin="5,5,5,0" HorizontalAlignment="Center">
                 <ToolTip.Tip >
                   <Label Content="Copies the selected instance beatamps folder." />
                 </ToolTip.Tip>
               </Button>
-              <Button Name="PasteBeatmapsFolder" Content="Paste Beatmaps Folder" Width="226" Margin="5,5,5,0" HorizontalAlignment="Center">
+              <Button Name="PasteBeatmapsFolderButton" Content="Paste Beatmaps Folder" Width="226" Margin="5,5,5,0" HorizontalAlignment="Center">
                 <ToolTip.Tip >
                   <Label Content="Pastes the selected instance beatamps folder." />
                 </ToolTip.Tip>
@@ -230,43 +231,47 @@
 				</ScrollViewer>
 			</StackPanel>
 			
+			<!-- Settings Tab -->
+			<StackPanel Name="SettingsWindow" IsVisible="False" Width="810" Margin="5,0,0,0">
+        <Panel Background="#10FFFFFF">
+          <Label Name="SettingsPageLabel" Content="SETTINGS PAGE"  HorizontalAlignment="Left" FontSize="22"/>
+        </Panel>
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+          <StackPanel>
+            <StackPanel Orientation="Horizontal">
+              <Button Name="SettingRounded" Content="Rounded UI" HorizontalAlignment="Left"/>
+              <Slider x:Name="RoundSlider" Minimum="0" Maximum="14" Width="200" Margin="10,0,0,0"/>
+            </StackPanel>
+            <Panel Background="#10FFFFFF" HorizontalAlignment="Stretch" Height="5" Margin="10,10,10,10" />
+            <Label Content="HSV settings" HorizontalAlignment="Left" FontSize="22" />
+            <StackPanel Orientation="Horizontal">
+              <Label Content="Hue" Background="#FF1F1F1F" Width="100" HorizontalContentAlignment="Center" />
+              <Slider x:Name="HueSlider" Minimum="0" Maximum="1" Width="200" Margin="10,0,0,0"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+              <Label Content="Saturation" Background="#FF1F1F1F" Width="100" HorizontalContentAlignment="Center" />
+              <Slider x:Name="SaturationSlider" Minimum="0" Maximum="1" Width="200" Margin="10,0,0,0"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+              <Label Content="Value" Background="#FF1F1F1F" Width="100" HorizontalContentAlignment="Center"/>
+              <Slider x:Name="ValueSlider" Minimum="0" Maximum="1" Width="200" Margin="10,0,0,0"/>
+            </StackPanel>
+            <Button Name="ResetToDefaultThemeButton" Content="Reset to default" HorizontalAlignment="Left"/>
 
-			<!-- Settings Window Panel -->
-			<StackPanel Name="ModsWindow" IsVisible="False" Width="500" Margin="5,0,0,0">
-				<Label Name="SettingsPageLabel" Content="SETTINGS PAGE"  HorizontalAlignment="Left" FontSize="22"/>
-				<StackPanel Orientation="Horizontal">
-					<Button Name="SettingRounded" Content="Rounded UI" HorizontalAlignment="Left"/>
-					<Slider x:Name="RoundSlider" Minimum="0" Maximum="14" Width="200" Margin="10,0,0,0"/>
-				</StackPanel>
-				<Panel Background="#10FFFFFF" HorizontalAlignment="Stretch" Height="5" Margin="10,10,10,10" />
-				<Label Content="HSV settings" HorizontalAlignment="Left" FontSize="22" />
-				<StackPanel Orientation="Horizontal">
-					<Label Content="Hue" Background="#FF1F1F1F" Width="100" HorizontalContentAlignment="Center" />
-					<Slider x:Name="HueSlider" Minimum="0" Maximum="1" Width="200" Margin="10,0,0,0"/>
-				</StackPanel>
-				<StackPanel Orientation="Horizontal">
-					<Label Content="Saturation" Background="#FF1F1F1F" Width="100" HorizontalContentAlignment="Center" />
-					<Slider x:Name="SaturationSlider" Minimum="0" Maximum="1" Width="200" Margin="10,0,0,0"/>
-				</StackPanel>
-				<StackPanel Orientation="Horizontal">
-					<Label Content="Value" Background="#FF1F1F1F" Width="100" HorizontalContentAlignment="Center"/>
-					<Slider x:Name="ValueSlider" Minimum="0" Maximum="1" Width="200" Margin="10,0,0,0"/>
-				</StackPanel>
-				<Button Name="ResetToDefaultThemeButton" Content="Reset to default" HorizontalAlignment="Left"/>
-				
-				<Panel Background="#10FFFFFF" HorizontalAlignment="Stretch" Height="5" Margin="10,10,10,10" />
-				<Button Name="SettingUpdateLauncher" Content="Update Launcher" HorizontalAlignment="Left"/>
-				
+            <Panel Background="#10FFFFFF" HorizontalAlignment="Stretch" Height="5" Margin="10,10,10,10" />
+            <Button Name="SettingUpdateLauncher" Content="Update Launcher" HorizontalAlignment="Left"/>
+          </StackPanel>
+          <Panel Width="2" Height="460" Margin="5,5,5,5" Background="#10FFFFFF" />
+          <StackPanel>
+            <ScrollViewer MaxHeight="170" Width="350" HorizontalAlignment="Left" Margin="5,6,5,0">
+              <ListBox Name="ModsListBox" Background="#262524"/>
+            </ScrollViewer>
+          </StackPanel>
+        </StackPanel>
 			</StackPanel>
-			<!-- About Panel -->
-			<StackPanel Name="VersionsWindow" IsVisible="False">
-				<Label Name="AboutPageLabel" Content="ABOUT PAGE" HorizontalAlignment="Left" FontSize="22"/>
-				<Label Content="What is Project Launcher?" HorizontalAlignment="Left" Margin="0,12,0,0"/>
-				<Label Content="{Binding AboutProjectLauncherInfo}" HorizontalAlignment="Left"/>
-			</StackPanel>
-			<!-- Changelog Window -->
-			<StackPanel Name="ChangelogWindow" IsVisible="False" HorizontalAlignment="Stretch">
-				
+      
+			<!-- Changelog Tab -->
+			<StackPanel Name="ChangelogWindow" IsVisible="False" Width="810" Margin="5,0,0,0">
 				<Panel Background="#10FFFFFF">
 					<Label Name="ChangelogLabel" Content="CHANGELOG PAGE" HorizontalAlignment="Left" FontSize="22"/>
 				</Panel>
@@ -284,6 +289,23 @@
 					</Label>
 				</ScrollViewer>
 			</StackPanel>
+      
+      <!--News Tab-->
+      <StackPanel Name="NewsWindow" IsVisible="False" Width="810" Margin="5,0,0,0">
+        <Panel Background="#10FFFFFF">
+          <Label Name="NewsLabel" Content="NEWS PAGE (WIP)" HorizontalAlignment="Left" FontSize="22"/>
+        </Panel>
+        
+      </StackPanel>
+
+      <!-- About Tab -->
+      <StackPanel Name="AboutWindow" IsVisible="False" Width="810" Margin="5,0,0,0">
+        <Panel Background="#10FFFFFF">
+          <Label Name="AboutPageLabel" Content="ABOUT PAGE" HorizontalAlignment="Left" FontSize="22"/>
+        </Panel>
+        <Label Content="What is Project Launcher?" HorizontalAlignment="Left" Margin="0,12,0,0"/>
+        <Label Content="{Binding AboutProjectLauncherInfo}" HorizontalAlignment="Left"/>
+      </StackPanel>
 		</StackPanel>
 	</Grid>
 </UserControl>

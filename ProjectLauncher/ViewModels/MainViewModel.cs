@@ -5,23 +5,10 @@ namespace ProjectLauncher.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
-        public string Greeting => "Welcome to Avalonia!";
-
-        private float RightPanelWidth => 100;
-
-
         public string AboutProjectLauncherInfo =>
             $"Project Launcher is an application used to handle multiple\n" +
-            $"instances of Project Arrhythmia.";
-
-        public int RelativeSource => 200;
-
-
-        public static void PercentageConverter()
-        {
-
-        }
-
-
+            $"instances of Project Arrhythmia.\n\n" +
+            $"In order to use this, you must first own Project Arrhythmia\n" +
+            $"on Steam.";
     }
 }
