@@ -3,8 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-						 xmlns:md="https://github.com/whistyun/Markdown.Avalonia"
-						 xmlns:mde="https://github.com/whistyun/Markdown.Avalonia.SyntaxHigh"
+             xmlns:md="clr-namespace:Markdown.Avalonia;assembly=Markdown.Avalonia"
              xmlns:vm="clr-namespace:ProjectLauncher.ViewModels"
              mc:Ignorable="d" d:DesignWidth="820" d:DesignHeight="500"
              Background="#FF141414"
@@ -277,16 +276,12 @@
 				</Panel>
 				<Label Name="ChangelogNotesLabel" Content="Launcher notes"  HorizontalAlignment="Left"/>
 				<ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto" Height="200">
-					<Label Content="Updates" HorizontalAlignment="Left" FontSize="11" MaxWidth="600">
-						<TextBlock Name="ChangelogNotes" Classes="default" TextWrapping="Wrap" Opacity="95"/>
-					</Label>
+          <md:MarkdownScrollViewer x:Name="ChangelogNotes"/>
 				</ScrollViewer>
         
 				<Label Name="BetterLegacyNotesLabel" Content="BetterLegacy notes" HorizontalAlignment="Left"/>
 				<ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto" Height="200">
-					<Label Content="Updates" HorizontalAlignment="Left" FontSize="11" MaxWidth="1200">
-						<TextBlock Name="BetterLegacyNotes" Classes="default" TextWrapping="Wrap" Opacity="95"/>
-					</Label>
+          <md:MarkdownScrollViewer x:Name="BetterLegacyNotes"/>
 				</ScrollViewer>
 			</StackPanel>
       
@@ -295,7 +290,9 @@
         <Panel Background="#10FFFFFF">
           <Label Name="NewsLabel" Content="NEWS PAGE (WIP)" HorizontalAlignment="Left" FontSize="22"/>
         </Panel>
-        
+        <md:MarkdownScrollViewer Opacity="95">
+          
+        </md:MarkdownScrollViewer>
       </StackPanel>
 
       <!-- About Tab -->

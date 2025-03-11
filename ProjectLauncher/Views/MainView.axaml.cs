@@ -183,12 +183,12 @@ namespace ProjectLauncher.Views
         {
             try
             {
-                ChangelogNotes.Text = Changelog;
+                ChangelogNotes.Markdown = Changelog;
 
                 var http = new HttpClient();
                 var str = await http.GetStringAsync("https://github.com/RTMecha/BetterLegacy/raw/master/updates.lss");
 
-                if (!string.IsNullOrEmpty(str)) BetterLegacyNotes.Text = str;
+                if (!string.IsNullOrEmpty(str)) BetterLegacyNotes.Markdown = str;
 
 
             }

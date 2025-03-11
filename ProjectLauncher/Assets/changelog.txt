@@ -3,6 +3,7 @@
 - Added instance functions at the right side of the instances tab. These allow you to modify the PA instance.
 - Started working on a better mod system that allows for custom mod lists.
 - Started working on a news tab.
+- Changelog page now supports markdown.
 2.1.11 > [Aug 12, 2024]
 - Make launcher ignore Prefab Types path since it is no longer included in the Beatmaps.zip file
 2.1.10 > [Jun 27, 2024]
