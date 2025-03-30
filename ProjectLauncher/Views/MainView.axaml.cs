@@ -23,6 +23,7 @@ using System.ComponentModel;
 using ProjectLauncher.Data;
 using ProjectLauncher.Managers;
 using Avalonia.Platform;
+//using static System.Net.WebRequestMethods;
 
 namespace ProjectLauncher.Views
 {
@@ -96,8 +97,6 @@ namespace ProjectLauncher.Views
                 Content = list,
             };
 
-            //return; //for fixing MainView.axaml issue
-
             await LoadVersions();
             BetterLegacyToggle.Click += BetterLegacyToggleClick;
             EditorOnStartupToggle.Click += EditorOnStartupToggleClick;
@@ -117,6 +116,7 @@ namespace ProjectLauncher.Views
             OpenInstanceFolderButton.Click += OpenInstanceFolderClick;
             ZipInstanceButton.Click += ZipInstanceClick;
             PasteBeatmapsFolderButton.Click += PasteBeatmapsFolder;
+            DownloadDemoBeatmapsButton.Click += DownloadDemoBeatmaps;
 
             SettingRounded.Click += SettingsRoundedClick;
             SettingUpdateLauncher.Click += UpdateLauncherClick;
@@ -186,7 +186,7 @@ namespace ProjectLauncher.Views
                 ChangelogNotes.Markdown = Changelog;
 
                 var http = new HttpClient();
-                var str = await http.GetStringAsync("https://github.com/RTMecha/BetterLegacy/raw/master/updates.lss");
+                var str = await http.GetStringAsync("https://github.com/RTMecha/BetterLegacy/raw/master/updates.md");
 
                 if (!string.IsNullOrEmpty(str)) BetterLegacyNotes.Markdown = str;
 
@@ -391,6 +391,49 @@ namespace ProjectLauncher.Views
         }
 
         #region Senders
+
+        async void DownloadDemoBeatmaps(object sender, RoutedEventArgs e)
+        {
+            if (InstancesListBox.SelectedItem is ListBoxItem item && item.DataContext is ProjectArrhythmia projectArrhythmia && projectArrhythmia.Settings != null)
+            {
+                try
+                {
+                    var url = $"https://github.com/RTMecha/BetterLegacy/releases/download/{projectArrhythmia.Settings.CurrentVersion}/Beatmaps.zip";
+
+                    SetLaunchButtonsActive(false);
+
+                    using var http = new HttpClient();
+
+                    if (URLExists(url))
+                    {
+                        var headRequest = new HttpRequestMessage(HttpMethod.Head, url);
+                        var headResponse = await http.SendAsync(headRequest);
+                        var contentLength = headResponse.Content.Headers.ContentLength;
+                        ProgressBarUpdater($"{projectArrhythmia.Path}/Beatmaps.zip", "Downloading Beatmaps.zip", contentLength.Value);
+
+                        // Getting file data
+                        var response = await http.GetAsync(url, HttpCompletionOption.ResponseHeadersRead);
+                        using var fileStream = File.Create($"{projectArrhythmia.Path}/Beatmaps.zip");
+                        using var stream = await response.Content.ReadAsStreamAsync();
+                        byte[] buffer = new byte[8192];
+                        int bytesRead;
+                        while ((bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length)) > 0)
+                        {
+                            await fileStream.WriteAsync(buffer, 0, bytesRead);
+                        }
+                        fileStream.Close();
+
+                        UnZip($"{projectArrhythmia.Path}/Beatmaps.zip", $"{projectArrhythmia.Path}");
+
+                        File.Delete($"{projectArrhythmia.Path}/Beatmaps.zip");
+                    }
+
+                }
+                catch { }
+
+                SetLaunchButtonsActive(true);
+            }
+        }
 
         void PasteBeatmapsFolder(object sender, RoutedEventArgs e)
         {
@@ -683,58 +726,9 @@ namespace ProjectLauncher.Views
                             await File.WriteAllTextAsync($"{projectArrhythmia.Path}/Project Arrhythmia_Data/Plugins/steam_api_updated.txt", "Yes");
                         }
                     }
-
-                    if (!Directory.Exists($"{projectArrhythmia.Path}/beatmaps/menus"))
-                    {
-                        var url = $"https://github.com/RTMecha/BetterLegacy/releases/download/{projectArrhythmia.Settings.CurrentVersion}/Beatmaps.zip";
-
-                        if (URLExists(url))
-                        {
-                            var headRequest = new HttpRequestMessage(HttpMethod.Head, url);
-                            var headResponse = await http.SendAsync(headRequest);
-                            var contentLength = headResponse.Content.Headers.ContentLength;
-                            ProgressBarUpdater($"{projectArrhythmia.Path}/Beatmaps.zip", "Downloading Beatmaps.zip", contentLength.Value);
-
-                            // Getting file data
-                            var response = await http.GetAsync(url, HttpCompletionOption.ResponseHeadersRead);
-                            using var fileStream = File.Create($"{projectArrhythmia.Path}/Beatmaps.zip");
-                            using var stream = await response.Content.ReadAsStreamAsync();
-                            byte[] buffer = new byte[8192];
-                            int bytesRead;
-                            while ((bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length)) > 0)
-                            {
-                                await fileStream.WriteAsync(buffer, 0, bytesRead);
-                            }
-                            fileStream.Close();
-
-                            UnZip($"{projectArrhythmia.Path}/Beatmaps.zip", $"{projectArrhythmia.Path}");
-
-                            File.Delete($"{projectArrhythmia.Path}/Beatmaps.zip");
-                        }
-                    }
-
-                    SetLaunchButtonsActive(true);
                 }
-                catch
-                {
-                    SetLaunchButtonsActive(true);
-                }
-            }
-
-            bool URLExists(string url)
-            {
-                try
-                {
-                    using var http = new HttpClient();
-                    using var res = http.GetAsync(url);
-
-                    return res.Result.StatusCode == HttpStatusCode.OK;
-                }
-                catch
-                {
-                    //Any exception will returns false.
-                    return false;
-                }
+                catch { }
+                SetLaunchButtonsActive(true);
             }
         }
 
@@ -891,7 +885,7 @@ namespace ProjectLauncher.Views
 
         #endregion
 
-        #region Misc
+        #region Paths
 
         public static string BepInExURL => "https://github.com/BepInEx/BepInEx/releases/download/v5.4.21/BepInEx_x64_5.4.21.0.zip";
 
@@ -915,10 +909,23 @@ namespace ProjectLauncher.Views
             }
         }
 
-        int CalculateProgress(long totalBytes, long bytesDownloaded)
+        bool URLExists(string url)
         {
-            return (int)((bytesDownloaded * 100) / totalBytes);
+            try
+            {
+                using var http = new HttpClient();
+                using var res = http.GetAsync(url);
+
+                return res.Result.StatusCode == HttpStatusCode.OK;
+            }
+            catch
+            {
+                //Any exception will returns false.
+                return false;
+            }
         }
+
+        int CalculateProgress(long totalBytes, long bytesDownloaded) => (int)((bytesDownloaded * 100) / totalBytes);
 
         async void ProgressBarUpdater(string path, string name, long totalBytes)
         {
@@ -934,16 +941,9 @@ namespace ProjectLauncher.Views
             }
         }
 
-        string FormatBytes(long bytes)
-        {
-            double megabytes = (double)bytes / (1024 * 1024);
-            return $"{megabytes:F1} MB";
-        }
+        string FormatBytes(long bytes) => $"{(double)bytes / (1024 * 1024):F1} MB";
 
-        string FormatProgress(long totalBytes, long bytesDownloaded)
-        {
-            return $"{FormatBytes(bytesDownloaded)} / {FormatBytes(totalBytes)}";
-        }
+        string FormatProgress(long totalBytes, long bytesDownloaded) => $"{FormatBytes(bytesDownloaded)} / {FormatBytes(totalBytes)}";
 
         #endregion
     }

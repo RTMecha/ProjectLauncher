@@ -225,6 +225,11 @@
                   <Label Content="Pastes the selected instance beatamps folder." />
                 </ToolTip.Tip>
               </Button>
+              <Button Name="DownloadDemoBeatmapsButton" Content="Download Demo Beatmaps" Width="226" Margin="5,5,5,0" HorizontalAlignment="Center">
+                <ToolTip.Tip >
+                  <Label Content="Downloads the demo beatmaps folder for the BetterLegacy mod. This includes prefabs, themes, etc. that demonstrate BetterLegacy features." />
+                </ToolTip.Tip>
+              </Button>
             </StackPanel>
           </StackPanel>
 				</ScrollViewer>
