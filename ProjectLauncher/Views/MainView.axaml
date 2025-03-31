@@ -295,9 +295,9 @@
         <Panel Background="#10FFFFFF">
           <Label Name="NewsLabel" Content="NEWS PAGE (WIP)" HorizontalAlignment="Left" FontSize="22"/>
         </Panel>
-        <md:MarkdownScrollViewer Opacity="95">
-          
-        </md:MarkdownScrollViewer>
+        <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto" Height="420">
+          <md:MarkdownScrollViewer x:Name="News"/>
+        </ScrollViewer>
       </StackPanel>
 
       <!-- About Tab -->

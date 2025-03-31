@@ -127,6 +127,8 @@ namespace ProjectLauncher.Views
             ValueSlider.ValueChanged += HSVdataUpdate;
             ResetToDefaultThemeButton.Click += ResetToDefaultThemeButtonPresed;
 
+            LoadNews();
+
             Loaded += OnLoaded;
 
             LoadUpdateNotes();
@@ -387,6 +389,32 @@ namespace ProjectLauncher.Views
 
                 if (selected) page.PageButton.Classes.Set("main", true);
                 else page.PageButton.Classes.Set("main", false);
+            }
+        }
+
+        async void LoadNews()
+        {
+            try
+            {
+                var url = "https://raw.githubusercontent.com/RTMecha/ProjectLauncher/refs/heads/master/PANews/";
+
+                using var http = new HttpClient();
+                var text = await http.GetStringAsync(url + "news.json");
+                if (string.IsNullOrEmpty(text))
+                    return;
+
+                var jn = JSON.Parse(text);
+
+                var latestURL = url + jn["latest"] + "/article.md";
+                var latest = await http.GetStringAsync(latestURL);
+                if (string.IsNullOrEmpty(latest))
+                    return;
+
+                News.Markdown = latest;
+            }
+            catch
+            {
+                
             }
         }
 
