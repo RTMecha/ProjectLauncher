@@ -4,7 +4,7 @@ Manage multiple instances of Project Arrhythmia (Legacy branch) with Project Lau
 If you would rather install manually, follow the [BetterLegacy guide](https://github.com/RTMecha/BetterLegacy/blob/master/README.md#installation) instead. If not, then follow this one. (Install guide based on [Catalyst](https://github.com/Reimnop/Catalyst) guide)
 1. Verify you are on the Legacy branch.
 	- ℹ️ _As BetterLegacy is obviously made for the **Legacy** branch, it will not work on any other._
-	- ℹ️ _Go to your Steam library and right click Project Arrhythmia then click on Properties. Navigate to the Betas tab and change the Beta Participation dropdown to the Legacy branch._
+	- ℹ️ _Go to your Steam library and right click Project Arrhythmia then click on Properties. Navigate to the Betas tab. Input oldlegacy2020 into the Private Betas field, click Check Code and then change the Beta Participation dropdown to the Legacy branch._
 1. Open the Project Arrhythmia application folder.
 	- ℹ️ _On your Steam library, right click on Project Arrhythmia and go to **Manage** > **Browse local files**_
 1. Download ProjectLauncher.
