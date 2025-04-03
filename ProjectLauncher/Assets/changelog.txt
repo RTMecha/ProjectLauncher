@@ -2,6 +2,7 @@
 
 ## Features
 - Added instance functions at the right side of the instances tab. These allow you to modify the PA instance.
+- Instances can now automatically update BetterLegacy when there's a new version. This can be turned on via enabling "Auto Update" in the plugin settings.
 
 ## Changes
 - Tabs have been moved to the top.
