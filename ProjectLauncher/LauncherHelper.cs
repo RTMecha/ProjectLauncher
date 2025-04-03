@@ -16,6 +16,8 @@ namespace ProjectLauncher
 {
     public static class LauncherHelper
     {
+        public static string NewsURL => "https://raw.githubusercontent.com/RTMecha/ProjectLauncher/refs/heads/master/PANews/";
+
         public static void UpdateLauncher()
         {
             Process.Start(new ProcessStartInfo(MainView.MainDirectory + "ProjectLauncher.Updater.exe"));

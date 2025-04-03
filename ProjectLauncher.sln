@@ -11,15 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectLauncher.Updater", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectLauncher.Unzip", "ProjectLauncher.Unzip\ProjectLauncher.Unzip.csproj", "{4560C200-0210-4E43-921F-0B7AD8B6B249}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PANews", "PANews", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
-	ProjectSection(SolutionItems) = preProject
-		news.json = news.json
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "31-03-2025", "31-03-2025", "{5B90CF04-90F3-4A7E-9ABC-63928B0C400C}"
-	ProjectSection(SolutionItems) = preProject
-		article.md = article.md
-	EndProjectSection
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PANews", "PANews\PANews.csproj", "{6341F074-1296-4DDE-A86B-74247AF0E996}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,12 +35,13 @@ Global
 		{4560C200-0210-4E43-921F-0B7AD8B6B249}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4560C200-0210-4E43-921F-0B7AD8B6B249}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4560C200-0210-4E43-921F-0B7AD8B6B249}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6341F074-1296-4DDE-A86B-74247AF0E996}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6341F074-1296-4DDE-A86B-74247AF0E996}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6341F074-1296-4DDE-A86B-74247AF0E996}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6341F074-1296-4DDE-A86B-74247AF0E996}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{5B90CF04-90F3-4A7E-9ABC-63928B0C400C} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C5634FDA-6AD3-43F8-A4C6-21284988517F}
