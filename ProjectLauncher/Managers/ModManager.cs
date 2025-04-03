@@ -9,6 +9,8 @@ namespace ProjectLauncher.Managers
 {
     public class ModManager
     {
+        public static string BepInExURL => "https://github.com/BepInEx/BepInEx/releases/download/v5.4.21/BepInEx_x64_5.4.21.0.zip";
+
         public Mod betterLegacy = new Mod()
         {
             RepositoryURL = "https://github.com/RTMecha/BetterLegacy",

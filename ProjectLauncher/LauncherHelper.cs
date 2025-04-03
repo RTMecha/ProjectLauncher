@@ -1,14 +1,64 @@
 ﻿using Avalonia.Media;
 using System;
 using System.Collections.Generic;
+using System.IO.Compression;
+using System.IO;
 using System.Linq;
+using System.Net.Http;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
+
+using ProjectLauncher.Views;
 
 namespace ProjectLauncher
 {
     public static class LauncherHelper
     {
+        public static void UpdateLauncher()
+        {
+            Process.Start(new ProcessStartInfo(MainView.MainDirectory + "ProjectLauncher.Updater.exe"));
+
+            MainWindow.Instance.Close();
+        }
+
+        public static void UnZip(string path, string output)
+        {
+            using var archive = ZipFile.Open(path, ZipArchiveMode.Update);
+
+            for (int i = 0; i < archive.Entries.Count; i++)
+            {
+                var entry = archive.Entries[i];
+
+                var fullName = entry.FullName;
+
+                // Create folders if they don't exist already
+                var directory = Path.GetDirectoryName(output + "/" + fullName);
+                if (directory != null && !Directory.Exists(directory))
+                    Directory.CreateDirectory(directory);
+
+                if (fullName.Contains('.'))
+                    entry.ExtractToFile(output + "/" + fullName, true);
+            }
+        }
+
+        public static bool URLExists(string url)
+        {
+            try
+            {
+                using var http = new HttpClient();
+                using var res = http.GetAsync(url);
+
+                return res.Result.StatusCode == HttpStatusCode.OK;
+            }
+            catch
+            {
+                //Any exception will returns false.
+                return false;
+            }
+        }
+
         public static Color FromHsv(double h, double S, double V)
         {
             int r, g, b;
@@ -39,6 +89,5 @@ namespace ProjectLauncher
             }
             return Color.FromArgb(255, (byte)r, (byte)g, (byte)b);
         }
-
     }
 }
