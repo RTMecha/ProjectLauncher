@@ -23,13 +23,16 @@ namespace ProjectLauncher.Data
             var json = await File.ReadAllTextAsync(Path);
             var jn = JSON.Parse(json);
 
-            if (!string.IsNullOrEmpty(jn["better_legacy"]))
+            if (jn["auto_update"] != null)
+                AutoUpdate = jn["auto_update"].AsBool;
+            
+            if (jn["better_legacy"] != null)
                 BetterLegacy = jn["better_legacy"].AsBool;
 
-            if (!string.IsNullOrEmpty(jn["editor_on_startup"]))
+            if (jn["editor_on_startup"] != null)
                 EditorOnStartup = jn["editor_on_startup"].AsBool;
 
-            if (!string.IsNullOrEmpty(jn["unity_explorer"]))
+            if (jn["unity_explorer"] != null)
                 UnityExplorer = jn["unity_explorer"].AsBool;
 
             if (!string.IsNullOrEmpty(jn["version"]))
@@ -40,12 +43,15 @@ namespace ProjectLauncher.Data
         {
             var jn = JSON.Parse("{}");
 
+            if (AutoUpdate)
+                jn["auto_update"] = AutoUpdate;
+
             if (!BetterLegacy)
-                jn["better_legacy"] = BetterLegacy.ToString();
+                jn["better_legacy"] = BetterLegacy;
             if (EditorOnStartup)
-                jn["editor_on_startup"] = EditorOnStartup.ToString();
+                jn["editor_on_startup"] = EditorOnStartup;
             if (UnityExplorer)
-                jn["unity_explorer"] = UnityExplorer.ToString();
+                jn["unity_explorer"] = UnityExplorer;
 
             jn["version"] = CurrentVersion;
 
@@ -53,6 +59,8 @@ namespace ProjectLauncher.Data
         }
 
         public string Path { get; set; } = string.Empty;
+
+        public bool AutoUpdate { get; set; } = false;
         public bool BetterLegacy { get; set; } = true;
         public bool EditorOnStartup { get; set; } = false;
         public bool UnityExplorer { get; set; } = false;
