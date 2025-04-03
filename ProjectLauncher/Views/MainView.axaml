@@ -185,6 +185,11 @@
               <Panel Width="500" Height="5" Margin="5,10,5,0" Background="#10FFFFFF" />
               <Label Content="P L U G I N S" FontSize="20" HorizontalAlignment="Center" Margin="0,0,0,0" />
               <StackPanel HorizontalAlignment="Center">
+                <Button Name="AutoUpdateToggle" Content="Auto Update" Margin="0,0,0,0">
+                  <ToolTip.Tip>
+                    <Label Content="Automatically updates the mods when PLAY is clicked and there is a new update." />
+                  </ToolTip.Tip>
+                </Button>
                 <Button Name="BetterLegacyToggle" Content="BetterLegacy" Margin="0,0,0,0">
                   <ToolTip.Tip>
                     <Label Content="Main Legacy mod." />
