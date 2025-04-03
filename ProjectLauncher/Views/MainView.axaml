@@ -112,7 +112,7 @@
 		<StackPanel Grid.Row="1" HorizontalAlignment="Left" Spacing="0" Margin="0,2,0,0" VerticalAlignment="Top">
 			<!-- Instances Tab -->
 			<StackPanel Name="LaunchWindow" IsVisible="False"   Margin="5,10,5,10">
-				<ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto" Height="480">
+				<ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto" Height="450">
           <StackPanel Grid.Row="0" Orientation="Horizontal">
             <StackPanel>
               <DockPanel Name="FunctionButtons" Margin="5,0,0,0" HorizontalAlignment="Left">
