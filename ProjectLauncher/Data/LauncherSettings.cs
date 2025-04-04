@@ -13,5 +13,7 @@ namespace ProjectLauncher.Data
         public double Value { get; set; }
         public bool Rounded { get; set; } = true;
         public double Roundness { get; set; }
+
+        public bool ShowSnapshots { get; set; } = true; // true for now since snapshots aren't done yet
     }
 }

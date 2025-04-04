@@ -269,6 +269,8 @@
 
             <Panel Background="#10FFFFFF" HorizontalAlignment="Stretch" Height="5" Margin="10,10,10,10" />
             <Button Name="SettingUpdateLauncher" Content="Update Launcher" HorizontalAlignment="Left"/>
+            <Panel Background="#10FFFFFF" HorizontalAlignment="Stretch" Height="5" Margin="10,10,10,10" />
+            <Button Name="SettingShowSnapshots" Content="Show Snapshots / Prereleases" HorizontalAlignment="Center" Width="420"/>
           </StackPanel>
           <Panel Width="2" Height="460" Margin="5,5,5,5" Background="#10FFFFFF" />
           <StackPanel>

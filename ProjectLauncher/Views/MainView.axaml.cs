@@ -126,6 +126,8 @@ namespace ProjectLauncher.Views
             ValueSlider.ValueChanged += HSVdataUpdate;
             ResetToDefaultThemeButton.Click += ResetToDefaultThemeButtonPresed;
 
+            SettingShowSnapshots.Click += SettingShowSnapshotsChanged;
+
             LoadNews();
 
             NewsListBox.SelectionChanged += ArticleSelected;
@@ -170,9 +172,14 @@ namespace ProjectLauncher.Views
                 versions.Reverse();
 
                 list.Items.Clear();
+
+                bool setLatest = false;
                 for (int i = 0; i < versions.Count; i++)
                 {
                     var version = versions[i];
+
+                    if (!settings.ShowSnapshots && (version.StartsWith("snapshot") || version.Contains("pre")))
+                        continue;
 
                     var element = new ListBoxItem
                     {
@@ -184,9 +191,10 @@ namespace ProjectLauncher.Views
                     };
                     element.Classes.Set("droppedList", true);
                     list.Items.Add(element);
-                }
 
-                LatestBetterLegacyVersion = versions[0];
+                    if (!setLatest)
+                        LatestBetterLegacyVersion = version;
+                }
             }
         }
 
@@ -224,28 +232,27 @@ namespace ProjectLauncher.Views
 
                 if (!string.IsNullOrEmpty(jn["instances"]["app_path"]))
                     AppPathField.Text = jn["instances"]["app_path"];
+                
+                if (jn["instances"]["show_snapshots"] != null)
+                    settings.ShowSnapshots = jn["instances"]["show_snapshots"].AsBool;
 
-                if (!string.IsNullOrEmpty(jn["hsv"]["hue"]))
+                if (jn["hsv"]["hue"] != null)
                     HueSlider.Value = Convert.ToDouble(jn["hsv"]["hue"].Value);
 
-                if (!string.IsNullOrEmpty(jn["hsv"]["saturation"]))
+                if (jn["hsv"]["saturation"] != null)
                     SaturationSlider.Value = Convert.ToDouble(jn["hsv"]["saturation"].Value);
 
-                if (!string.IsNullOrEmpty(jn["hsv"]["value"]))
+                if (jn["hsv"]["value"] != null)
                     ValueSlider.Value = Convert.ToDouble(jn["hsv"]["value"].Value);
 
-                if (!string.IsNullOrEmpty(jn["hsv"]["hue"]) && !string.IsNullOrEmpty(jn["hsv"]["saturation"]) && !string.IsNullOrEmpty(jn["hsv"]["value"]))
-                {
-                    if(jn["hsv"]["hue"].Value == "0" && jn["hsv"]["saturation"].Value == "0" && jn["hsv"]["value"].Value == "0")
-                    {
-                        ResetToDefaultTheme();
-                    }
-                }
+                if (jn["hsv"]["hue"] == null || jn["hsv"]["saturation"] == null || jn["hsv"]["value"] == null)
+                    ResetToDefaultTheme();
 
                 ColorsUpdate();
             }
 
             SettingRounded.Content = $"Rounded UI   {(settings.Rounded ? "✓" : "✕")}";
+            SettingShowSnapshots.Content = $"Show Snapshots / Prereleases   {(settings.ShowSnapshots ? "✓" : "✕")}";
 
             UpdateRoundness();
             SaveSettings();
@@ -257,13 +264,16 @@ namespace ProjectLauncher.Views
             savingSettings = true;
             var settingsPath = SettingsFile;
             var jn = JSON.Parse("{}");
-            jn["ui"]["rounded"] = settings.Rounded.ToString();
-            jn["ui"]["roundness"] = RoundSlider.Value.ToString();
-            jn["hsv"]["hue"] = HueSlider.Value.ToString();
-            jn["hsv"]["saturation"] = SaturationSlider.Value.ToString();
-            jn["hsv"]["value"] = ValueSlider.Value.ToString();
+            jn["ui"]["rounded"] = settings.Rounded;
+            jn["ui"]["roundness"] = RoundSlider.Value;
+            jn["hsv"]["hue"] = HueSlider.Value;
+            jn["hsv"]["saturation"] = SaturationSlider.Value;
+            jn["hsv"]["value"] = ValueSlider.Value;
             if (AppPathField != null && !string.IsNullOrEmpty(AppPathField.Text))
                 jn["instances"]["app_path"] = AppPathField.Text;
+
+            if (settings.ShowSnapshots)
+                jn["instances"]["show_snapshots"] = settings.ShowSnapshots;
 
             await File.WriteAllTextAsync(settingsPath, jn.ToString(6));
             savingSettings = false;
@@ -323,6 +333,17 @@ namespace ProjectLauncher.Views
         }
 
         #region Senders
+
+        async void SettingShowSnapshotsChanged(object sender, RoutedEventArgs e)
+        {
+            if (settings == null)
+                return;
+
+            settings.ShowSnapshots = !settings.ShowSnapshots;
+            SettingShowSnapshots.Content = $"Show Snapshots / Prereleases   {(settings.ShowSnapshots ? "✓" : "✕")}";
+            SaveSettings();
+            await LoadVersions();
+        }
 
         async void ArticleSelected(object sender, SelectionChangedEventArgs e)
         {
