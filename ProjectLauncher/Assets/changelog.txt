@@ -4,6 +4,7 @@
 - Added instance functions at the right side of the instances tab. These allow you to modify the PA instance.
 - Instances can now automatically update BetterLegacy when there's a new version. This can be turned on via enabling "Auto Update" in the plugin settings.
 - Added a new "News" page. This page shows updates about what's going on with Project Arrhythmia. This will only cover developments with Default, Alpha and BetterLegacy and will only contain info that I (RTMecha) am aware of.
+- You can now enable / disable viewing snapshot / prerelease versions in the Settings page.
 
 ## Changes
 - Tabs have been moved to the top.
