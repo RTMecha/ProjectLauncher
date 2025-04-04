@@ -23,7 +23,6 @@ using System.ComponentModel;
 using ProjectLauncher.Data;
 using ProjectLauncher.Managers;
 using Avalonia.Platform;
-//using static System.Net.WebRequestMethods;
 
 #pragma warning disable CS0618 // Type or member is obsolete
 namespace ProjectLauncher.Views
@@ -81,10 +80,8 @@ namespace ProjectLauncher.Views
             pages.Add(new LauncherTab(AboutButton, AboutWindow));
             UpdateButtons(LaunchButton);
 
-            using var stream = AssetLoader.Open(new Uri("avares://ProjectLauncher/Assets/changelog.txt"));
-            using var streamReader = new StreamReader(stream);
-
-            Changelog = await streamReader.ReadToEndAsync();
+            Changelog = await LoadAssetStream("changelog.txt");
+            AboutPageInfo.Markdown = await LoadAssetStream("about.md");
 
             var list = new ListBox();
             list.Background = new SolidColorBrush(Color.Parse("#FF141414"));
@@ -131,6 +128,8 @@ namespace ProjectLauncher.Views
 
             LoadNews();
 
+            NewsListBox.SelectionChanged += ArticleSelected;
+
             Loaded += OnLoaded;
 
             LoadUpdateNotes();
@@ -146,6 +145,14 @@ namespace ProjectLauncher.Views
             Process.Start(startInfoNnZip);
 
             MainWindow.Instance.Close();
+        }
+
+        async Task<string> LoadAssetStream(string asset)
+        {
+            using var stream = AssetLoader.Open(new Uri("avares://ProjectLauncher/Assets/" + asset));
+            using var streamReader = new StreamReader(stream);
+
+            return await streamReader.ReadToEndAsync();
         }
 
         // add async when downloading versions file.
@@ -274,7 +281,7 @@ namespace ProjectLauncher.Views
         {
             try
             {
-                var url = "https://raw.githubusercontent.com/RTMecha/ProjectLauncher/refs/heads/master/PANews/";
+                var url = LauncherHelper.NewsURL;
 
                 using var http = new HttpClient();
                 var text = await http.GetStringAsync(url + "news.json");
@@ -282,6 +289,25 @@ namespace ProjectLauncher.Views
                     return;
 
                 var jn = JSON.Parse(text);
+
+
+                if (jn["articles"].IsArray)
+                {
+                    NewsListBox.Items.Clear();
+                    for (int i = 0; i < jn["articles"].Count; i++)
+                    {
+                        var article = jn["articles"][i].Value;
+                        var articleURL = url + article + "/article.md";
+
+                        var item = new ListBoxItem
+                        {
+                            DataContext = articleURL,
+                            Content = article
+                        };
+                        item.Classes.Add("lbs1");
+                        NewsListBox.Items.Add(item);
+                    }
+                }
 
                 var latestURL = url + jn["latest"] + "/article.md";
                 var latest = await http.GetStringAsync(latestURL);
@@ -297,6 +323,18 @@ namespace ProjectLauncher.Views
         }
 
         #region Senders
+
+        async void ArticleSelected(object sender, SelectionChangedEventArgs e)
+        {
+            if (sender is ListBox list && list.SelectedItem is ListBoxItem item && item.DataContext is string articleURL)
+            {
+                using var http = new HttpClient();
+
+                var article = await http.GetStringAsync(articleURL);
+
+                News.Markdown = article;
+            }
+        }
 
         void DownloadDemoBeatmapsClick(object sender, RoutedEventArgs e) => InstanceManager.DownloadDemoBeatmaps();
 

@@ -22,6 +22,7 @@
     <None Remove="Assets\play.ico" />
     <None Remove="Assets\TextData.json" />
     <None Remove="Assets\update.ico" />
+    <None Remove="Assets\news.ico" />
   </ItemGroup>
 
   <ItemGroup>
