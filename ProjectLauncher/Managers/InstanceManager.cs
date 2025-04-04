@@ -327,7 +327,7 @@ namespace ProjectLauncher.Managers
 
                 zipping = true;
 
-                var zipPath = path + ".zip";
+                var zipPath = $"{path}-{DateTime.Now.ToString("dd-MM-yyyy-HH-mm-ss")}.zip";
                 if (File.Exists(zipPath))
                     File.Delete(zipPath);
 

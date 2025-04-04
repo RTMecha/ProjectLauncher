@@ -214,7 +214,7 @@
                   <Label Content="Opens the selected instance folder." />
                 </ToolTip.Tip>
               </Button>
-              <Button Name="ZipInstanceButton" Content="ZIP Instance" Width="226" Margin="5,5,5,5" HorizontalAlignment="Center">
+              <Button Name="ZipInstanceButton" Content="Archive Instance" Width="226" Margin="5,5,5,5" HorizontalAlignment="Center">
                 <ToolTip.Tip >
                   <Label Content="Compresses the selected instance folder to a .zip file." />
                 </ToolTip.Tip>
