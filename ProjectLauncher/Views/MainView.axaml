@@ -134,11 +134,17 @@
                   <Image Source="avares://ProjectLauncher/Assets/update.ico" />
                 </Button>
 
-                <DropDownButton Name="Versions" Content="Version: 1.0.0" Margin="10,-3,0,0" Width="355" Height="47">
+                <DropDownButton Name="Versions" Content="Version: 1.0.0" Margin="10,-3,0,0" Width="317" Height="47">
                   <ToolTip.Tip>
                     <Label Content="Select BetterLegacy version (use install button to start installing selected version)" />
                   </ToolTip.Tip>
                 </DropDownButton>
+                <Button Name="RefreshVersions" Margin="10,0,0,0" Width="32" Height="32">
+                  <ToolTip.Tip>
+                    <Label Content="Refreshes the versions list" />
+                  </ToolTip.Tip>
+                  <Image Source="avares://ProjectLauncher/Assets/editor_gui_refresh.ico" />
+                </Button>
               </DockPanel>
 
               <ProgressBar Name="ProgressBar" Value="0" Height="20" Margin="5,10,5,0" Foreground="#FFFFAD5C"/>

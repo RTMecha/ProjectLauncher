@@ -96,6 +96,7 @@ namespace ProjectLauncher.Views
             };
 
             await LoadVersions();
+            RefreshVersions.Click += RefreshVersionsClick;
             AutoUpdateToggle.Click += AutoUpdateToggleClick;
             BetterLegacyToggle.Click += BetterLegacyToggleClick;
             EditorOnStartupToggle.Click += EditorOnStartupToggleClick;
@@ -160,8 +161,11 @@ namespace ProjectLauncher.Views
         // add async when downloading versions file.
         async Task LoadVersions()
         {
-            if (Versions.Flyout is Flyout flyout && flyout.Content is ListBox list)
+            try
             {
+                if (Versions.Flyout is not Flyout flyout || flyout.Content is not ListBox list)
+                    return;
+
                 var http = new HttpClient();
                 var versionString = await http.GetStringAsync("https://github.com/RTMecha/BetterLegacy/raw/master/versions.lss");
 
@@ -195,6 +199,10 @@ namespace ProjectLauncher.Views
                     if (!setLatest)
                         LatestBetterLegacyVersion = version;
                 }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Failed to load versions due to the exception: {ex}");
             }
         }
 
@@ -494,6 +502,11 @@ namespace ProjectLauncher.Views
             projectArrhythmia.Settings.AutoUpdate = !projectArrhythmia.Settings.AutoUpdate;
             AutoUpdateToggle.Content = $"Auto Update {(projectArrhythmia.Settings.AutoUpdate ? "✓" : "✕")}";
             projectArrhythmia.Settings.SaveSettings();
+        }
+
+        async void RefreshVersionsClick(object sender, RoutedEventArgs e)
+        {
+            await LoadVersions();
         }
 
         void RoundSliderValueChanged(object sender, RangeBaseValueChangedEventArgs e)

@@ -18,6 +18,7 @@
     <None Remove="Assets\editor_gui_planner.ico" />
     <None Remove="Assets\editor_gui_preferences-white.ico" />
     <None Remove="Assets\editor_gui_question.ico" />
+    <None Remove="Assets\editor_gui_refresh.ico" />
     <None Remove="Assets\instances.ico" />
     <None Remove="Assets\play.ico" />
     <None Remove="Assets\TextData.json" />
