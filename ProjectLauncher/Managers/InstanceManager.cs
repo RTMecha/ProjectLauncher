@@ -107,7 +107,7 @@ namespace ProjectLauncher.Managers
                 {
                     var url = $"https://github.com/RTMecha/BetterLegacy/releases/download/{projectArrhythmia.Settings.CurrentVersion}/BetterLegacy.zip";
 
-                    if (LauncherHelper.URLExists(url))
+                    if (http.URLExists(url))
                     {
                         var headRequest = new HttpRequestMessage(HttpMethod.Head, url);
                         var headResponse = await http.SendAsync(headRequest);
@@ -165,7 +165,7 @@ namespace ProjectLauncher.Managers
                 {
                     var url = $"https://github.com/RTMecha/BetterLegacy/releases/download/{projectArrhythmia.Settings.CurrentVersion}/steam_api64.dll";
 
-                    if (LauncherHelper.URLExists(url))
+                    if (http.URLExists(url))
                     {
                         var headRequest = new HttpRequestMessage(HttpMethod.Head, url);
                         var headResponse = await http.SendAsync(headRequest);

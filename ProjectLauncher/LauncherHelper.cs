@@ -61,6 +61,19 @@ namespace ProjectLauncher
             }
         }
 
+        public static bool URLExists(this HttpClient http, string url)
+        {
+            try
+            {
+                using var response = http.GetAsync(url);
+                return response.Result.StatusCode == HttpStatusCode.OK;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         public static Color FromHsv(double h, double S, double V)
         {
             int r, g, b;
