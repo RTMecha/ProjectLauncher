@@ -23,6 +23,7 @@ using System.ComponentModel;
 using ProjectLauncher.Data;
 using ProjectLauncher.Managers;
 using Avalonia.Platform;
+using Avalonia.OpenGL;
 
 #pragma warning disable CS0618 // Type or member is obsolete
 namespace ProjectLauncher.Views
@@ -172,13 +173,12 @@ namespace ProjectLauncher.Views
                 if (string.IsNullOrEmpty(versionString))
                     return;
 
-                var versions = versionString.Split(',').ToList();
-                versions.Reverse();
+                var versions = versionString.Split(',');
 
                 list.Items.Clear();
 
                 bool setLatest = false;
-                for (int i = 0; i < versions.Count; i++)
+                for (int i = versions.Length - 1; i >= 0; i--)
                 {
                     var version = versions[i];
 
@@ -196,9 +196,13 @@ namespace ProjectLauncher.Views
                     element.Classes.Set("droppedList", true);
                     list.Items.Add(element);
 
-                    if (!setLatest)
-                        LatestBetterLegacyVersion = version;
+                    if (setLatest)
+                        continue;
+
+                    setLatest = true;
+                    LatestBetterLegacyVersion = version;
                 }
+                Debug.WriteLine($"Latest BetterLegacy version: {LatestBetterLegacyVersion}");
             }
             catch (Exception ex)
             {
