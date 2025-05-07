@@ -159,15 +159,16 @@ namespace ProjectLauncher.Views
             return await streamReader.ReadToEndAsync();
         }
 
-        // add async when downloading versions file.
         async Task LoadVersions()
         {
             try
             {
+                Versions.IsVisible = false;
                 if (Versions.Flyout is not Flyout flyout || flyout.Content is not ListBox list)
                     return;
 
                 var http = new HttpClient();
+                http.Timeout = new TimeSpan(0, 0, 20);
                 var versionString = await http.GetStringAsync("https://github.com/RTMecha/BetterLegacy/raw/master/versions.lss");
 
                 if (string.IsNullOrEmpty(versionString))
@@ -203,6 +204,7 @@ namespace ProjectLauncher.Views
                     LatestBetterLegacyVersion = version;
                 }
                 Debug.WriteLine($"Latest BetterLegacy version: {LatestBetterLegacyVersion}");
+                Versions.IsVisible = true;
             }
             catch (Exception ex)
             {
