@@ -12,7 +12,7 @@ namespace ProjectLauncher.Data
     {
         public InstanceSettings(string path)
         {
-            Path = path + "/settings/launcher_settings.lss";
+            Path = System.IO.Path.Combine(path, "settings/launcher_settings.lss").Replace("\\", "/");
         }
 
         public async Task LoadSettings()
@@ -39,7 +39,7 @@ namespace ProjectLauncher.Data
                 CurrentVersion = jn["version"];
         }
 
-        public async void SaveSettings()
+        public async Task SaveSettings()
         {
             var jn = JSON.Parse("{}");
 

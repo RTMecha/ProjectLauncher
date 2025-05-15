@@ -241,6 +241,10 @@ namespace ProjectLauncher.Managers
                 await File.WriteAllBytesAsync(newFile, fileBytes);
             }
 
+            var settings = new InstanceSettings(path);
+            settings.CurrentVersion = MainView.LatestBetterLegacyVersion;
+            await settings.SaveSettings();
+
             LoadInstances();
         }
 
