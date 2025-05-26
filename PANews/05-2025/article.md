@@ -7,11 +7,11 @@ This month in Project Arrhythmia:
 ## Story Modes
 Both the Official and BetterLegacy Story Modes have begun their promotional campaigns by releasing teaser trailers and new promotional material.  
 Official Story Teaser Trailer:  
-https://www.youtube.com/watch?v=dIEXt4HBAKc  
+![official_story_teaser_trailer](https://www.youtube.com/watch?v=dIEXt4HBAKc)  
 BetterLegacy Promo Art:  
 ![ca_promo_art_01](https://cdn.bsky.app/img/feed_fullsize/plain/did:plc:egnemzgdl5rxbnp76vrr6a6x/bafkreibpu2y4zrk3ddpr2qkt2vz32fnvcua4ybvo4kb4ifpx6abnxn3u2a@jpeg)
 There was also a teaser posted for the BetterLegacy story featuring some mysterious dialogue:
-https://www.youtube.com/watch?v=8ts6AB7wlV4
+![nanobots_teaser](https://www.youtube.com/watch?v=8ts6AB7wlV4)
 
 ## Mono Branch
 Over on the Modern versions of Project Arrhythmia, a new branch was added called "mono".  
