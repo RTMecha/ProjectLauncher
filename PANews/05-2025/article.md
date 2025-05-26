@@ -8,7 +8,7 @@ This month in Project Arrhythmia:
 Both the Official and BetterLegacy Story Modes have begun their promotional campaigns by releasing teaser trailers and new promotional material.  
 A teaser trailer for the Official Story Mode was released on the Vitamin Games channel.  
 Promo Art was released for BetterLegacy's story:  
-![ca_promo_art_01](https://github.com/RTMecha/ProjectLauncher/blob/master/PANews/05-2025/ca_promo_art_01.png)
+![ca_promo_art_01](https://cdn.bsky.app/img/feed_fullsize/plain/did:plc:egnemzgdl5rxbnp76vrr6a6x/bafkreibpu2y4zrk3ddpr2qkt2vz32fnvcua4ybvo4kb4ifpx6abnxn3u2a@jpeg)
 There was also a teaser posted for the BetterLegacy story featuring some mysterious dialogue.  
 
 ## Mono Branch
