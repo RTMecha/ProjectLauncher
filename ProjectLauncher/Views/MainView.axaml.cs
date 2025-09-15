@@ -656,7 +656,15 @@ namespace ProjectLauncher.Views
                     ProgressBar.Value = CalculateProgress(totalBytes, fileInfo.Length);
                     LabelProgressBar.Content = $"{name} " + FormatProgress(totalBytes, fileInfo.Length);
                 }
-                await Task.Delay(2000);
+                else
+                {
+                    ProgressBar.Value = 0;
+                    LabelProgressBar.Content = $"{name} " + FormatProgress(totalBytes, 0);
+                }
+                await Task.Delay(100);
+
+                if (!InstanceManager.Downloading)
+                    break;
             }
         }
 
