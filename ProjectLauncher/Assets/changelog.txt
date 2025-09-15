@@ -1,4 +1,11 @@
-﻿# 2.2.0 > [June 12, 2025]
+﻿# 2.2.1 > [Sep 15, 2025]
+
+## Fixes
+- Fixed PA instance updating freezing the application at the start.
+
+------------------------------------------------------------------------------------------
+
+# 2.2.0 > [June 12, 2025]
 
 ## Features
 - Added instance functions at the right side of the instances tab. These allow you to modify the PA instance.
