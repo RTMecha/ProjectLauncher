@@ -24,6 +24,7 @@ using ProjectLauncher.Data;
 using ProjectLauncher.Managers;
 using Avalonia.Platform;
 using Avalonia.OpenGL;
+using System.Globalization;
 
 #pragma warning disable CS0618 // Type or member is obsolete
 namespace ProjectLauncher.Views
@@ -241,7 +242,7 @@ namespace ProjectLauncher.Views
                 settings.Rounded = jn["ui"]["rounded"].AsBool;
 
                 if (!string.IsNullOrEmpty(jn["ui"]["roundness"]))
-                    RoundSlider.Value = Convert.ToDouble(jn["ui"]["roundness"].Value);
+                    RoundSlider.Value = double.Parse(jn["ui"]["roundness"].Value, CultureInfo.InvariantCulture);
                 settings.Roundness = RoundSlider.Value;
 
                 if (!string.IsNullOrEmpty(jn["instances"]["app_path"]))
@@ -251,13 +252,14 @@ namespace ProjectLauncher.Views
                     settings.ShowSnapshots = jn["instances"]["show_snapshots"].AsBool;
 
                 if (jn["hsv"]["hue"] != null)
-                    HueSlider.Value = Convert.ToDouble(jn["hsv"]["hue"].Value);
+                    HueSlider.Value = double.Parse(jn["hsv"]["hue"].Value, CultureInfo.InvariantCulture);
+
 
                 if (jn["hsv"]["saturation"] != null)
-                    SaturationSlider.Value = Convert.ToDouble(jn["hsv"]["saturation"].Value);
+                    SaturationSlider.Value = double.Parse(jn["hsv"]["saturation"].Value, CultureInfo.InvariantCulture);
 
                 if (jn["hsv"]["value"] != null)
-                    ValueSlider.Value = Convert.ToDouble(jn["hsv"]["value"].Value);
+                    ValueSlider.Value = double.Parse(jn["hsv"]["value"].Value, CultureInfo.InvariantCulture);
 
                 if (jn["hsv"]["hue"] == null || jn["hsv"]["saturation"] == null || jn["hsv"]["value"] == null)
                     ResetToDefaultTheme();
