@@ -252,14 +252,14 @@ namespace ProjectLauncher.Views
                     settings.ShowSnapshots = jn["instances"]["show_snapshots"].AsBool;
 
                 if (jn["hsv"]["hue"] != null)
-                    HueSlider.Value = double.Parse(jn["hsv"]["hue"].Value, CultureInfo.InvariantCulture);
+                    HueSlider.Value = jn["hsv"]["hue"].AsDouble;
 
 
                 if (jn["hsv"]["saturation"] != null)
-                    SaturationSlider.Value = double.Parse(jn["hsv"]["saturation"].Value, CultureInfo.InvariantCulture);
+                    SaturationSlider.Value = jn["hsv"]["saturation"].AsDouble;
 
                 if (jn["hsv"]["value"] != null)
-                    ValueSlider.Value = double.Parse(jn["hsv"]["value"].Value, CultureInfo.InvariantCulture);
+                    ValueSlider.Value = jn["hsv"]["value"].AsDouble;
 
                 if (jn["hsv"]["hue"] == null || jn["hsv"]["saturation"] == null || jn["hsv"]["value"] == null)
                     ResetToDefaultTheme();
