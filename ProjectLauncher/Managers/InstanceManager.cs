@@ -173,7 +173,6 @@ namespace ProjectLauncher.Managers
                     Directory.Delete($"{pluginsPath}/sinai-dev-UnityExplorer", true);
 
                 // Download steam_api.dll
-                if (!File.Exists($"{projectArrhythmia.Path}/Project Arrhythmia_Data/Plugins/steam_api_updated.txt"))
                 {
                     var url = $"https://github.com/RTMecha/BetterLegacy/releases/download/{projectArrhythmia.Settings.CurrentVersion}/steam_api64.dll";
                     var headRequest = new HttpRequestMessage(HttpMethod.Head, url);
@@ -194,8 +193,6 @@ namespace ProjectLauncher.Managers
                             while ((bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length)) > 0)
                                 await fileStream.WriteAsync(buffer, 0, bytesRead);
                             fileStream.Close();
-
-                            await File.WriteAllTextAsync($"{projectArrhythmia.Path}/Project Arrhythmia_Data/Plugins/steam_api_updated.txt", "Yes");
                         }
                     }
                 }
